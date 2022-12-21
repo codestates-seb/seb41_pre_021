@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.backend.member.repository.MemberRepository;
 
 import java.util.Optional;
@@ -24,7 +25,6 @@ class MemberTest {
         Optional<Member> findMember = memberRepository.findById(1L);
         Assertions.assertThat(findMember.isPresent()).isTrue();
         Assertions.assertThat(findMember.get().getUserName()).isEqualTo("hdk");
-
-
     }
+
 }
