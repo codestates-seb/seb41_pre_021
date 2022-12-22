@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.member.entity.Member;
+import stackoverflow.backend.vote.entity.Vote;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +35,14 @@ public class Question extends BaseEntity {
     private String questionTitle;
     private String content;
     private int views;
+
+    private boolean isAdopted;
+
+    @OneToMany(mappedBy = "question")
+    private List<Vote> votes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answers = new ArrayList<>();
 
     public void addMember(Member member) {
         this.member = member;
