@@ -29,7 +29,8 @@ public class Member extends BaseEntity {
     private String password;
     @Column(nullable = false)
     private String userName;
-    private int reputation;
+
+    //  private int reputation;
 
     @OneToMany(mappedBy = "member")
     private List<Question> questions = new ArrayList<>();
@@ -41,6 +42,6 @@ public class Member extends BaseEntity {
         this.email = email;
         this.password = password;
         this.userName = userName;
-        this.reputation = reputation;
+     //   this.reputation = reputation;
     }
 }
