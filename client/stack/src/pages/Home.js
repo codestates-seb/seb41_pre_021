@@ -1,6 +1,5 @@
 import Nav from '../components/Nav.';
 import styled from 'styled-components';
-import React from 'react';
 
 const filter = ['Interesting', 'Bountied', 'Hot', 'Week', 'Month'];
 
