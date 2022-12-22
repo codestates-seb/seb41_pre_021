@@ -32,6 +32,7 @@ public class Answer extends BaseEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
     private boolean accepted;
 

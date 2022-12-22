@@ -24,6 +24,7 @@ public class Tag extends BaseEntity {
 
     private String tagName;
 
+    @Column(columnDefinition = "TEXT")
     private String tagDescription;
 
     @OneToMany(mappedBy = "tag")

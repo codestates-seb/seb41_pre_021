@@ -26,13 +26,18 @@ public class Question extends BaseEntity {
         this.views = views;
     }
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long questionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    @Column(nullable = false, length = 100)
     private String questionTitle;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
     private int views;
 
@@ -48,8 +53,6 @@ public class Question extends BaseEntity {
         this.member = member;
         member.getQuestions().add(this);
     }
-
-
 
 
 }

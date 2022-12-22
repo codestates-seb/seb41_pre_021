@@ -29,6 +29,7 @@ public class QuestionComment extends BaseEntity {
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
 }
