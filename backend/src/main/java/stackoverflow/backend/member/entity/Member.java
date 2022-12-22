@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.question.entity.Question;
 
@@ -29,6 +30,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     private List<Question> questions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Answer> answers = new ArrayList<>();
 
     public Member(String email, String password, String userName, int reputation) {
         this.email = email;
