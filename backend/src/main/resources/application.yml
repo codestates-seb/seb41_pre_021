@@ -1,4 +1,21 @@
 spring:
+  profiles:
+    active: server
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+logging.level:
+  org.hibernate.SQL: debug
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
   h2:
     console:
       enabled: true
@@ -9,11 +26,14 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-logging.level:
-  org.hibernate.SQL: debug
+---
+
+spring:
+  config:
+    activate:
+      on-profile: server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://preproject.cdptdt5bffnc.ap-northeast-2.rds.amazonaws.com:3306/stackoverflow?serverTimezone=Asia/Seoul
+    username: root
+    password: 21stcent
