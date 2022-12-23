@@ -10,13 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.repository.MemberRepository;
 
-
 import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberService{
+public class MemberService {
 
     private final MemberRepository memberRepository;
 
@@ -48,16 +47,21 @@ public class MemberService{
         return findMember;
     }
 
+//    @Transactional(readOnly = true)
+//    public Page<Member> findMemberList(int page, int size) {
+//        return memberRepository.findAll(PageRequest.of(page, size,
+//                Sort.by("memberId").descending()));
+//    }
+
     @Transactional(readOnly = true)
-    public Page<Member> findMemberList(int page, int size) {
+    public Page<Member> findMemberList(int page, int size, String tab) {
+        String filter = "memberId";
+        if (tab.equals("reputation")) {
+            filter = "reputation";
+        }
         return memberRepository.findAll(PageRequest.of(page, size,
-                Sort.by("memberId").descending()));
-
-
-
-   }
-
-
+                Sort.by(filter).descending()));
+    }
 }
 
 

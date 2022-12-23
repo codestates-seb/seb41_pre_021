@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import stackoverflow.backend.member.dto.MemberPatchDto;
 import stackoverflow.backend.member.dto.MemberPostDto;
 import stackoverflow.backend.member.dto.MemberResponseDto;
-import stackoverflow.backend.common.MultipleResponseDto;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.mapper.MemberMapper;
 import stackoverflow.backend.member.service.MemberService;
+import stackoverflow.backend.response.MultipleResponseDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -62,12 +62,13 @@ public class MemberController {
 
     //회원 목록
     @GetMapping
-    public ResponseEntity getMembers(@Positive @RequestParam int page,
-                                     @Positive @RequestParam int size) {
-        Page<Member> pagedMembers = memberService.findMemberList(page - 1, size);
+    public ResponseEntity getMembers(@Positive @RequestParam(defaultValue = "1") Integer page,
+                                     @Positive @RequestParam(defaultValue = "15") Integer size,
+                                     @RequestParam(defaultValue = "newusers") String tab) {
+        Page<Member> pagedMembers = memberService.findMemberList(page - 1, size,tab);
         List<Member> members = pagedMembers.getContent();
         return new ResponseEntity<>(
-                new MultipleResponseDto<>(mapper.membersToMemberResponses(members), pagedMembers), HttpStatus.OK);
+                new MultipleResponseDto<>(mapper.membersToMembersResponseDto(members), pagedMembers), HttpStatus.OK);
     }
 }
 
