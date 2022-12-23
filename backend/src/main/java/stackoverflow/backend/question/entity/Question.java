@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.vote.entity.Vote;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +46,16 @@ public class Question extends BaseEntity {
 
     private boolean isAdopted;
 
+    @Column(updatable = false)
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime modifiedAt;
+
+}
+
+/*
     @OneToMany(mappedBy = "question")
     private List<Vote> votes = new ArrayList<>();
 
@@ -53,6 +66,6 @@ public class Question extends BaseEntity {
         this.member = member;
         member.getQuestions().add(this);
     }
+*/
 
 
-}
