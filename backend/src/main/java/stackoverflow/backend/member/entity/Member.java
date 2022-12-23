@@ -28,20 +28,20 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
-    private String userName;
+    private String username;
 
-    //  private int reputation;
-
+    private int reputation;
+    //private localDateTime createdAt
+    //private localDateTime modifiedAt
     @OneToMany(mappedBy = "member")
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
 
-    public Member(String email, String password, String userName, int reputation) {
+    public Member(String email, String password, String username) {
         this.email = email;
         this.password = password;
-        this.userName = userName;
-     //   this.reputation = reputation;
+        this.username = username;
     }
 }

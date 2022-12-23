@@ -3,23 +3,18 @@ package stackoverflow.backend.member.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @AllArgsConstructor
 public class MemberResponseDto {
 
-        private long memberId;
+    private long memberId;
 
-        private String userName;
+    private String username;
 
-        private String email;
+    private String email;
 
-        private String password;
+    private String password;
 
-      //  private LocalDateTime createdAt;
-
-      //  private LocalDateTime modifiedAt;
-
-    }
+    private int reputation;
+}
 

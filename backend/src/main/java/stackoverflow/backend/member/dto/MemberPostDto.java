@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class MemberPostDto {
 
     @NotBlank(message = "이름은 공백을 허용하지 않습니다")
-    private String userName;
+    private String username;
 
     @Email
     @NotBlank(message = "이메일은 공백을 허용하지 않습니다")
@@ -20,9 +20,4 @@ public class MemberPostDto {
 
     @NotBlank(message = "비밀번호는 공백을 허용하지 않습니다")
     private String password;
-
-  //   private LocalDateTime createdAt;
-
-   //  private LocalDateTime modifiedAt;
-
 }

@@ -26,7 +26,6 @@ public class MemberController {
 
     private final MemberService memberService;
     private final MemberMapper mapper;
-    private final MemberRepository MemberRepository;
 
    //회원가입//
 
@@ -59,7 +58,7 @@ public class MemberController {
     }
 }
     //목록//
-    /*@GetMapping("/list")
+    /*@GetMapping
     public ResponseEntity getMembers(@RequestParam int page,
                                      @RequestParam int size) {
 

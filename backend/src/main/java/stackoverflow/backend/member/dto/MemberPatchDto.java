@@ -9,7 +9,7 @@ public class MemberPatchDto {
 
     private long memberId;
 
-    private String userName;
+    private String username;
 
     private String password;
 
