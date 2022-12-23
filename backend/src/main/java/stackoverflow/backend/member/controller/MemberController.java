@@ -2,6 +2,7 @@ package stackoverflow.backend.member.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -9,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import stackoverflow.backend.member.dto.MemberPatchDto;
 import stackoverflow.backend.member.dto.MemberPostDto;
 import stackoverflow.backend.member.dto.MemberResponseDto;
+import stackoverflow.backend.common.MultipleResponseDto;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.mapper.MemberMapper;
-import stackoverflow.backend.member.repository.MemberRepository;
 import stackoverflow.backend.member.service.MemberService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -37,7 +38,9 @@ public class MemberController {
 
         return new ResponseEntity(memberResponseDto, HttpStatus.CREATED);
 
-    }@PatchMapping("/{member-id}")
+    }
+
+    @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId, @Valid @RequestBody MemberPatchDto memberPatchDto) {
 
         memberPatchDto.setMemberId(memberId);
@@ -56,22 +59,17 @@ public class MemberController {
 
         return new ResponseEntity(memberResponseDto, HttpStatus.OK);
     }
+
+    //회원 목록
+    @GetMapping
+    public ResponseEntity getMembers(@Positive @RequestParam int page,
+                                     @Positive @RequestParam int size) {
+        Page<Member> pagedMembers = memberService.findMemberList(page - 1, size);
+        List<Member> members = pagedMembers.getContent();
+        return new ResponseEntity<>(
+                new MultipleResponseDto<>(mapper.membersToMemberResponses(members), pagedMembers), HttpStatus.OK);
+    }
 }
-    //목록//
-    /*@GetMapping
-    public ResponseEntity getMembers(@RequestParam int page,
-                                     @RequestParam int size) {
-
-        Page<Member> result = memberService.findMembers(page-1, size);
-        List<MemberDto.MemberForMyPage> lists = result.getContent().stream()
-                .map(list -> mapper.memberToMemberForMyPage(list))
-                .collect(Collectors.toList());
-
-
-        return new ResponseEntity(new MultiResponseDto<>(lists, result),HttpStatus.OK);
-    }*/
-
-
 
 
 

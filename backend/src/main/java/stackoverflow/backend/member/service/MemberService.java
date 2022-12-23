@@ -2,10 +2,14 @@ package stackoverflow.backend.member.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.repository.MemberRepository;
+
 
 import java.util.Optional;
 
@@ -17,7 +21,7 @@ public class MemberService{
     private final MemberRepository memberRepository;
 
     public Member createMember(Member member) {
-        verifyExistsEmail(member.getEmail()); //등록된 이메일인지 확인
+        verifyExistsEmail(member.getEmail());
         return memberRepository.save(member);
     }
 
@@ -26,7 +30,7 @@ public class MemberService{
     }
 
     public Member updateMember(Member member) {
-        Member findMember = findVerifiedMember(member.getMemberId()); //ID로 멤버 존재 확인하고 Member 정보 반환
+        Member findMember = findVerifiedMember(member.getMemberId());
         return memberRepository.save(findMember);
     }
 
@@ -43,6 +47,16 @@ public class MemberService{
         Member findMember = optionalMember.orElseThrow(() -> new IllegalStateException());
         return findMember;
     }
+
+    @Transactional(readOnly = true)
+    public Page<Member> findMemberList(int page, int size) {
+        return memberRepository.findAll(PageRequest.of(page, size,
+                Sort.by("memberId").descending()));
+
+
+
+   }
+
 
 }
 
