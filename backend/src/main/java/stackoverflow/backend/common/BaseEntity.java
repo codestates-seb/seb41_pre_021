@@ -1,5 +1,6 @@
 package stackoverflow.backend.common;
 
+
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,8 +15,9 @@ public class BaseEntity {
 
     @Column(updatable = false)
     @CreatedDate
-    private LocalDateTime createdAt;
+   private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
 }
