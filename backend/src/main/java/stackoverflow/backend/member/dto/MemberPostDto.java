@@ -21,5 +21,5 @@ public class MemberPostDto {
     @NotBlank(message = "비밀번호는 공백을 허용하지 않습니다")
     private String password;
     //테스트용
-    private int reputation;
+//    private int reputation;
 }
