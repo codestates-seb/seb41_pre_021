@@ -1,7 +1,6 @@
 spring:
   profiles:
     active: server
-
   jpa:
     hibernate:
       ddl-auto: create
@@ -34,6 +33,6 @@ spring:
       on-profile: server
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://preproject.cdptdt5bffnc.ap-northeast-2.rds.amazonaws.com:3306/stackoverflow?serverTimezone=Asia/Seoul
-    username: root
-    password: 21stcent
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
