@@ -14,7 +14,7 @@ public class QuestionPostDto {
     @Positive
     private Long memberId;
     @NotBlank(message = "제목을 작성하세요")
-    @Size(min = 3, message = "최소 3자이상 작성하십시오")
+    @Size(min = 5, message = "최소 5자이상 작성하십시오")
     private String questionTitle;
 
     @NotBlank(message = "질문을 작성하세요.")
