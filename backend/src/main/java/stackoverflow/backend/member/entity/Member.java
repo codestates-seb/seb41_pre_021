@@ -39,6 +39,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
+
     public Member(String email, String password, String username) {
         this.email = email;
         this.password = password;

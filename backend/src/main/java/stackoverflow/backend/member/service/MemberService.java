@@ -5,11 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stackoverflow.backend.auth.utils.CustomAuthorityUtils;
+import stackoverflow.backend.exception.BusinessLogicException;
+import stackoverflow.backend.exception.ExceptionCode;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.repository.MemberRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,9 +23,18 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
 
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
+
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
+
+        List<String> roles = authorityUtils.createRoles();
+        member.setRoles(roles);
+
         return memberRepository.save(member);
     }
 
@@ -34,16 +48,16 @@ public class MemberService {
     }
 
     private void verifyExistsEmail(String email) {
-        Member member = memberRepository.findByEmail(email);
+        Optional<Member> member = memberRepository.findByEmail(email);
 
-        if (member != null) {
-            throw new IllegalStateException();
+        if(member.isPresent()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
         }
     }
 
     public Member findVerifiedMember(long memberId) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);
-        Member findMember = optionalMember.orElseThrow(() -> new IllegalStateException());
+        Member findMember = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return findMember;
     }
 
@@ -63,6 +77,4 @@ public class MemberService {
                 Sort.by(filter).descending()));
     }
 }
-
-
 
