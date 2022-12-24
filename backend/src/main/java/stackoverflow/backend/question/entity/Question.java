@@ -55,7 +55,7 @@ public class Question extends BaseEntity {
 }
 
 
-    @OneToMany(mappedBy = "question")
+/*    @OneToMany(mappedBy = "question")
     private List<Vote> votes = new ArrayList<>();
 
     @OneToMany(mappedBy = "question")
@@ -65,5 +65,8 @@ public class Question extends BaseEntity {
         this.member = member;
     }
 
+
+
 }
 
+        */

@@ -23,8 +23,10 @@ public class QuestionResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public void setMember(MembersResponseDto memberToMemberResponseDto) {
+    public void setMember(MemberResponseDto memberToMemberResponseDto) {
         this.username = memberToMemberResponseDto.getUsername();
         this.memberId = memberToMemberResponseDto.getMemberId();
     }
+
+
 }

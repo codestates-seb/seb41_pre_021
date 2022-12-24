@@ -9,6 +9,7 @@ import stackoverflow.backend.exception.BusinessLogicException;
 import stackoverflow.backend.exception.ExceptionCode;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.repository.MemberRepository;
+import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.question.repository.QuestionRepository;
 
@@ -19,17 +20,20 @@ import java.util.Optional;
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
 
-    public QuestionService(QuestionRepository questionRepository) {
+    public QuestionService(QuestionRepository questionRepository, MemberService memberService, MemberRepository memberRepository) {
         this.questionRepository = questionRepository;
-
+        this.memberService = memberService;
+        this.memberRepository = memberRepository;
 
     }
 
     //게시글 생성
     public Question createQuestion(Question question) {
-        Member member = MemberRepository.findByMemberId(question.getMember().getMemberId());
+        Member member = memberRepository.findByMemberId(question.getMember().getMemberId());
         question.setMember(member);
 
         return questionRepository.save(question);
@@ -57,8 +61,7 @@ public class QuestionService {
         return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
     }
 
-    @Transactional(readOnly = true)
-    private Question findVerifyQuestion(Long questionId) {
+   public Question findVerifyQuestion(Long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);
         Question question = optionalQuestion.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));

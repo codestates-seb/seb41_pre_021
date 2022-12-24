@@ -67,7 +67,7 @@ public class QuestionController {
 
 
 
-    // 게시글 조회
+    // 질문 조회
     @GetMapping("/{question-id}")
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive Long questionId) {
 
@@ -78,8 +78,8 @@ public class QuestionController {
     }
 
 
-    // 전체 게시글 조회
-    @GetMapping  // page = 1, size = 10으로 설정해 주세요!
+    // 전체 질문 조회
+    @GetMapping  //
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
                                        @Positive @RequestParam int size) {
         Page<Question> pageQuestions = questionService.findQuestions(page-1, size);
@@ -96,7 +96,7 @@ public class QuestionController {
 
 
 
-    // 게시글 삭제
+    // 질문 삭제
     @DeleteMapping("/{question-id}")
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive Long questionId) {
         questionService.deleteQuestion(questionId);

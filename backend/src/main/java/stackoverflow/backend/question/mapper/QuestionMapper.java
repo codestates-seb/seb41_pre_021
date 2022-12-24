@@ -31,7 +31,6 @@ public interface QuestionMapper {
         question.setQuestionTitle( questionPostDto.getQuestionTitle() );
         question.setContent( questionPostDto.getContent() );
         question.setMember(memberService.findMember(member.getMemberId()));
-
         question.setCreatedAt(LocalDateTime.now());
         question.setModifiedAt(LocalDateTime.now());
 
@@ -53,8 +52,8 @@ public interface QuestionMapper {
             return null;
         }
 
-
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
+
         questionResponseDto.setQuestionId( question.getQuestionId() );
         questionResponseDto.setQuestionTitle( question.getQuestionTitle() );
         questionResponseDto.setContent( question.getContent() );
@@ -69,11 +68,11 @@ public interface QuestionMapper {
     }
 
     default MemberResponseDto memberToMemberResponseDto(Member member){
-        if ( Member = null ) {
+        if ( member == null ) {
             return null;
         }
 
-        MemberResponseDto memberResponseDto = new MemberResponseDto;
+        MemberResponseDto memberResponseDto = new MemberResponseDto();
 
         memberResponseDto.setMemberId( member.getMemberId() );
         memberResponseDto.setEmail( member.getEmail() );
@@ -91,7 +90,7 @@ public interface QuestionMapper {
 
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
 
-        questionResponseDto.setMember( memberToMemberResponseDto( question.getMember() ) );
+        questionResponseDto.setMember( memberToMemberResponseDto  ( question.getMember() ) );
         questionResponseDto.setQuestionId( question.getQuestionId() );
         questionResponseDto.setQuestionTitle( question.getQuestionTitle() );
         questionResponseDto.setContent( question.getContent() );
