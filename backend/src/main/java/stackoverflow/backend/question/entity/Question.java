@@ -52,20 +52,18 @@ public class Question extends BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
-
 }
 
-/*
+
     @OneToMany(mappedBy = "question")
     private List<Vote> votes = new ArrayList<>();
 
     @OneToMany(mappedBy = "question")
     private List<Answer> answers = new ArrayList<>();
 
-    public void addMember(Member member) {
+    public void setMember(Member member) {
         this.member = member;
-        member.getQuestions().add(this);
     }
-*/
 
+}
 

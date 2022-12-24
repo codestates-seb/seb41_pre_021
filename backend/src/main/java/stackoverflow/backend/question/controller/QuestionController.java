@@ -13,6 +13,8 @@ import stackoverflow.backend.question.dto.QuestionResponseDto;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.question.mapper.QuestionMapper;
 import stackoverflow.backend.question.service.QuestionService;
+import stackoverflow.backend.response.MultipleResponseDto;
+import stackoverflow.backend.response.SingleResponseDto;
 
 
 import javax.validation.Valid;
@@ -88,7 +90,7 @@ public class QuestionController {
                         .collect(Collectors.toList());
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.questionsToQuestionResponses(questions),pageQuestions),
+                new MultipleResponseDto<>(mapper.questionsToQuestionResponses(questions),pageQuestions),
                 HttpStatus.OK);
     }
 

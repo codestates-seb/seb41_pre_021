@@ -9,7 +9,6 @@ import stackoverflow.backend.exception.BusinessLogicException;
 import stackoverflow.backend.exception.ExceptionCode;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.repository.MemberRepository;
-import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.question.repository.QuestionRepository;
 
@@ -20,19 +19,15 @@ import java.util.Optional;
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
-    private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
 
-    public QuestionService(QuestionRepository questionRepository, MemberService memberService,
-                           MemberRepository memberRepository) {
+    public QuestionService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
-        this.MemberService = memberService;
-        this.MemberRepository = memberRepository;
+
 
     }
 
-  //게시글 생성
+    //게시글 생성
     public Question createQuestion(Question question) {
         Member member = MemberRepository.findByMemberId(question.getMember().getMemberId());
         question.setMember(member);
@@ -40,7 +35,7 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-   //게시글 수정
+    //게시글 수정
     public Question updateQuestion(Question question) {
         Question findQuestion = questionRepository.findByQuestionId(question.getQuestionId());
 
@@ -71,9 +66,9 @@ public class QuestionService {
     }
 
 
-
     public void deleteQuestion(Long questionId) {
         Question question = findVerifyQuestion(questionId);
         questionRepository.delete(question);
 
     }
+}
