@@ -5,23 +5,21 @@ import stackoverflow.backend.member.dto.MemberResponseDto;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.mapper.MemberMapper;
 import stackoverflow.backend.member.service.MemberService;
-import stackoverflow.backend.question.dto.QuestionPatchDto;
-import stackoverflow.backend.question.dto.QuestionPostDto;
-import stackoverflow.backend.question.dto.QuestionPostTagDto;
-import stackoverflow.backend.question.dto.QuestionResponseDto;
+import stackoverflow.backend.question.dto.*;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.questiontag.entity.QuestionTag;
 import stackoverflow.backend.tag.entity.Tag;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 @Mapper(componentModel = "spring")
 public interface QuestionMapper {
-    List<QuestionResponseDto> questionsToQuestionResponses(List<Question> questions);
-    List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions);
+//    List<QuestionResponseDto> questionsToQuestionResponses(List<Question> questions);
+//    List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions);
 
     default Question questionPostDtoToQuestion(QuestionPostDto questionPostDto) {
         Question question = new Question();
@@ -30,6 +28,7 @@ public interface QuestionMapper {
 
         question.setQuestionTitle(questionPostDto.getQuestionTitle());
         question.setContent(questionPostDto.getContent());
+        question.setMember(member);
 
         return question;
     }
@@ -39,6 +38,59 @@ public interface QuestionMapper {
         return questionPostTagDtos.stream()
                 .map(s -> new String(s.getTagName()))
                 .collect(Collectors.toList());
+    }
+
+    default QuestionDetailDto questionToQuestionDetailDto(Question question) {
+        QuestionDetailDto.MemberPart memberPart = new QuestionDetailDto.MemberPart();
+        QuestionDetailDto.QuestionPart questionPart = new QuestionDetailDto.QuestionPart();
+
+        Member member = question.getMember();
+        memberPart.setMemberId(member.getMemberId());
+        memberPart.setReputation(member.getReputation());
+        memberPart.setUsername(member.getUsername());
+
+        questionPart.setQuestionTitle(question.getQuestionTitle());
+        questionPart.setContent(question.getContent());
+        questionPart.setViews(question.getViews());
+        List<String> tags = question.getQuestionTags().stream()
+                .map(questionTag -> questionTag.getTag().getTagName())
+                .collect(Collectors.toList());
+
+        questionPart.setTags(tags);
+        questionPart.setAsked(question.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        questionPart.setModified(question.getModifiedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        return new QuestionDetailDto(questionPart,memberPart);
+    }
+
+    default List<QuestionsResponseDto> questionsToQuestionsResponseDto(List<Question> questions) {
+
+        return questions.stream().map(question -> {
+            QuestionsResponseDto.MemberPart memberPart = new QuestionsResponseDto.MemberPart();
+            QuestionsResponseDto.QuestionPart questionPart = new QuestionsResponseDto.QuestionPart();
+
+            memberPart.setUsername(question.getMember().getUsername());
+            memberPart.setReputation(question.getMember().getReputation());
+
+            questionPart.setQuestionTitle(question.getQuestionTitle());
+            questionPart.setContent(question.getContent());
+            questionPart.setViews(question.getViews());
+            questionPart.setAdopted(question.isAdopted());
+            List<QuestionsResponseDto.QuestionsTagPart> tags = question.getQuestionTags().stream()
+                    .map(questionTag -> {
+                        QuestionsResponseDto.QuestionsTagPart questionsTagPart = new QuestionsResponseDto.QuestionsTagPart();
+                        Tag tag = questionTag.getTag();
+                        questionsTagPart.setTagId(tag.getTagId());
+                        questionsTagPart.setTagName(tag.getTagName());
+                        questionsTagPart.setTagDescription(tag.getTagDescription());
+                        return questionsTagPart;
+                    }).collect(Collectors.toList());
+
+            questionPart.setTags(tags);
+            questionPart.setAsked(question.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+            return new QuestionsResponseDto(questionPart, memberPart);
+        }).collect(Collectors.toList());
     }
 
 //    default Question questionPostToQuestion(QuestionPostDto questionPostDto) {

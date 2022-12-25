@@ -7,23 +7,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.backend.member.mapper.MemberMapper;
-import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.question.dto.QuestionPatchDto;
 import stackoverflow.backend.question.dto.QuestionPostDto;
-import stackoverflow.backend.question.dto.QuestionResponseDto;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.question.mapper.QuestionMapper;
 import stackoverflow.backend.question.service.QuestionService;
 import stackoverflow.backend.response.MultipleResponseDto;
 import stackoverflow.backend.response.SingleResponseDto;
-import stackoverflow.backend.tag.entity.Tag;
+
 
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/questions")
@@ -68,25 +66,27 @@ public class QuestionController {
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive Long questionId) {
 
         Question question = questionService.findGetQuestion(questionId);
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.questionToQuestionResponse(memberMapper, question)),
-                HttpStatus.OK);
+
+        return new ResponseEntity<>(mapper.questionToQuestionDetailDto(question), HttpStatus.OK);
     }
 
 
     // 전체 질문 조회
     @GetMapping  //
-    public ResponseEntity getQuestions(@Positive @RequestParam int page,
-                                       @Positive @RequestParam int size) {
-        Page<Question> pageQuestions = questionService.findQuestions(page-1, size);
-        List<Question> questions = pageQuestions.getContent();
-        List<QuestionResponseDto> response =
-                questions.stream()
-                        .map(question -> mapper.questionToQuestionResponse(memberMapper, question))
-                        .collect(Collectors.toList());
+    public ResponseEntity getQuestions(@Positive @RequestParam(defaultValue = "1") Integer page,
+                                       @Positive @RequestParam(defaultValue = "15") Integer size,
+                                       @RequestParam(defaultValue = "Newest") String tab) {
+
+        Page<Question> pagedQuestions = questionService.findQuestions(page-1, size,tab);
+        List<Question> questions = pagedQuestions.getContent();
+
+//        List<QuestionResponseDto> response =
+//                questions.stream()
+//                        .map(question -> mapper.questionToQuestionResponse(memberMapper, question))
+//                        .collect(Collectors.toList());
 
         return new ResponseEntity<>(
-                new MultipleResponseDto<>(mapper.questionsToQuestionResponses(questions),pageQuestions),
+                new MultipleResponseDto<>(mapper.questionsToQuestionsResponseDto(questions),pagedQuestions),
                 HttpStatus.OK);
     }
 
