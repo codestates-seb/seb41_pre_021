@@ -47,4 +47,12 @@ public class Member extends BaseEntity {
         this.password = password;
         this.username = username;
     }
+
+
+    public Member(String email, String password, String username, int reputation) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.reputation = reputation;
+    }
 }
