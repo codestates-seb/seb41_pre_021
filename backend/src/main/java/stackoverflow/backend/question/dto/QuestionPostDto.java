@@ -21,6 +21,9 @@ public class QuestionPostDto {
     @Size(min = 20, message = "최소 20자이상 작성하십시오")
     private String content;
 
+    public QuestionPostDto() {
+    }
+
     public Long getMemberId() {
         return memberId;
     }
