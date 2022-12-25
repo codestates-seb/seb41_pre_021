@@ -7,11 +7,15 @@ import stackoverflow.backend.member.mapper.MemberMapper;
 import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.question.dto.QuestionPatchDto;
 import stackoverflow.backend.question.dto.QuestionPostDto;
+import stackoverflow.backend.question.dto.QuestionPostTagDto;
 import stackoverflow.backend.question.dto.QuestionResponseDto;
 import stackoverflow.backend.question.entity.Question;
+import stackoverflow.backend.questiontag.entity.QuestionTag;
+import stackoverflow.backend.tag.entity.Tag;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Mapper(componentModel = "spring")
@@ -19,23 +23,42 @@ public interface QuestionMapper {
     List<QuestionResponseDto> questionsToQuestionResponses(List<Question> questions);
     List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions);
 
-    default Question questionPostToQuestion(MemberService memberService, QuestionPostDto questionPostDto) {
-        if ( questionPostDto == null ) {
-            return null;
-        }
-
+    default Question questionPostDtoToQuestion(QuestionPostDto questionPostDto) {
         Question question = new Question();
         Member member = new Member();
         member.setMemberId(questionPostDto.getMemberId());
 
-        question.setQuestionTitle( questionPostDto.getQuestionTitle() );
-        question.setContent( questionPostDto.getContent() );
-        question.setMember(memberService.findMember(member.getMemberId()));
-        question.setCreatedAt(LocalDateTime.now());
-        question.setModifiedAt(LocalDateTime.now());
+        question.setQuestionTitle(questionPostDto.getQuestionTitle());
+        question.setContent(questionPostDto.getContent());
 
         return question;
     }
+
+    default List<String> questionPostDtoToTags(QuestionPostDto questionPostDto) {
+        List<QuestionPostTagDto> questionPostTagDtos = questionPostDto.getQuestionPostTagDtos();
+        return questionPostTagDtos.stream()
+                .map(s -> new String(s.getTagName()))
+                .collect(Collectors.toList());
+    }
+
+//    default Question questionPostToQuestion(QuestionPostDto questionPostDto) {
+//
+//
+//        Question question = new Question();
+//        Member member = new Member();
+//        member.setMemberId(questionPostDto.getMemberId());
+//
+//        question.setQuestionTitle(questionPostDto.getQuestionTitle());
+//        question.setContent(questionPostDto.getContent());
+//
+//        QuestionTag questionTag = new QuestionTag();
+//
+//
+//        question.setMember(member);
+//
+//
+//        return question;
+//    }
 
     default Question questionPatchDtoToQuestion(QuestionPatchDto requestBody) {
         Question question = new Question();
@@ -58,7 +81,6 @@ public interface QuestionMapper {
         questionResponseDto.setQuestionTitle( question.getQuestionTitle() );
         questionResponseDto.setContent( question.getContent() );
         questionResponseDto.setViews(question.getViews());
-        questionResponseDto.setCreatedAt(question.getCreatedAt());
 
         Member member = question.getMember();
         questionResponseDto.setMember(memberMapper.memberToMemberResponseDto(member));
@@ -95,8 +117,6 @@ public interface QuestionMapper {
         questionResponseDto.setQuestionTitle( question.getQuestionTitle() );
         questionResponseDto.setContent( question.getContent() );
         questionResponseDto.setViews(question.getViews());
-        questionResponseDto.setCreatedAt( question.getCreatedAt() );
-        questionResponseDto.setModifiedAt( question.getModifiedAt() );
 
         return questionResponseDto;
     }

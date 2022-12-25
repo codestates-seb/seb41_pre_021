@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.member.entity.Member;
+import stackoverflow.backend.questiontag.entity.QuestionTag;
 import stackoverflow.backend.vote.entity.Vote;
 
 import javax.persistence.*;
@@ -42,31 +43,25 @@ public class Question extends BaseEntity {
 
     @Column(columnDefinition = "TEXT")
     private String content;
-    private int views;
 
-    private boolean isAdopted;
-
-    @Column(updatable = false)
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
-}
-
-
-/*    @OneToMany(mappedBy = "question")
-    private List<Vote> votes = new ArrayList<>();
+//    @OneToMany(mappedBy = "question")
+//    private List<Vote> votes = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "question")
+//    private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "question")
-    private List<Answer> answers = new ArrayList<>();
+    private List<QuestionTag> questionTags = new ArrayList<>();
 
     public void setMember(Member member) {
         this.member = member;
     }
+    private int views;
 
-
+    private boolean isAdopted;
 
 }
 
-        */
+
+
+

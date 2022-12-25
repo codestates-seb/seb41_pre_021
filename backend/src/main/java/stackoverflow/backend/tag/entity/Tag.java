@@ -8,7 +8,6 @@ import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.questiontag.entity.QuestionTag;
 
 import javax.persistence.*;
-import javax.persistence.metamodel.IdentifiableType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class Tag extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tagId;
-
+    @Column(unique = true)
     private String tagName;
 
     @Column(columnDefinition = "TEXT")

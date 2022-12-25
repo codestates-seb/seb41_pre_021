@@ -5,16 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 
-    @Getter
-    @Setter
-    public class QuestionPatchDto {
-        private long questionId;
-        private String questionTitle;
-        private String content;
+@Getter
+@Setter
+public class QuestionPatchDto {
+    private long questionId;
+    private String questionTitle;
+    private String content;
 
-        public void setQuestionId(long questionId) {
+    public void setQuestionId(long questionId) {
 
-            this.questionId = questionId;
-        }
+        this.questionId = questionId;
     }
+}
 

@@ -61,12 +61,6 @@ public class MemberService {
         return findMember;
     }
 
-//    @Transactional(readOnly = true)
-//    public Page<Member> findMemberList(int page, int size) {
-//        return memberRepository.findAll(PageRequest.of(page, size,
-//                Sort.by("memberId").descending()));
-//    }
-
     @Transactional(readOnly = true)
     public Page<Member> findMemberList(int page, int size, String tab) {
         String filter = "memberId";
@@ -75,6 +69,13 @@ public class MemberService {
         }
         return memberRepository.findAll(PageRequest.of(page, size,
                 Sort.by(filter).descending()));
+    }
+
+    @Transactional(readOnly = true)
+    public Member findVerifiedMember(String email) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        Member member = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return member;
     }
 }
 

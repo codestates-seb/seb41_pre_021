@@ -1,5 +1,6 @@
 package stackoverflow.backend.question.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -12,31 +13,42 @@ import stackoverflow.backend.member.repository.MemberRepository;
 import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.question.repository.QuestionRepository;
+import stackoverflow.backend.questiontag.entity.QuestionTag;
+import stackoverflow.backend.questiontag.service.QuestionTagService;
+import stackoverflow.backend.tag.entity.Tag;
+import stackoverflow.backend.tag.service.TagService;
 
 
+import java.util.List;
 import java.util.Optional;
 
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
+    private final TagService tagService;
+    private final QuestionTagService questionTagService;
 
-
-    public QuestionService(QuestionRepository questionRepository, MemberService memberService, MemberRepository memberRepository) {
-        this.questionRepository = questionRepository;
-        this.memberService = memberService;
-        this.memberRepository = memberRepository;
-
-    }
 
     //게시글 생성
-    public Question createQuestion(Question question) {
-        Member member = memberRepository.findByMemberId(question.getMember().getMemberId());
-        question.setMember(member);
+    public Question createQuestion(String email, Question question, List<String> tagNames) {
+        Member findMember = memberService.findVerifiedMember(email);
 
-        return questionRepository.save(question);
+        if(!findMember.getEmail().equals(email)) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
+
+        question.setMember(findMember);
+
+        List<Tag> tagLists = tagService.createTags(tagNames);
+        Question result = questionRepository.save(question);
+        questionTagService.createQuestionTagWithQuestion(tagLists,question);
+
+
+        return result;
     }
 
     //게시글 수정

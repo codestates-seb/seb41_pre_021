@@ -3,10 +3,8 @@ package stackoverflow.backend.question.dto;
 import lombok.Getter;
 import lombok.Setter;
 import stackoverflow.backend.member.dto.MemberResponseDto;
-import stackoverflow.backend.member.dto.MembersResponseDto;
 
 import java.time.LocalDateTime;
-
 
 @Getter
 @Setter

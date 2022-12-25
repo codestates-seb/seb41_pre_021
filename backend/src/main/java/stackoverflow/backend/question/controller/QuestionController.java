@@ -1,5 +1,6 @@
 package stackoverflow.backend.question.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,40 +16,35 @@ import stackoverflow.backend.question.mapper.QuestionMapper;
 import stackoverflow.backend.question.service.QuestionService;
 import stackoverflow.backend.response.MultipleResponseDto;
 import stackoverflow.backend.response.SingleResponseDto;
+import stackoverflow.backend.tag.entity.Tag;
 
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/questions")
 @Validated
+@RequiredArgsConstructor
 public class QuestionController {
 
     private final QuestionService questionService;
     private final QuestionMapper mapper;
-    private final MemberService memberService;
     private final MemberMapper memberMapper;
-
-
-    public QuestionController(QuestionService questionService, QuestionMapper mapper, MemberService memberService, MemberMapper memberMapper) {
-        this.questionService = questionService;
-        this.mapper = mapper;
-        this.memberService = memberService;
-        this.memberMapper = memberMapper;
-
-    }
 
     // 질문 등록
     @PostMapping
-    public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
+    public ResponseEntity postQuestion(Principal principal, @Valid @RequestBody QuestionPostDto questionPostDto) {
 
-        Question question = questionService.createQuestion(mapper.questionPostToQuestion(memberService, questionPostDto));
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.questionToQuestionResponse(memberMapper, question))
-                , HttpStatus.CREATED);
+        Question question = mapper.questionPostDtoToQuestion(questionPostDto);
+        List<String> tagNames = mapper.questionPostDtoToTags(questionPostDto);
+
+        questionService.createQuestion(principal.getName(),question,tagNames);
+
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     // 질문 수정
