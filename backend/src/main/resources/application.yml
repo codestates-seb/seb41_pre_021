@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: server
+    active: local
   jpa:
     hibernate:
       ddl-auto: create
@@ -10,6 +10,10 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
 
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
 ---
 spring:
   config:
