@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const SignUpForm = () => {
   const [textInput, setTextInput] = useState({
@@ -13,6 +13,12 @@ const SignUpForm = () => {
 
   const handleInputChange = (e) => {
     setTextInput({ ...textInput, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmitClick = () => {
+    validateEmail();
+    validatePassword();
+    validateConfirmPassword();
   };
 
   // Validation
@@ -82,7 +88,6 @@ const SignUpForm = () => {
           type="text"
           id="displayName_input"
           name="displayName"
-          required
           onChange={(e) => {
             handleInputChange(e);
           }}
@@ -94,11 +99,11 @@ const SignUpForm = () => {
           type="email"
           id="email_input"
           name="email"
-          required
           onChange={(e) => {
             handleInputChange(e);
           }}
         />
+        <SignUpFormNotice>{emailNotice}</SignUpFormNotice>
       </SignUpInputWrapper>
       <SignUpInputWrapper>
         <SignUpFormLabel htmlFor="password_input">
@@ -108,28 +113,30 @@ const SignUpForm = () => {
           type="password"
           id="password_input"
           name="password"
-          required
           onChange={(e) => {
             handleInputChange(e);
           }}
         />
+        <SignUpFormNotice>{passwordNotice}</SignUpFormNotice>
       </SignUpInputWrapper>
       <SignUpInputWrapper>
         <SignUpFormLabel htmlFor="confirmPassword_input">
           Confirm your password
         </SignUpFormLabel>
         <SignUpFormInput
-          type="confirmPassword"
+          type="password"
           id="confirmPassword_input"
           name="confirmPassword"
-          required
           onChange={(e) => {
             handleInputChange(e);
           }}
         />
+        <SignUpFormNotice>{confirmPasswordNotice}</SignUpFormNotice>
       </SignUpInputWrapper>
       <SignUpButtonWrapper>
-        <SignUpFormButton type="button">Sign Up</SignUpFormButton>
+        <SignUpFormButton type="button" onClick={handleSubmitClick}>
+          Sign Up
+        </SignUpFormButton>
       </SignUpButtonWrapper>
     </SignUpFormContainer>
   );
@@ -145,6 +152,8 @@ const SignUpInputWrapper = styled.div``;
 const SignUpFormLabel = styled.label``;
 
 const SignUpFormInput = styled.input``;
+
+const SignUpFormNotice = styled.p``;
 
 const SignUpButtonWrapper = styled.div``;
 
