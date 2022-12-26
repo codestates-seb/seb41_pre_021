@@ -1,9 +1,11 @@
+import SignUpForm from '../components/SignUpForm';
+
 import styled from 'styled-components';
 
 const SignUp = () => {
   return (
-    <Container>
-      <LeftSection>
+    <SignUpContainer>
+      <Section>
         <h1>Join the Stack Overflow community</h1>
         <Paragraph>Get unstuck — ask a question</Paragraph>
         <Paragraph>Unlock new privileges like voting and commenting</Paragraph>
@@ -15,15 +17,18 @@ const SignUp = () => {
             <p>Get Stack Overflow for Teams free for up to 50 users.</p>
           </a>
         </div>
-      </LeftSection>
-    </Container>
+      </Section>
+      <SignUpForm></SignUpForm>
+    </SignUpContainer>
   );
 };
 
-const Container = styled.div``;
+const SignUpContainer = styled.div`
+  display: flex;
+`;
+
+const Section = styled.div``;
 
 const Paragraph = styled.div``;
-
-const LeftSection = styled.div``;
 
 export default SignUp;
