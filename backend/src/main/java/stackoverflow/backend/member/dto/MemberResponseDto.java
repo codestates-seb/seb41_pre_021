@@ -1,10 +1,12 @@
 package stackoverflow.backend.member.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+
 public class MemberResponseDto {
 
     private long memberId;
@@ -16,5 +18,7 @@ public class MemberResponseDto {
     private String password;
 
     private int reputation;
-}
+
+
+    }
 
