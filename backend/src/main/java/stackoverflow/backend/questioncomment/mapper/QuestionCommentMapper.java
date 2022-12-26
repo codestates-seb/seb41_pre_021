@@ -5,6 +5,7 @@ import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.questioncomment.dto.QuestionCommentPatchDto;
 import stackoverflow.backend.questioncomment.dto.QuestionCommentPostDto;
+import stackoverflow.backend.questioncomment.dto.QuestionCommentResponseDto;
 import stackoverflow.backend.questioncomment.entity.QuestionComment;
 
 @Mapper(componentModel = "spring")
@@ -31,5 +32,14 @@ public interface QuestionCommentMapper {
         questionComment.setContent(questionCommentPatchDto.getContent());
         questionComment.setQuestionCommentId(questionCommentPatchDto.getQuestionCommentId());
         return questionComment;
+    }
+
+    default QuestionCommentResponseDto questionToQuestionCommentResponseDto(QuestionComment questionComment) {
+        QuestionCommentResponseDto questionCommentResponseDto = new QuestionCommentResponseDto();
+        questionCommentResponseDto.setQuestionId(questionComment.getQuestion().getQuestionId());
+        questionCommentResponseDto.setMemberId(questionComment.getMember().getMemberId());
+        questionCommentResponseDto.setContent(questionComment.getContent());
+
+        return questionCommentResponseDto;
     }
 }

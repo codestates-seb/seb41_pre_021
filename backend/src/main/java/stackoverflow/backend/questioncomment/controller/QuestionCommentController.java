@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import stackoverflow.backend.question.service.QuestionService;
 import stackoverflow.backend.questioncomment.dto.QuestionCommentPatchDto;
 import stackoverflow.backend.questioncomment.dto.QuestionCommentPostDto;
+import stackoverflow.backend.questioncomment.dto.QuestionCommentResponseDto;
 import stackoverflow.backend.questioncomment.entity.QuestionComment;
 import stackoverflow.backend.questioncomment.mapper.QuestionCommentMapper;
 import stackoverflow.backend.questioncomment.service.QuestionCommentService;
@@ -32,6 +33,16 @@ public class QuestionCommentController {
         questionCommentService.createQuestionComment(questionComment);
 
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{comment-id}")
+    public ResponseEntity findQuestionComment(@PathVariable("question-id") @Positive long questionId,
+                                              @PathVariable("comment-id") @Positive long commentId) {
+        QuestionComment findComment = questionCommentService.findVerifiedQuestionComment(commentId);
+
+        QuestionCommentResponseDto questionCommentResponseDto = mapper.questionToQuestionCommentResponseDto(findComment);
+
+        return new ResponseEntity(questionCommentResponseDto,HttpStatus.OK);
     }
 
     @PatchMapping("/{comment-id}")
