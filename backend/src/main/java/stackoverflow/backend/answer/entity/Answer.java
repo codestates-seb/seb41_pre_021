@@ -38,4 +38,5 @@ public class Answer extends BaseEntity {
 
     @OneToMany(mappedBy = "answer")
     private List<Vote> votes = new ArrayList<>();
+
 }
