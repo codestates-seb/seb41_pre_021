@@ -77,5 +77,7 @@ public class MemberService {
         Member member = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return member;
     }
+
+
 }
 

@@ -1,5 +1,6 @@
 package stackoverflow.backend.answer.controller;
 
+import antlr.Token;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,11 +31,13 @@ public class AnswerController {
 
     //답변 생성
     @PostMapping
-    public ResponseEntity postAnswer(@Valid @RequestBody AnswerPostDto requestBody) {
-        Answer answer = answerService.createAnswer(mapper.answerPostDtoToAnswer(requestBody));
+    public ResponseEntity postAnswer(@RequestHeader(name = "Authorization") String token, @Valid @RequestBody AnswerPostDto answerPostDto) {
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer)), HttpStatus.CREATED);
+        Answer answer = mapper.answerPostDtoToAnswer(answerPostDto);
+
+        answerService.createAnswer(token, answer);
+
+        return new ResponseEntity(HttpStatus.CREATED);
     }
     //답변 조회
     @GetMapping("/{question-id}")
@@ -56,8 +59,8 @@ public class AnswerController {
     }
     //답변 삭제
     @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@PathVariable("answer-id") long answerId) {
-        answerService.deleteAnswer(answerId);
+    public ResponseEntity deleteAnswer(@RequestHeader(name = "Authorization") String token, @PathVariable("answer-id") @Positive Long answerId) {
+        answerService.deleteAnswer(token, answerId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

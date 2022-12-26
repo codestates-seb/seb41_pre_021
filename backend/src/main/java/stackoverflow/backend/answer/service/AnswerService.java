@@ -1,9 +1,13 @@
 package stackoverflow.backend.answer.service;
 
 
+import antlr.Token;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.answer.repository.AnswerRepository;
+import stackoverflow.backend.auth.jwt.JwtTokenizer;
 import stackoverflow.backend.exception.BusinessLogicException;
 import stackoverflow.backend.exception.ExceptionCode;
 import stackoverflow.backend.member.entity.Member;
@@ -17,48 +21,45 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class AnswerService {
     private final AnswerRepository answerRepository;
-    private final QuestionService questionService;
+   // private final QuestionService questionService;
     private final MemberService memberService;
     private final QuestionRepository questionRepository;
-    private final MemberRepository memberRepository;
+ //   private final MemberRepository memberRepository;
+    private final JwtTokenizer jwtTokenizer;
 
-    public AnswerService(AnswerRepository answerRepository, QuestionService questionService, MemberService memberService, QuestionRepository questionRepository, MemberRepository memberRepository) {
-        this.answerRepository = answerRepository;
-        this.questionService = questionService;
-        this.memberService = memberService;
-        this.questionRepository = questionRepository;
-        this.memberRepository = memberRepository;
-    }
 
-    public Answer createAnswer(Answer answer) {
-
+    public Answer createAnswer(String token, Answer answer) {
+        long memberId = jwtTokenizer.getMemberId(token);
+        if(answer.getMember().getMemberId() != memberId) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
         Question question = questionRepository.findByQuestionId(answer.getQuestion().getQuestionId());
-        Member member = memberRepository.findByMemberId(answer.getMember().getMemberId());
 
+        Member findMember = memberService.findVerifiedMember(memberId);
+        answer.setMember(findMember);
         answer.setQuestion(question);
-        answer.setMember(member);
 
-
-        return answerRepository.save(answer);
-    }
-
-    public void verifyExistsQuestionIdAndMemberId(Answer answer) {
-        questionService.findVerifyQuestion(answer.getQuestion().getQuestionId());
-        memberService.findVerifiedMember(answer.getMember().getMemberId());
+        Answer result = answerRepository.save(answer);
+        return result;
     }
 
     public Answer updateAnswer(Answer answer) {
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
-
         Optional.ofNullable(answer.getContent()).ifPresent(findAnswer::setContent);
-
 
         return answerRepository.save(answer);
     }
-    public void deleteAnswer(long answerId) {
+    public void deleteAnswer(String token, long answerId) {
+        long memberId = jwtTokenizer.getMemberId(token);
         Answer answer = findVerifiedAnswer(answerId);
+        if(answer.getMember().getMemberId() != memberId) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
+
         answerRepository.delete(answer);
     }
 
@@ -66,7 +67,7 @@ public class AnswerService {
         Question question = questionRepository.findByQuestionId(questionId);
         return answerRepository.findAllByQuestion(question);
     }
-    private Answer findVerifiedAnswer(Long answerId) {
+    public Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         Answer findAnswer = optionalAnswer.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
