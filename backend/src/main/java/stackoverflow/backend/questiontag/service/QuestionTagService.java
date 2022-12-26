@@ -26,4 +26,8 @@ public class QuestionTagService {
             questionTagRepository.save(questionTag);
         });
     }
+
+    public void deleteAllQuestionTag(long questionId) {
+        questionTagRepository.deleteAllByQuestionId(questionId);
+    }
 }

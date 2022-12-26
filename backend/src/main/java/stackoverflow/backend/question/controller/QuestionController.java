@@ -46,17 +46,16 @@ public class QuestionController {
     }
 
     // 질문 수정
-    @PatchMapping("/{question-id}")
+    @PatchMapping("/{question-id}/edit")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
-                                        @Valid @RequestBody QuestionPatchDto requestBody) {
-        requestBody.setQuestionId(questionId);
+                                        @Valid @RequestBody QuestionPatchDto questionPatchDto) {
+        questionPatchDto.setQuestionId(questionId);
+        List<String> tagNames = mapper.questionPatchDtoToTags(questionPatchDto);
 
-        Question question =
-                questionService.updateQuestion(mapper.questionPatchDtoToQuestion(requestBody));
+        Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto),tagNames);
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)),
-                HttpStatus.OK);
+//        return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionDetailDto(question)), HttpStatus.OK);
     }
 
 

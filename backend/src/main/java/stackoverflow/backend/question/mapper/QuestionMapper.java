@@ -40,6 +40,13 @@ public interface QuestionMapper {
                 .collect(Collectors.toList());
     }
 
+    default List<String> questionPatchDtoToTags(QuestionPatchDto questionPatchDto) {
+        List<QuestionPatchTagDto> questionPatchDtos = questionPatchDto.getQuestionPatchTagDtos();
+        return questionPatchDtos.stream()
+                .map(s -> new String(s.getTagName()))
+                .collect(Collectors.toList());
+    }
+
     default QuestionDetailDto questionToQuestionDetailDto(Question question) {
         QuestionDetailDto.MemberPart memberPart = new QuestionDetailDto.MemberPart();
         QuestionDetailDto.QuestionPart questionPart = new QuestionDetailDto.QuestionPart();
@@ -93,6 +100,8 @@ public interface QuestionMapper {
         }).collect(Collectors.toList());
     }
 
+    Question questionPatchDtoToQuestion(QuestionPatchDto questionPatchDto);
+
 //    default Question questionPostToQuestion(QuestionPostDto questionPostDto) {
 //
 //
@@ -112,15 +121,15 @@ public interface QuestionMapper {
 //        return question;
 //    }
 
-    default Question questionPatchDtoToQuestion(QuestionPatchDto requestBody) {
-        Question question = new Question();
-
-        question.setQuestionId(requestBody.getQuestionId());
-        question.setQuestionTitle(requestBody.getQuestionTitle());
-        question.setContent(requestBody.getContent());
-
-        return question;
-    }
+//    default Question questionPatchDtoToQuestion(QuestionPatchDto requestBody) {
+//        Question question = new Question();
+//
+//        question.setQuestionId(requestBody.getQuestionId());
+//        question.setQuestionTitle(requestBody.getQuestionTitle());
+//        question.setContent(requestBody.getContent());
+//
+//        return question;
+//    }
 
     default QuestionResponseDto questionToQuestionResponse(MemberMapper memberMapper, Question question) {
         if ( question == null ) {

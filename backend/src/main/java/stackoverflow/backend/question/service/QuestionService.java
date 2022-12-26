@@ -50,12 +50,18 @@ public class QuestionService {
     }
 
     //게시글 수정
-    public Question updateQuestion(Question question) {
-        Question findQuestion = questionRepository.findByQuestionId(question.getQuestionId());
+    public Question updateQuestion(Question question,List<String> tagNames) {
+        Question findQuestion = findVerifyQuestion(question.getQuestionId());
+        findQuestion.getMember();
+
+        List<Tag> tagLists = tagService.createTags(tagNames);
+        questionTagService.deleteAllQuestionTag(findQuestion.getQuestionId());
+        questionTagService.createQuestionTagWithQuestion(tagLists, findQuestion);
 
         Optional.ofNullable(question.getContent())
                 .ifPresent(content -> findQuestion.setContent(content));
-
+        Optional.ofNullable(question.getQuestionTitle())
+                .ifPresent(title -> findQuestion.setQuestionTitle(title));
         return questionRepository.save(findQuestion);
     }
 

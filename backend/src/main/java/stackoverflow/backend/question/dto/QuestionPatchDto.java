@@ -1,8 +1,11 @@
 package stackoverflow.backend.question.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 
 @Getter
@@ -12,9 +15,12 @@ public class QuestionPatchDto {
     private String questionTitle;
     private String content;
 
-    public void setQuestionId(long questionId) {
+    @JsonProperty("tags")
+    List<QuestionPatchTagDto> questionPatchTagDtos;
 
-        this.questionId = questionId;
-    }
+//    public void setQuestionId(long questionId) {
+//
+//        this.questionId = questionId;
+//    }
 }
 
