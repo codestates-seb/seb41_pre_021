@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stackoverflow.backend.auth.jwt.JwtTokenizer;
 import stackoverflow.backend.exception.BusinessLogicException;
 import stackoverflow.backend.exception.ExceptionCode;
 import stackoverflow.backend.member.entity.Member;
@@ -28,18 +29,35 @@ public class QuestionService {
     private final MemberService memberService;
     private final TagService tagService;
     private final QuestionTagService questionTagService;
+    private final JwtTokenizer jwtTokenizer;
 
 
     //게시글 생성
-    public Question createQuestion(String email, Question question, List<String> tagNames) {
-        Member findMember = memberService.findVerifiedMember(email);
-        if (!findMember.getEmail().equals(email)) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
-        }
+//    public Question createQuestion(String email, Question question, List<String> tagNames) {
+//        Member findMember = memberService.findVerifiedMember(email);
+//        if (!findMember.getEmail().equals(email)) {
+//            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+//        }
+//
+//        if (question.getMember().getMemberId() != findMember.getMemberId()) {
+//            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+//        }
+//        question.setMember(findMember);
+//
+//        List<Tag> tagLists = tagService.createTags(tagNames);
+//        Question result = questionRepository.save(question);
+//        questionTagService.createQuestionTagWithQuestion(tagLists, question);
+//
+//        return result;
+//    }
 
-        if (question.getMember().getMemberId() != findMember.getMemberId()) {
+    public Question createQuestion(String token, Question question, List<String> tagNames) {
+        long memberId = jwtTokenizer.getMemberId(token);
+        if(question.getMember().getMemberId() != memberId) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
         }
+        Member findMember = memberService.findVerifiedMember(memberId);
+
         question.setMember(findMember);
 
         List<Tag> tagLists = tagService.createTags(tagNames);
@@ -87,9 +105,13 @@ public class QuestionService {
     }
 
 
-    public void deleteQuestion(Long questionId) {
+    public void deleteQuestion(String token, Long questionId) {
+        long userId = jwtTokenizer.getMemberId(token);
         Question question = findVerifyQuestion(questionId);
+        if(question.getMember().getMemberId() != userId) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
+        questionTagService.deleteAllQuestionTag(question.getQuestionId());
         questionRepository.delete(question);
-
     }
 }
