@@ -3,6 +3,7 @@ package stackoverflow.backend.questioncomment.mapper;
 import org.mapstruct.Mapper;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.question.entity.Question;
+import stackoverflow.backend.questioncomment.dto.QuestionCommentPatchDto;
 import stackoverflow.backend.questioncomment.dto.QuestionCommentPostDto;
 import stackoverflow.backend.questioncomment.entity.QuestionComment;
 
@@ -19,6 +20,16 @@ public interface QuestionCommentMapper {
         questionComment.setQuestion(question);
         questionComment.setContent(questionCommentPostDto.getContent());
 
+        return questionComment;
+    }
+
+    default QuestionComment questionCommentPatchDtoToQuestion(QuestionCommentPatchDto questionCommentPatchDto) {
+        QuestionComment questionComment = new QuestionComment();
+        Member member = new Member();
+        member.setMemberId(questionCommentPatchDto.getMemberId());
+        questionComment.setMember(member);
+        questionComment.setContent(questionCommentPatchDto.getContent());
+        questionComment.setQuestionCommentId(questionCommentPatchDto.getQuestionCommentId());
         return questionComment;
     }
 }

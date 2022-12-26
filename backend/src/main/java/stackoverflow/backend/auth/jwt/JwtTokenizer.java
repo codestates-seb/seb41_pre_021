@@ -107,6 +107,8 @@ public class JwtTokenizer {
     }
 
     public long getMemberId(String token) {
+        Map<String, Object> stringObjectMap = tokenToClaims(token);
+        System.out.println("stringObjectMap = " + stringObjectMap);
         return Long.valueOf(String.valueOf(tokenToClaims(token).get("memberId")));
     }
 }

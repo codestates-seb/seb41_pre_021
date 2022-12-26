@@ -8,9 +8,8 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class QuestionCommentPostDto {
+public class QuestionCommentPatchDto {
 
-    private long questionId;
     private long memberId;
     private long questionCommentId;
 

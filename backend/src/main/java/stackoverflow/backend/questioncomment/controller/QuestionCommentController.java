@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.backend.question.service.QuestionService;
+import stackoverflow.backend.questioncomment.dto.QuestionCommentPatchDto;
 import stackoverflow.backend.questioncomment.dto.QuestionCommentPostDto;
 import stackoverflow.backend.questioncomment.entity.QuestionComment;
 import stackoverflow.backend.questioncomment.mapper.QuestionCommentMapper;
@@ -31,6 +32,19 @@ public class QuestionCommentController {
         questionCommentService.createQuestionComment(questionComment);
 
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{comment-id}")
+    public ResponseEntity patchQuestionComment(@PathVariable("question-id") @Positive long questionId,
+                                               @PathVariable("comment-id") @Positive long commentId,
+                                               @RequestHeader(name = "Authorization") String token,
+                                               @RequestBody @Valid QuestionCommentPatchDto questionCommentPatchDto) {
+
+        questionCommentPatchDto.setQuestionCommentId(commentId);
+        QuestionComment questionComment = mapper.questionCommentPatchDtoToQuestion(questionCommentPatchDto);
+        questionCommentService.updateQuestionComment(questionComment,token);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }
