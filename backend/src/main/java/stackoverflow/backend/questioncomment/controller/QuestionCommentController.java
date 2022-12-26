@@ -58,4 +58,13 @@ public class QuestionCommentController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @DeleteMapping("/{comment-id}")
+    public ResponseEntity deleteQuestionComment(@PathVariable("question-id") @Positive long questionId,
+                                                @PathVariable("comment-id") @Positive long commentId,
+                                                @RequestHeader(name = "Authorization") String token) {
+        questionCommentService.deleteQuestionComment(commentId,token);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
 }

@@ -52,4 +52,14 @@ public class QuestionCommentService {
 
         return optionalQuestionComment.orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_COMMENT_NOT_FOUND));
     }
+
+    public void deleteQuestionComment(long commentId, String token) {
+        QuestionComment findQuestionComment = findVerifiedQuestionComment(commentId);
+        long memberId = jwtTokenizer.getMemberId(token);
+        if(findQuestionComment.getMember().getMemberId() != memberId) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
+
+        questionCommentRepository.delete(findQuestionComment);
+    }
 }
