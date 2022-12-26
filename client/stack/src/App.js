@@ -1,7 +1,9 @@
+import Tags from './pages/Tags';
+
 function App() {
   return (
     <div className="App">
-      main
+      <Tags />
     </div>
   );
 }
