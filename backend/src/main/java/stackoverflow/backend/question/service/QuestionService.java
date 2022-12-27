@@ -34,7 +34,7 @@ public class QuestionService {
     private final TagService tagService;
     private final QuestionTagService questionTagService;
     private final JwtTokenizer jwtTokenizer;
-    private final QuestionCommentRepository questionCommentRepository;
+//    private final QuestionCommentRepository questionCommentRepository;
 
 
     //게시글 생성
@@ -117,8 +117,6 @@ public class QuestionService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
         }
         questionTagService.deleteAllQuestionTag(question.getQuestionId());
-        List<Long> ids = question.getQuestionComments().stream().map(QuestionComment::getQuestionCommentId).collect(Collectors.toList());
-        questionCommentRepository.deleteAllById(ids);
         questionRepository.delete(question);
     }
 
