@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const SignUpForm = () => {
   const [textInput, setTextInput] = useState({
@@ -16,6 +16,7 @@ const SignUpForm = () => {
   };
 
   const handleSubmitClick = () => {
+    validateDisplayName();
     validateEmail();
     validatePassword();
     validateConfirmPassword();
@@ -32,12 +33,25 @@ const SignUpForm = () => {
     /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
   // Validation 상태
+  const [isDiaplayNameValid, setIsDisplayNameValid] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isConFirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
+  const [displayNameNotice, setDisplayNameNotice] = useState('');
   const [emailNotice, setEmailNotice] = useState('');
   const [passwordNotice, setPasswordNotice] = useState('');
   const [confirmPasswordNotice, setConfirmPasswordNotice] = useState('');
+
+  // DiaplsyName 유효성 검사
+  const validateDisplayName = () => {
+    if (displayName.length !== 0) {
+      setIsDisplayNameValid(true);
+      setDisplayNameNotice('');
+    } else {
+      setIsDisplayNameValid(false);
+      setDisplayNameNotice('Please input a Display name');
+    }
+  };
 
   // 이메일 유효성 검사
   const validateEmail = () => {
@@ -92,6 +106,7 @@ const SignUpForm = () => {
             handleInputChange(e);
           }}
         />
+        <SignUpFormNotice>{displayNameNotice}</SignUpFormNotice>
       </SignUpInputWrapper>
       <SignUpInputWrapper>
         <SignUpFormLabel htmlFor="email_input">Email</SignUpFormLabel>
