@@ -8,8 +8,11 @@ public enum ExceptionCode {
     MEMBER_UNAUTHORIZED(401, "unauthorized member"),
 
     QUESTION_NOT_FOUND(404, "Question not found"),
+    QUESTION_COMMENT_NOT_FOUND(404, "Question comment not found"),
+    ANSWER_NOT_FOUND(404, "Answer not found"),
+    ANSWER_COMMENT_NOT_FOUND(404, "Answer comment not found");
 
-    QUESTION_COMMENT_NOT_FOUND(404, "Question comment not found");
+
 
     @Getter
     private int status;
