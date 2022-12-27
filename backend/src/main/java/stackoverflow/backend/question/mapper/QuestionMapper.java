@@ -145,7 +145,7 @@ public interface QuestionMapper {
 
             memberPart.setUsername(question.getMember().getUsername());
             memberPart.setReputation(question.getMember().getReputation());
-
+            questionPart.setQuestionId(question.getQuestionId());
             questionPart.setQuestionTitle(question.getQuestionTitle());
             questionPart.setContent(question.getContent());
             questionPart.setViews(question.getViews());

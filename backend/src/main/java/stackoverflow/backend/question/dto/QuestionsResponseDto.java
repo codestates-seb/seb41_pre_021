@@ -18,6 +18,7 @@ public class QuestionsResponseDto {
     @Getter
     @Setter
     public static class QuestionPart {
+        private long questionId;
         private String questionTitle;
         private String content;
         private int views;
