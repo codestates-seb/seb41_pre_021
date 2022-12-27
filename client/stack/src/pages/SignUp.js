@@ -24,7 +24,7 @@ const SignUp = () => {
           Already have an account? <a href="">Log in</a>
         </p>
         <p>
-          Are you an employer? <a href="">Sign up on Talent</a>{' '}
+          Are you an employer? <a href="">Sign up on Talent</a>
         </p>
       </RightSection>
     </SignUpContainer>

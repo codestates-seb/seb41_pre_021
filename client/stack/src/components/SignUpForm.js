@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SignUpForm = () => {
   const [textInput, setTextInput] = useState({
@@ -15,11 +17,35 @@ const SignUpForm = () => {
     setTextInput({ ...textInput, [e.target.name]: e.target.value });
   };
 
-  const handleSubmitClick = () => {
+  const validateData = () => {
     validateDisplayName();
     validateEmail();
     validatePassword();
     validateConfirmPassword();
+  };
+
+  const navigate = useNavigate();
+  const handleSubmitClick = async () => {
+    validateData();
+    if (
+      isDisplayNameValid &&
+      isEmailValid &&
+      isPasswordValid &&
+      isConFirmPasswordValid
+    ) {
+      try {
+        const response = axios.post('', {
+          displayName,
+          email,
+          password,
+        });
+        alert('Signed Up!');
+        navigate('/');
+        return response;
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
 
   // Validation
@@ -33,7 +59,7 @@ const SignUpForm = () => {
     /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
   // Validation 상태
-  const [isDiaplayNameValid, setIsDisplayNameValid] = useState(false);
+  const [isDisplayNameValid, setIsDisplayNameValid] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isConFirmPasswordValid, setIsConfirmPasswordValid] = useState(false);
