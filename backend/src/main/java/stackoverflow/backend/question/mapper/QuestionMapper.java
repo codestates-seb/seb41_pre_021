@@ -3,11 +3,8 @@ package stackoverflow.backend.question.mapper;
 import org.mapstruct.Mapper;
 import stackoverflow.backend.member.dto.MemberResponseDto;
 import stackoverflow.backend.member.entity.Member;
-import stackoverflow.backend.member.mapper.MemberMapper;
-import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.question.dto.*;
 import stackoverflow.backend.question.entity.Question;
-import stackoverflow.backend.questiontag.entity.QuestionTag;
 import stackoverflow.backend.tag.entity.Tag;
 import stackoverflow.backend.vote.entity.Vote;
 
@@ -19,8 +16,6 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface QuestionMapper {
-//    List<QuestionResponseDto> questionsToQuestionResponses(List<Question> questions);
-//    List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions);
 
     default Question questionPostDtoToQuestion(QuestionPostDto questionPostDto) {
         Question question = new Question();
@@ -48,45 +43,47 @@ public interface QuestionMapper {
                 .collect(Collectors.toList());
     }
 
-    default QuestionDetailDto questionToQuestionDetailDto(Question question) {
-        QuestionDetailDto.MemberPart memberPart = new QuestionDetailDto.MemberPart();
-        QuestionDetailDto.QuestionPart questionPart = new QuestionDetailDto.QuestionPart();
+//    default QuestionDetailDto questionToQuestionDetailDto(Question question) {
+//        QuestionDetailDto.MemberPart memberPart = new QuestionDetailDto.MemberPart();
+//        QuestionDetailDto.QuestionPart questionPart = new QuestionDetailDto.QuestionPart();
+//
+//        Member member = question.getMember();
+//        memberPart.setMemberId(member.getMemberId());
+//        memberPart.setReputation(member.getReputation());
+//        memberPart.setUsername(member.getUsername());
+//
+//        questionPart.setQuestionTitle(question.getQuestionTitle());
+//        questionPart.setContent(question.getContent());
+//        questionPart.setViews(question.getViews());
+//        List<String> tags = question.getQuestionTags().stream()
+//                .map(questionTag -> questionTag.getTag().getTagName())
+//                .collect(Collectors.toList());
+//
+//        questionPart.setTags(tags);
+//        questionPart.setAsked(question.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//        questionPart.setModified(question.getModifiedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//
+//        List<QuestionDetailDto.QuestionCommentDto> collect = question.getQuestionComments().stream()
+//                .map(questionComment -> {
+//                    QuestionDetailDto.QuestionCommentDto questionCommentDto = new QuestionDetailDto.QuestionCommentDto();
+//                    questionCommentDto.setMemberId(questionComment.getMember().getMemberId());
+//                    questionCommentDto.setContent(questionComment.getContent());
+//                    questionCommentDto.setCreatedAt(questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
+//                            questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("hh:mm")) );
+//                    return questionCommentDto;
+//                }).collect(Collectors.toList());
+//        questionPart.setQuestionComments(collect);
+//        questionPart.setQuestionVoteCnt(
+//                question.getVotes().stream()
+//                .map(vote -> vote.getVoteStatus().getNum())
+//                .mapToInt(Integer::intValue)
+//                .sum()
+//        );
+//
+//        return new QuestionDetailDto(questionPart,memberPart);
+//    }
 
-        Member member = question.getMember();
-        memberPart.setMemberId(member.getMemberId());
-        memberPart.setReputation(member.getReputation());
-        memberPart.setUsername(member.getUsername());
 
-        questionPart.setQuestionTitle(question.getQuestionTitle());
-        questionPart.setContent(question.getContent());
-        questionPart.setViews(question.getViews());
-        List<String> tags = question.getQuestionTags().stream()
-                .map(questionTag -> questionTag.getTag().getTagName())
-                .collect(Collectors.toList());
-
-        questionPart.setTags(tags);
-        questionPart.setAsked(question.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        questionPart.setModified(question.getModifiedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
-        List<QuestionDetailDto.QuestionCommentDto> collect = question.getQuestionComments().stream()
-                .map(questionComment -> {
-                    QuestionDetailDto.QuestionCommentDto questionCommentDto = new QuestionDetailDto.QuestionCommentDto();
-                    questionCommentDto.setMemberId(questionComment.getMember().getMemberId());
-                    questionCommentDto.setContent(questionComment.getContent());
-                    questionCommentDto.setCreatedAt(questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
-                            questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("hh:mm")) );
-                    return questionCommentDto;
-                }).collect(Collectors.toList());
-        questionPart.setQuestionComments(collect);
-        questionPart.setQuestionVoteCnt(
-                question.getVotes().stream()
-                .map(vote -> vote.getVoteStatus().getNum())
-                .mapToInt(Integer::intValue)
-                .sum()
-        );
-
-        return new QuestionDetailDto(questionPart,memberPart);
-    }
 
     default QuestionDetailDto questionToQuestionDetailDto(Question question,Long viewerId) {
         QuestionDetailDto.MemberPart memberPart = new QuestionDetailDto.MemberPart();
@@ -114,7 +111,8 @@ public interface QuestionMapper {
                     questionCommentDto.setMemberId(questionComment.getMember().getMemberId());
                     questionCommentDto.setContent(questionComment.getContent());
                     questionCommentDto.setCreatedAt(questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
-                            questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("hh:mm")) );
+                            questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("HH:mm")) );
+                    questionCommentDto.setUsername(questionComment.getMember().getUsername());
                     return questionCommentDto;
                 }).collect(Collectors.toList());
         questionPart.setQuestionComments(collect);
@@ -134,7 +132,47 @@ public interface QuestionMapper {
                         .sum()
         );
 
-        return new QuestionDetailDto(questionPart,memberPart);
+        List<QuestionDetailDto.AnswerPart> answerParts = question.getAnswers().stream()
+                .map(answer -> {
+                    QuestionDetailDto.AnswerPart answerPart = new QuestionDetailDto.AnswerPart();
+                    answerPart.setAnswerId(answer.getAnswerId());
+                    answerPart.setContent(answer.getContent());
+                    answerPart.setCreatedAt(answer.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
+                            answer.getCreatedAt().format(DateTimeFormatter.ofPattern("HH:mm")));
+                    answerPart.setModifiedAt(answer.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
+                            answer.getCreatedAt().format(DateTimeFormatter.ofPattern("HH:mm")));
+                    answerPart.setUsername(answer.getMember().getUsername());
+                    answerPart.setReputation(answer.getMember().getReputation());
+                    answerPart.setMemberId(answer.getMember().getMemberId());
+
+                    answerPart.setAnswerVoteCnt(answer.getVotes().stream()
+                            .map(vote -> vote.getVoteStatus().getNum())
+                            .mapToInt(Integer::intValue)
+                            .sum());
+
+                    if (viewerId != null) {
+                        for (Vote vote : answer.getVotes()) {
+                            if (vote.getMember().getMemberId() == viewerId) {
+                                answerPart.setViewerVoteStatus(vote.getVoteStatus());
+                            }
+                        }
+                    }
+
+                    List<QuestionDetailDto.AnswerCommentDto> answerCommentDtos = answer.getAnswerComments().stream()
+                            .map(answerComment -> {
+                                QuestionDetailDto.AnswerCommentDto answerCommentDto = new QuestionDetailDto.AnswerCommentDto();
+                                answerCommentDto.setMemberId(answerComment.getMember().getMemberId());
+                                answerCommentDto.setContent(answerComment.getContent());
+                                answerCommentDto.setCreatedAt(answerComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
+                                        answerComment.getCreatedAt().format(DateTimeFormatter.ofPattern("HH:mm")));
+                                answerCommentDto.setUsername(answerComment.getMember().getUsername());
+                                return answerCommentDto;
+                            }).collect(Collectors.toList());
+                    answerPart.setAnswerComments(answerCommentDtos);
+                    return answerPart;
+                }).collect(Collectors.toList());
+
+        return new QuestionDetailDto(questionPart,memberPart,answerParts);
     }
 
     default List<QuestionsResponseDto> questionsToQuestionsResponseDto(List<Question> questions) {
@@ -168,7 +206,7 @@ public interface QuestionMapper {
 
             questionPart.setTags(tags);
             questionPart.setAsked(question.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
+            questionPart.setAnswerCnt(question.getAnswers().size());
             return new QuestionsResponseDto(questionPart, memberPart);
         }).collect(Collectors.toList());
     }
@@ -204,24 +242,24 @@ public interface QuestionMapper {
 //        return question;
 //    }
 
-    default QuestionResponseDto questionToQuestionResponse(MemberMapper memberMapper, Question question) {
-        if ( question == null ) {
-            return null;
-        }
-
-        QuestionResponseDto questionResponseDto = new QuestionResponseDto();
-
-        questionResponseDto.setQuestionId( question.getQuestionId() );
-        questionResponseDto.setQuestionTitle( question.getQuestionTitle() );
-        questionResponseDto.setContent( question.getContent() );
-        questionResponseDto.setViews(question.getViews());
-
-        Member member = question.getMember();
-        questionResponseDto.setMember(memberMapper.memberToMemberResponseDto(member));
-
-
-        return questionResponseDto;
-    }
+//    default QuestionResponseDto questionToQuestionResponse(MemberMapper memberMapper, Question question) {
+//        if ( question == null ) {
+//            return null;
+//        }
+//
+//        QuestionResponseDto questionResponseDto = new QuestionResponseDto();
+//
+//        questionResponseDto.setQuestionId( question.getQuestionId() );
+//        questionResponseDto.setQuestionTitle( question.getQuestionTitle() );
+//        questionResponseDto.setContent( question.getContent() );
+//        questionResponseDto.setViews(question.getViews());
+//
+//        Member member = question.getMember();
+//        questionResponseDto.setMember(memberMapper.memberToMemberResponseDto(member));
+//
+//
+//        return questionResponseDto;
+//    }
 
     default MemberResponseDto memberToMemberResponseDto(Member member){
         if ( member == null ) {
@@ -239,19 +277,19 @@ public interface QuestionMapper {
         return memberResponseDto;
     }
 
-    default QuestionResponseDto questionToQuestionResponseDto(Question question) {
-        if ( question == null ) {
-            return null;
-        }
-
-        QuestionResponseDto questionResponseDto = new QuestionResponseDto();
-
-        questionResponseDto.setMember( memberToMemberResponseDto  ( question.getMember() ) );
-        questionResponseDto.setQuestionId( question.getQuestionId() );
-        questionResponseDto.setQuestionTitle( question.getQuestionTitle() );
-        questionResponseDto.setContent( question.getContent() );
-        questionResponseDto.setViews(question.getViews());
-
-        return questionResponseDto;
-    }
+//    default QuestionResponseDto questionToQuestionResponseDto(Question question) {
+//        if ( question == null ) {
+//            return null;
+//        }
+//
+//        QuestionResponseDto questionResponseDto = new QuestionResponseDto();
+//
+//        questionResponseDto.setMember( memberToMemberResponseDto  ( question.getMember() ) );
+//        questionResponseDto.setQuestionId( question.getQuestionId() );
+//        questionResponseDto.setQuestionTitle( question.getQuestionTitle() );
+//        questionResponseDto.setContent( question.getContent() );
+//        questionResponseDto.setViews(question.getViews());
+//
+//        return questionResponseDto;
+//    }
 }

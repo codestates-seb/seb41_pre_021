@@ -24,7 +24,7 @@ public class QuestionsResponseDto {
         private int views;
         private List<QuestionsTagPart> tags;
         private int questionVoteCnt;
-        //answerCnt
+        private int answerCnt;
         private String asked;
         private boolean isAdopted;
     }

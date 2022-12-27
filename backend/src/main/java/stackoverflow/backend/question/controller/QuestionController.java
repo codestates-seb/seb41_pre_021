@@ -63,7 +63,7 @@ public class QuestionController {
 
         Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto), tagNames);
 
-        return new ResponseEntity<>(new SingleResponseDto<>(mapper.questionToQuestionDetailDto(question)), HttpStatus.OK);
+        return new ResponseEntity<>(/*new SingleResponseDto<>(mapper.questionToQuestionDetailDto(question)),*/ HttpStatus.OK);
     }
 
 
