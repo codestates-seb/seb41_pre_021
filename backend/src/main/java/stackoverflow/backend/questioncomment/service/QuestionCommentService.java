@@ -13,6 +13,7 @@ import stackoverflow.backend.question.service.QuestionService;
 import stackoverflow.backend.questioncomment.entity.QuestionComment;
 import stackoverflow.backend.questioncomment.repository.QuestionCommentRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,7 +26,13 @@ public class QuestionCommentService {
     private final MemberService memberService;
     private final JwtTokenizer jwtTokenizer;
 
-    public QuestionComment createQuestionComment(QuestionComment questionComment) {
+    public QuestionComment createQuestionComment(QuestionComment questionComment,String token) {
+        long memberId = jwtTokenizer.getMemberId(token);
+
+        if(memberId != questionComment.getMember().getMemberId()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
+
         Question question = questionService.findVerifyQuestion(questionComment.getQuestion().getQuestionId());
         Member member = memberService.findVerifiedMember(questionComment.getMember().getMemberId());
 

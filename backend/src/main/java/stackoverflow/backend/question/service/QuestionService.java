@@ -13,12 +13,16 @@ import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.question.repository.QuestionRepository;
+import stackoverflow.backend.questioncomment.entity.QuestionComment;
+import stackoverflow.backend.questioncomment.repository.QuestionCommentRepository;
+import stackoverflow.backend.questioncomment.service.QuestionCommentService;
 import stackoverflow.backend.questiontag.service.QuestionTagService;
 import stackoverflow.backend.tag.entity.Tag;
 import stackoverflow.backend.tag.service.TagService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,6 +34,7 @@ public class QuestionService {
     private final TagService tagService;
     private final QuestionTagService questionTagService;
     private final JwtTokenizer jwtTokenizer;
+    private final QuestionCommentRepository questionCommentRepository;
 
 
     //게시글 생성
@@ -112,6 +117,8 @@ public class QuestionService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
         }
         questionTagService.deleteAllQuestionTag(question.getQuestionId());
+        List<Long> ids = question.getQuestionComments().stream().map(QuestionComment::getQuestionCommentId).collect(Collectors.toList());
+        questionCommentRepository.deleteAllById(ids);
         questionRepository.delete(question);
     }
 

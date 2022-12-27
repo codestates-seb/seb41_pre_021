@@ -27,10 +27,11 @@ public class QuestionCommentController {
 
     @PostMapping
     public ResponseEntity postQuestionComment(@PathVariable("question-id") @Positive long questionId,
-                                              @RequestBody @Valid QuestionCommentPostDto questionCommentPostDto) {
+                                              @RequestBody @Valid QuestionCommentPostDto questionCommentPostDto,
+                                              @RequestHeader("Authorization") String token) {
         questionCommentPostDto.setQuestionId(questionId);
         QuestionComment questionComment = mapper.questionCommentPostDtoToQuestion(questionCommentPostDto);
-        questionCommentService.createQuestionComment(questionComment);
+        questionCommentService.createQuestionComment(questionComment,token);
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
