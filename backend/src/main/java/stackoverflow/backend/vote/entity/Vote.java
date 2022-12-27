@@ -1,5 +1,6 @@
 package stackoverflow.backend.vote.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,5 +38,21 @@ public class Vote {
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
 
-    private int amount;
+    @Enumerated(value = EnumType.STRING)
+    private VoteStatus voteStatus = VoteStatus.NONE;
+
+//    private int amount;
+
+    public enum VoteStatus {
+        UP(1),
+        NONE(0),
+        DOWN(-1);
+
+        @Getter
+        private int num;
+
+        VoteStatus(int voteCnt) {
+            this.num = voteCnt;
+        }
+    }
 }
