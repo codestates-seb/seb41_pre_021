@@ -32,8 +32,7 @@ public class Member extends BaseEntity {
     private String username;
 
     private int reputation;
-    //private localDateTime createdAt
-    //private localDateTime modifiedAt
+
     @OneToMany(mappedBy = "member")
     private List<Question> questions = new ArrayList<>();
 

@@ -8,6 +8,7 @@ import lombok.Getter;
 public class MembersResponseDto {
 
     private long memberId;
+
     private String username;
     private int reputation;
 }

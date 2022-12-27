@@ -1,6 +1,9 @@
 package stackoverflow.backend.member.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -15,10 +18,6 @@ public class MemberResponseDto {
 
     private String email;
 
-    private String password;
-
     private int reputation;
-
-
-    }
+}
 

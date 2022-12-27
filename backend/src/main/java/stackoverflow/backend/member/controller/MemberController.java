@@ -41,11 +41,13 @@ public class MemberController {
     }
 
     @PatchMapping("/{member-id}")
-    public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId, @Valid @RequestBody MemberPatchDto memberPatchDto) {
+    public ResponseEntity patchMember(@PathVariable("member-id") @Positive long memberId,
+                                      @Valid @RequestBody MemberPatchDto memberPatchDto,
+                                      @RequestHeader(value = "Authorization") String token) {
 
         memberPatchDto.setMemberId(memberId);
 
-        Member member = memberService.updateMember(mapper.memberPatchDtoToMember(memberPatchDto));
+        Member member = memberService.updateMember(mapper.memberPatchDtoToMember(memberPatchDto),token);
         MemberResponseDto memberResponseDto = mapper.memberToMemberResponseDto(member);
 
         return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
