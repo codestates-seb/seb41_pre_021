@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import stackoverflow.backend.auth.jwt.JwtTokenizer;
 import stackoverflow.backend.question.dto.QuestionPatchDto;
 import stackoverflow.backend.question.dto.QuestionPostDto;
 import stackoverflow.backend.question.entity.Question;
@@ -13,6 +14,7 @@ import stackoverflow.backend.question.mapper.QuestionMapper;
 import stackoverflow.backend.question.service.QuestionService;
 import stackoverflow.backend.response.MultipleResponseDto;
 import stackoverflow.backend.response.SingleResponseDto;
+import stackoverflow.backend.vote.entity.Vote;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -28,6 +30,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final QuestionMapper mapper;
+    private final JwtTokenizer jwtTokenizer;
     // 질문 등록
 //    @PostMapping
 //    public ResponseEntity postQuestion(Principal principal, @Valid @RequestBody QuestionPostDto questionPostDto) {
@@ -66,11 +69,12 @@ public class QuestionController {
 
     // 질문 조회
     @GetMapping("/{question-id}")
-    public ResponseEntity getQuestion(@PathVariable("question-id") @Positive Long questionId) {
-
+    public ResponseEntity getQuestion(@PathVariable("question-id") @Positive Long questionId,
+                                      @RequestHeader(value = "Authorization",required = false) String token) {
+        Long viewerId = token != null ? jwtTokenizer.getMemberId(token) : null;
         Question question = questionService.findGetQuestion(questionId);
 
-        return new ResponseEntity<>(mapper.questionToQuestionDetailDto(question), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.questionToQuestionDetailDto(question,viewerId), HttpStatus.OK);
     }
 
 

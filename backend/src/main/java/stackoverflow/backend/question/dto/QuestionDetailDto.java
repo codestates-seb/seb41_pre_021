@@ -3,6 +3,9 @@ package stackoverflow.backend.question.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import stackoverflow.backend.questioncomment.dto.QuestionCommentResponseDto;
+import stackoverflow.backend.questioncomment.entity.QuestionComment;
+import stackoverflow.backend.vote.entity.Vote;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +26,11 @@ public class QuestionDetailDto {
         private String content;
         private int views;
         private List<String> tags;
-        //보트 private int questionVoteCnt;
+        private int questionVoteCnt;
         private String asked;
         private String modified;
+        private Vote.VoteStatus viewerVoteStatus = Vote.VoteStatus.NONE;
+        private List<QuestionCommentDto> questionComments;
     }
 
     @Getter
@@ -38,4 +43,12 @@ public class QuestionDetailDto {
     }
 
     //static class AnswerPart
+
+    @Getter
+    @Setter
+    public static class QuestionCommentDto {
+        private long memberId;
+        private String content;
+        private String createdAt;
+    }
 }
