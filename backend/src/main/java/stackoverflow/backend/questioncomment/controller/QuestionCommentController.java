@@ -54,9 +54,10 @@ public class QuestionCommentController {
 
         questionCommentPatchDto.setQuestionCommentId(commentId);
         QuestionComment questionComment = mapper.questionCommentPatchDtoToQuestion(questionCommentPatchDto);
-        questionCommentService.updateQuestionComment(questionComment,token);
+        QuestionComment result = questionCommentService.updateQuestionComment(questionComment, token);
 
-        return new ResponseEntity(HttpStatus.OK);
+
+        return new ResponseEntity(mapper.questionToQuestionCommentResponseDto(result),HttpStatus.OK);
     }
 
     @DeleteMapping("/{comment-id}")
