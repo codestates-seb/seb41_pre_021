@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 public class AnswerCommentPostDto {
     private long answerId;
     private long memberId;
-    private long answerCommentId;
 
     @NotBlank(message = "질문을 작성하세요.")
     @Size(min = 20, message = "최소 20자이상 작성하십시오")

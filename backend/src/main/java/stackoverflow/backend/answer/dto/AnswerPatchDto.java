@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 public class AnswerPatchDto {
     private long answerId;
-    private String content;
     private long memberId;
+    private String content;
 
     public void setAnswerId(long answerId) {
         this.answerId = answerId;

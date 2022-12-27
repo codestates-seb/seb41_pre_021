@@ -7,13 +7,13 @@ import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.question.entity.Question;
 
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class AnswersResponseDto {
-
-    private Question question;
-    private Member member;
-    private String content;
-    private boolean accepted;
-}
+//@Getter
+//@Setter
+//@AllArgsConstructor
+//public class AnswersResponseDto {
+//
+//    private Question question;
+//    private Member member;
+//    private String content;
+//    private boolean accepted;
+//}

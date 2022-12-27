@@ -25,11 +25,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AnswerService {
     private final AnswerRepository answerRepository;
-   // private final QuestionService questionService;
     private final MemberService memberService;
-    private final QuestionRepository questionRepository;
- //   private final MemberRepository memberRepository;
     private final JwtTokenizer jwtTokenizer;
+    private final QuestionService questionService;
 
 
     public Answer createAnswer(String token, Answer answer) {
@@ -37,21 +35,24 @@ public class AnswerService {
         if(answer.getMember().getMemberId() != memberId) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
         }
-        Question question = questionRepository.findByQuestionId(answer.getQuestion().getQuestionId());
-
+        Question question = questionService.findVerifyQuestion(answer.getQuestion().getQuestionId());
         Member findMember = memberService.findVerifiedMember(memberId);
         answer.setMember(findMember);
         answer.setQuestion(question);
 
-        Answer result = answerRepository.save(answer);
-        return result;
+        return answerRepository.save(answer);
     }
 
-    public Answer updateAnswer(Answer answer) {
+    public Answer updateAnswer(String token, Answer answer) {
+        long memberId = jwtTokenizer.getMemberId(token);
+
+        if(answer.getMember().getMemberId() != memberId) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
 
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
-        Optional.ofNullable(answer.getContent()).ifPresent(findAnswer::setContent);
-
+//        Optional.ofNullable(answer.getContent()).ifPresent(findAnswer::setContent);
+        findAnswer.setContent(answer.getContent());
         return findAnswer;
     }
 
@@ -66,14 +67,13 @@ public class AnswerService {
         answerRepository.delete(answer);
     }
 
-    public List<Answer> findAnswers(Long questionId) {
-        Question question = questionRepository.findByQuestionId(questionId);
-        return answerRepository.findAllByQuestion(question);
-    }
+//    public List<Answer> findAnswers(Long questionId) {
+//        Question question = questionRepository.findByQuestionId(questionId);
+//        return answerRepository.findAllByQuestion(question);
+//    }
     public Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
-        Answer findAnswer = optionalAnswer.orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        Answer findAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
 
         return findAnswer;
     }

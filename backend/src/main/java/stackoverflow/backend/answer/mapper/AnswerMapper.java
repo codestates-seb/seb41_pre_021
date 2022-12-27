@@ -1,6 +1,7 @@
 package stackoverflow.backend.answer.mapper;
 
 import org.mapstruct.Mapper;
+import stackoverflow.backend.answer.dto.AnswerDetailDto;
 import stackoverflow.backend.answer.dto.AnswerPatchDto;
 import stackoverflow.backend.answer.dto.AnswerPostDto;
 import stackoverflow.backend.answer.dto.AnswerResponseDto;
@@ -27,20 +28,30 @@ public interface AnswerMapper {
         answer.setMember(member);
         answer.setQuestion(question);
 
-
         return answer;
     }
 
-    default AnswerResponseDto answerToAnswerResponseDto(Answer answer) {
-        AnswerResponseDto response = new AnswerResponseDto();
+//    default AnswerResponseDto answerToAnswerResponseDto(Answer answer) {
+//        AnswerResponseDto response = new AnswerResponseDto();
+//
+//        response.setAnswerId(answer.getAnswerId());
+//        response.setContent(answer.getContent());
+//        response.setCreatedAt(answer.getCreatedAt());
+//        response.setUsername(answer.getMember().getUsername());
+//        response.setQuestionId(answer.getQuestion().getQuestionId());
+//        return response;
+//    }
+    default AnswerDetailDto answerToAnswerDetailDto(Answer answer) {
+        AnswerDetailDto answerDetailDto = new AnswerDetailDto();
 
-        response.setAnswerId(answer.getAnswerId());
-        response.setContent(answer.getContent());
-        response.setCreatedAt(answer.getCreatedAt());
-        response.setUsername(answer.getMember().getUsername());
-        response.setQuestionId(answer.getQuestion().getQuestionId());
+        answerDetailDto.setAnswerId(answer.getAnswerId());
+        answerDetailDto.setMemberId(answer.getMember().getMemberId());
+        answerDetailDto.setUsername(answer.getMember().getUsername());
+        answerDetailDto.setContent(answer.getContent());
+        answerDetailDto.setModified(answer.getModifiedAt());
+        answerDetailDto.setAccepted(answer.isAccepted());
 
-        return response;
+        return answerDetailDto;
     }
 
     default Answer answerPatchDtoToAnswer(AnswerPatchDto requestBody) {
@@ -51,6 +62,7 @@ public interface AnswerMapper {
         member.setMemberId(requestBody.getMemberId());
         answer.setAnswerId(requestBody.getAnswerId());
         answer.setContent(requestBody.getContent());
+        answer.setMember(member);
 
         return answer;
     }

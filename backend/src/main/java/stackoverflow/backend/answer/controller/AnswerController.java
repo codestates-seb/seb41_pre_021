@@ -1,6 +1,5 @@
 package stackoverflow.backend.answer.controller;
 
-import antlr.Token;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,11 +9,9 @@ import stackoverflow.backend.answer.dto.AnswerPostDto;
 import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.answer.mapper.AnswerMapper;
 import stackoverflow.backend.answer.service.AnswerService;
-import stackoverflow.backend.response.SingleResponseDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 
 @RestController
@@ -31,7 +28,7 @@ public class AnswerController {
 
     //답변 생성
     @PostMapping
-    public ResponseEntity postAnswer(@RequestHeader(name = "Authorization") String token, @Valid @RequestBody AnswerPostDto answerPostDto) {
+    public ResponseEntity postAnswer(@RequestHeader(name = "Authorization", required = false) String token, @Valid @RequestBody AnswerPostDto answerPostDto) {
 
         Answer answer = mapper.answerPostDtoToAnswer(answerPostDto);
 
@@ -40,23 +37,25 @@ public class AnswerController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
     //답변 조회
-    @GetMapping("/{question-id}")
-    public ResponseEntity getAnswers(@PathVariable("question-id") Long questionId){
-        List<Answer> answers = answerService.findAnswers(questionId);
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.answersToAnswersResponseDto(answers)), HttpStatus.OK);
-    }
+//    @GetMapping("/{question-id}")
+//    public ResponseEntity getAnswers(@PathVariable("question-id") Long questionId){
+//        List<Answer> answers = answerService.findAnswers(questionId);
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(mapper.answersToAnswersResponseDto(answers)), HttpStatus.OK);
+//    }
 
     //답변 수정
     @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
-                                      @Valid @RequestBody AnswerPatchDto answerPatchDto) {
+                                      @Valid @RequestBody AnswerPatchDto answerPatchDto,
+                                      @RequestHeader(name = "Authorization", required = false) String token) {
         answerPatchDto.setAnswerId(answerId);
-        Answer answer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto));
+        Answer answer = answerService.updateAnswer(token, mapper.answerPatchDtoToAnswer(answerPatchDto));
 
-        return new ResponseEntity<>(mapper.answerToAnswerResponseDto(answer), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.answerToAnswerDetailDto(answer), HttpStatus.OK);
     }
+
     //답변 삭제
     @DeleteMapping("/{answer-id}")
     public ResponseEntity deleteAnswer(@RequestHeader(name = "Authorization") String token, @PathVariable("answer-id") @Positive Long answerId) {
