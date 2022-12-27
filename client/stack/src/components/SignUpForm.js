@@ -152,6 +152,22 @@ const SignUpForm = () => {
         <SignUpFormButton type="button" onClick={handleSubmitClick}>
           Sign Up
         </SignUpFormButton>
+        <SignUpFormParagraph>
+          <p>
+            By clicking “Sign up”, you agree to our{' '}
+            <a href="https://stackoverflow.com/legal/terms-of-service/public">
+              terms of service
+            </a>
+            ,{' '}
+            <a href="https://stackoverflow.com/legal/privacy-policy">
+              privacy policy{' '}
+            </a>
+            and{' '}
+            <a href="https://stackoverflow.com/legal/cookie-policy">
+              cookie policy
+            </a>
+          </p>
+        </SignUpFormParagraph>
       </SignUpButtonWrapper>
     </SignUpFormContainer>
   );
@@ -160,18 +176,67 @@ const SignUpForm = () => {
 const SignUpFormContainer = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: white;
+  width: 324px;
+  margin-bottom: 24px;
+  padding: 24px;
+  box-shadow: var(--bs-sm);
+  border-radius: 5px;
+  box-sizing: border-box;
 `;
 
-const SignUpInputWrapper = styled.div``;
+const SignUpInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 6px 0;
+`;
 
-const SignUpFormLabel = styled.label``;
+const SignUpFormLabel = styled.label`
+  font-size: 15px;
+  font-weight: 600;
+  padding: 0 2px;
+  margin: 2px 0;
+`;
 
-const SignUpFormInput = styled.input``;
+const SignUpFormInput = styled.input`
+  width: 268px;
+  height: 32px;
+  margin: 2px 0;
+  font-size: 13px;
+  line-height: 17px;
+`;
 
-const SignUpFormNotice = styled.p``;
+const SignUpFormNotice = styled.p`
+  font-size: 12px;
+  color: var(--red);
+  margin: 2px 0;
+`;
 
-const SignUpButtonWrapper = styled.div``;
+const SignUpButtonWrapper = styled.div`
+  width: 100%;
+`;
 
-const SignUpFormButton = styled.button``;
+const SignUpFormButton = styled.button`
+  width: 100%;
+  height: 42px;
+  background-color: var(--blue-500);
+  color: white;
+  font-size: 13px;
+  border-radius: 3px;
+  border: solid 1px var(--blue-600);
+`;
+
+const SignUpFormParagraph = styled.div`
+  margin-top: 32px;
+  p {
+    font-size: 13px;
+    line-height: 17px;
+    color: rgb(106, 115, 124);
+  }
+  a {
+    text-decoration-color: rgb(0, 116, 204);
+    text-decoration-line: none;
+  }
+`;
 
 export default SignUpForm;
