@@ -48,11 +48,14 @@ public class AnswerService {
     }
 
     public Answer updateAnswer(Answer answer) {
+
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
         Optional.ofNullable(answer.getContent()).ifPresent(findAnswer::setContent);
 
-        return answerRepository.save(answer);
+        return findAnswer;
     }
+
+
     public void deleteAnswer(String token, long answerId) {
         long memberId = jwtTokenizer.getMemberId(token);
         Answer answer = findVerifiedAnswer(answerId);

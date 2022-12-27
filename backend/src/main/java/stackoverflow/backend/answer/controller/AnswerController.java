@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/answer")
+@RequestMapping("/answers")
 @Validated
 public class AnswerController {
     private final AnswerService answerService;
