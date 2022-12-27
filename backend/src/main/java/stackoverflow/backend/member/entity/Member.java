@@ -7,6 +7,7 @@ import lombok.Setter;
 import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.question.entity.Question;
+import stackoverflow.backend.vote.entity.Vote;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,6 +39,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Vote> votes = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();

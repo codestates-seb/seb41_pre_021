@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.member.entity.Member;
+import stackoverflow.backend.questioncomment.entity.QuestionComment;
 import stackoverflow.backend.questiontag.entity.QuestionTag;
 import stackoverflow.backend.vote.entity.Vote;
 
@@ -44,11 +45,14 @@ public class Question extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-//    @OneToMany(mappedBy = "question")
-//    private List<Vote> votes = new ArrayList<>();
-//
+    @OneToMany(mappedBy = "question")
+    private List<Vote> votes = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "question")
 //    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "question")
+    private List<QuestionComment> questionComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "question")
     private List<QuestionTag> questionTags = new ArrayList<>();

@@ -9,6 +9,7 @@ import stackoverflow.backend.question.dto.*;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.questiontag.entity.QuestionTag;
 import stackoverflow.backend.tag.entity.Tag;
+import stackoverflow.backend.vote.entity.Vote;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -67,6 +68,72 @@ public interface QuestionMapper {
         questionPart.setAsked(question.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         questionPart.setModified(question.getModifiedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
+        List<QuestionDetailDto.QuestionCommentDto> collect = question.getQuestionComments().stream()
+                .map(questionComment -> {
+                    QuestionDetailDto.QuestionCommentDto questionCommentDto = new QuestionDetailDto.QuestionCommentDto();
+                    questionCommentDto.setMemberId(questionComment.getMember().getMemberId());
+                    questionCommentDto.setContent(questionComment.getContent());
+                    questionCommentDto.setCreatedAt(questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
+                            questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("hh:mm")) );
+                    return questionCommentDto;
+                }).collect(Collectors.toList());
+        questionPart.setQuestionComments(collect);
+        questionPart.setQuestionVoteCnt(
+                question.getVotes().stream()
+                .map(vote -> vote.getVoteStatus().getNum())
+                .mapToInt(Integer::intValue)
+                .sum()
+        );
+
+        return new QuestionDetailDto(questionPart,memberPart);
+    }
+
+    default QuestionDetailDto questionToQuestionDetailDto(Question question,Long viewerId) {
+        QuestionDetailDto.MemberPart memberPart = new QuestionDetailDto.MemberPart();
+        QuestionDetailDto.QuestionPart questionPart = new QuestionDetailDto.QuestionPart();
+
+        Member member = question.getMember();
+        memberPart.setMemberId(member.getMemberId());
+        memberPart.setReputation(member.getReputation());
+        memberPart.setUsername(member.getUsername());
+
+        questionPart.setQuestionTitle(question.getQuestionTitle());
+        questionPart.setContent(question.getContent());
+        questionPart.setViews(question.getViews());
+        List<String> tags = question.getQuestionTags().stream()
+                .map(questionTag -> questionTag.getTag().getTagName())
+                .collect(Collectors.toList());
+
+        questionPart.setTags(tags);
+        questionPart.setAsked(question.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        questionPart.setModified(question.getModifiedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        List<QuestionDetailDto.QuestionCommentDto> collect = question.getQuestionComments().stream()
+                .map(questionComment -> {
+                    QuestionDetailDto.QuestionCommentDto questionCommentDto = new QuestionDetailDto.QuestionCommentDto();
+                    questionCommentDto.setMemberId(questionComment.getMember().getMemberId());
+                    questionCommentDto.setContent(questionComment.getContent());
+                    questionCommentDto.setCreatedAt(questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
+                            questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("hh:mm")) );
+                    return questionCommentDto;
+                }).collect(Collectors.toList());
+        questionPart.setQuestionComments(collect);
+
+        if(viewerId != null){
+            for (Vote vote : question.getVotes()) {
+                if(vote.getMember().getMemberId() == viewerId) {
+                    questionPart.setViewerVoteStatus(vote.getVoteStatus());
+                }
+            }
+        }
+
+        questionPart.setQuestionVoteCnt(
+                question.getVotes().stream()
+                        .map(vote -> vote.getVoteStatus().getNum())
+                        .mapToInt(Integer::intValue)
+                        .sum()
+        );
+
         return new QuestionDetailDto(questionPart,memberPart);
     }
 
@@ -83,6 +150,12 @@ public interface QuestionMapper {
             questionPart.setContent(question.getContent());
             questionPart.setViews(question.getViews());
             questionPart.setAdopted(question.isAdopted());
+            questionPart.setQuestionVoteCnt(
+                    question.getVotes().stream()
+                            .map(vote -> vote.getVoteStatus().getNum())
+                            .mapToInt(Integer::intValue)
+                            .sum()
+            );
             List<QuestionsResponseDto.QuestionsTagPart> tags = question.getQuestionTags().stream()
                     .map(questionTag -> {
                         QuestionsResponseDto.QuestionsTagPart questionsTagPart = new QuestionsResponseDto.QuestionsTagPart();

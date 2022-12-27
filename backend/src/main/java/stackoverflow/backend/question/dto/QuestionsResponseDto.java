@@ -22,7 +22,7 @@ public class QuestionsResponseDto {
         private String content;
         private int views;
         private List<QuestionsTagPart> tags;
-        //voteCnt
+        private int questionVoteCnt;
         //answerCnt
         private String asked;
         private boolean isAdopted;
