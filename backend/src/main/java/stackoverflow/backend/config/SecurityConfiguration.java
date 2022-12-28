@@ -49,14 +49,18 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                                .antMatchers(HttpMethod.POST,"/members/signup").permitAll()
-                                .antMatchers(HttpMethod.PATCH,"/members/*").hasRole("USER")
-                                .antMatchers("/members/*").permitAll()
-                                .antMatchers(HttpMethod.POST,"/questions").hasRole("USER")
-                                .antMatchers(HttpMethod.DELETE,"/questions/*").hasRole("USER")
+                                .antMatchers(HttpMethod.PATCH,"/members/**").hasRole("USER")
+                                .antMatchers("/members/**").permitAll()
+                                .antMatchers(HttpMethod.POST,"/questions/votes/**").hasRole("USER")
+                                .antMatchers(HttpMethod.POST,"/answers/votes/**").hasRole("USER")
+                                .antMatchers(HttpMethod.POST,"/questions/").hasRole("USER")
+                                .antMatchers(HttpMethod.PATCH,"/questions/**").hasRole("USER")
+                                .antMatchers(HttpMethod.DELETE,"/questions/**").hasRole("USER")
+                                .antMatchers("/questions/**").permitAll()
+                                .antMatchers("/question-comments/**").hasRole("USER")
+                                .antMatchers("/answers/**").hasRole("USER")
+                                .antMatchers("/answer-comments/**").hasRole("USER")
                                 .anyRequest().permitAll()
-//                                .antMatchers(HttpMethod.GET,"/members/*").hasRole("USER")
-//                                .anyRequest().permitAll()
                 );
         return http.build();
     }

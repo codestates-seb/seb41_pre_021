@@ -61,6 +61,7 @@ public class QuestionDetailDto {
     @Setter
     public static class QuestionCommentDto {
         private long memberId;
+        private long questionCommentId;
         private String username;
         private String content;
         private String createdAt;
@@ -70,6 +71,7 @@ public class QuestionDetailDto {
     @Setter
     public static class AnswerCommentDto {
         private long memberId;
+        private long answerCommentId;
         private String username;
         private String content;
         private String createdAt;
