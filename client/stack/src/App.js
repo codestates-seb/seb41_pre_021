@@ -1,11 +1,12 @@
-import Tags from './pages/Tags';
+import { BrowserRouter } from 'react-router-dom';
+import Router from './Router';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Tags />
-    </div>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
