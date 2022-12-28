@@ -113,6 +113,7 @@ public interface QuestionMapper {
                     questionCommentDto.setCreatedAt(questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
                             questionComment.getCreatedAt().format(DateTimeFormatter.ofPattern("HH:mm")) );
                     questionCommentDto.setUsername(questionComment.getMember().getUsername());
+                    questionCommentDto.setQuestionCommentId(questionComment.getQuestionCommentId());
                     return questionCommentDto;
                 }).collect(Collectors.toList());
         questionPart.setQuestionComments(collect);
@@ -169,6 +170,7 @@ public interface QuestionMapper {
                                 answerCommentDto.setCreatedAt(answerComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
                                         answerComment.getCreatedAt().format(DateTimeFormatter.ofPattern("HH:mm")));
                                 answerCommentDto.setUsername(answerComment.getMember().getUsername());
+                                answerCommentDto.setAnswerCommentId(answerComment.getAnswerCommentId());
                                 return answerCommentDto;
                             }).collect(Collectors.toList());
                     answerPart.setAnswerComments(answerCommentDtos);
