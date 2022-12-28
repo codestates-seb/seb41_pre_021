@@ -34,8 +34,8 @@ const SignUpForm = () => {
       isConFirmPasswordValid
     ) {
       try {
-        const response = axios.post('', {
-          displayName,
+        const response = axios.post('https://hyeon-dong.site/members/signup', {
+          username: displayName,
           email,
           password,
         });
