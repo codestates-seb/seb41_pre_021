@@ -1,15 +1,20 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+@import url('https://fonts.cdnfonts.com/css/menlo?styles=15444');        
+
+html{
+  font-size: 13px;
+}
+* {
   margin: 0;
   padding: 0;
   border: 0;
   font: inherit;
   font-size: 100%;
   vertical-align: baseline;
+  box-sizing: border-box;
 }
 :root {
   font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  box-sizing: border-box;
   --white: hsl(0,0%,100%);
   --black: hsl(210,8%,5%);
   --orange: hsl(27,90%,55%);
@@ -136,8 +141,21 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   --highlight-variable: hsl(80,80.5%,26.5%);
   --highlight-addition: var(--green-700);
   --highlight-deletion: var(--red-600);
+  --s-full: 97.2307692rem;
+}
+button,.button_h{
+  border-radius: 3px;
+  cursor: pointer;  
+}
+a{
+  cursor: pointer; 
+  text-decoration: none;
 }
 
+ul{
+  list-style:none;
+  padding-left:0px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
