@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stackoverflow.backend.auth.jwt.JwtTokenizer;
 import stackoverflow.backend.auth.utils.CustomAuthorityUtils;
 import stackoverflow.backend.exception.BusinessLogicException;
 import stackoverflow.backend.exception.ExceptionCode;
@@ -25,6 +26,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
+    private final JwtTokenizer jwtTokenizer;
 
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
@@ -42,9 +44,15 @@ public class MemberService {
         return findVerifiedMember(memberId);
     }
 
-    public Member updateMember(Member member) {
+    public Member updateMember(Member member,String token) {
+        if(member.getMemberId() != jwtTokenizer.getMemberId(token)) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
+
         Member findMember = findVerifiedMember(member.getMemberId());
-        return memberRepository.save(findMember);
+        Optional.ofNullable(member.getUsername()).ifPresent(username -> findMember.setUsername(username));
+        Optional.ofNullable(member.getPassword()).ifPresent(password -> findMember.setPassword(passwordEncoder.encode(member.getPassword())));
+        return findMember;
     }
 
     private void verifyExistsEmail(String email) {
@@ -77,5 +85,7 @@ public class MemberService {
         Member member = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return member;
     }
+
+
 }
 

@@ -17,7 +17,7 @@ public class QuestionDetailDto {
 
     private QuestionPart questionPart;
     private MemberPart memberPart;
-    //private AnswerPart answerPart;
+    private List<AnswerPart> answerPart;
 
     @Getter
     @Setter
@@ -42,12 +42,35 @@ public class QuestionDetailDto {
         private int reputation;
     }
 
-    //static class AnswerPart
+    @Getter
+    @Setter
+    public static class AnswerPart {
+        private String content;
+        private long answerId;
+        private int answerVoteCnt;
+        private long memberId;
+        private String username;
+        private int reputation;
+        private Vote.VoteStatus viewerVoteStatus = Vote.VoteStatus.NONE;
+        private String createdAt;
+        private String modifiedAt;
+        private List<AnswerCommentDto> answerComments;
+    }
 
     @Getter
     @Setter
     public static class QuestionCommentDto {
         private long memberId;
+        private String username;
+        private String content;
+        private String createdAt;
+    }
+
+    @Getter
+    @Setter
+    public static class AnswerCommentDto {
+        private long memberId;
+        private String username;
         private String content;
         private String createdAt;
     }

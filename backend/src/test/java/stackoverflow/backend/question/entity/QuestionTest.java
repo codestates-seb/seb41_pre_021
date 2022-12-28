@@ -26,7 +26,7 @@ class QuestionTest {
         memberRepository.save(member);
 
         Question question = new Question("title", "content", 0);
-        question.addMember(member);
+//        question.addMember(member);
         questionRepository.save(question);
     }
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import stackoverflow.backend.answercomment.entity.AnswerComment;
 import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.question.entity.Question;
@@ -36,6 +37,10 @@ public class Answer extends BaseEntity {
     private String content;
     private boolean accepted;
 
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<Vote> votes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
+    private List<AnswerComment> answerComments = new ArrayList<>();
+
 }
