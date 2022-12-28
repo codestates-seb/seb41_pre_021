@@ -262,6 +262,9 @@ export const Dialog = styled.div`
       &:visited {
         color: var(--blue-600);
       }
+      &:hover {
+        color: var(--blue-500);
+      }
     }
   }
   span {
