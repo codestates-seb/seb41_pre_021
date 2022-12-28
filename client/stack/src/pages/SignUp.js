@@ -21,10 +21,10 @@ const SignUp = () => {
       <RightSection>
         <SignUpForm />
         <p>
-          Already have an account? <a href="">Log in</a>
+          Already have an account? <a href="/login">Log in</a>
         </p>
         <p>
-          Are you an employer? <a href="">Sign up on Talent</a>
+          Are you an employer? <a href="/login">Sign up on Talent</a>
         </p>
       </RightSection>
     </SignUpContainer>
