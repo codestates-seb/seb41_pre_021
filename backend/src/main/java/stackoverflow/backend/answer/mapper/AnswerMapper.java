@@ -14,7 +14,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
-    List<AnswerResponseDto> answersToAnswersResponseDto(List<Answer> answers);
+//    List<AnswerResponseDto> answersToAnswersResponseDto(List<Answer> answers);
 
     default Answer answerPostDtoToAnswer(AnswerPostDto requestBody) {
         Answer answer = new Answer();
@@ -31,16 +31,14 @@ public interface AnswerMapper {
         return answer;
     }
 
-//    default AnswerResponseDto answerToAnswerResponseDto(Answer answer) {
-//        AnswerResponseDto response = new AnswerResponseDto();
-//
-//        response.setAnswerId(answer.getAnswerId());
-//        response.setContent(answer.getContent());
-//        response.setCreatedAt(answer.getCreatedAt());
-//        response.setUsername(answer.getMember().getUsername());
-//        response.setQuestionId(answer.getQuestion().getQuestionId());
-//        return response;
-//    }
+    default AnswerResponseDto answerToAnswerResponseDto(Answer answer) {
+        AnswerResponseDto response = new AnswerResponseDto();
+
+        response.setAnswerId(answer.getAnswerId());
+        response.setContent(answer.getContent());
+        response.setMemberId(answer.getMember().getMemberId());
+        return response;
+    }
     default AnswerDetailDto answerToAnswerDetailDto(Answer answer) {
         AnswerDetailDto answerDetailDto = new AnswerDetailDto();
 

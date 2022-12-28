@@ -37,13 +37,13 @@ public class AnswerController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
     //답변 조회
-//    @GetMapping("/{question-id}")
-//    public ResponseEntity getAnswers(@PathVariable("question-id") Long questionId){
-//        List<Answer> answers = answerService.findAnswers(questionId);
-//
-//        return new ResponseEntity<>(
-//                new SingleResponseDto<>(mapper.answersToAnswersResponseDto(answers)), HttpStatus.OK);
-//    }
+    @GetMapping("/{answer-id}")
+    public ResponseEntity getAnswers(@PathVariable("answer-id") Long answerId){
+        Answer answer = answerService.findVerifiedAnswer(answerId);
+
+
+        return new ResponseEntity<>(mapper.answerToAnswerResponseDto(answer), HttpStatus.OK);
+    }
 
     //답변 수정
     @PatchMapping("/{answer-id}")

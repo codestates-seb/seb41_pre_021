@@ -39,7 +39,8 @@ public interface AnswerCommentMapper {
         answerCommentResponseDto.setAnswerId(answerComment.getAnswer().getAnswerId());
         answerCommentResponseDto.setMemberId(answerComment.getMember().getMemberId());
         answerCommentResponseDto.setContent(answerComment.getContent());
-
+        answerCommentResponseDto.setUsername(answerComment.getMember().getUsername());
+        answerCommentResponseDto.setAnswerCommentId(answerComment.getAnswerCommentId());
         return answerCommentResponseDto;
     }
 }

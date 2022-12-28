@@ -74,6 +74,7 @@ public class QuestionService {
 
     //게시글 수정
     public Question updateQuestion(Question question,List<String> tagNames) {
+
         Question findQuestion = findVerifyQuestion(question.getQuestionId());
         findQuestion.getMember();
 

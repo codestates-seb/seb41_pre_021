@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.backend.auth.jwt.JwtTokenizer;
+import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.question.dto.QuestionPatchDto;
 import stackoverflow.backend.question.dto.QuestionPostDto;
 import stackoverflow.backend.question.entity.Question;
@@ -31,17 +34,6 @@ public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;
     private final JwtTokenizer jwtTokenizer;
-    // 질문 등록
-//    @PostMapping
-//    public ResponseEntity postQuestion(Principal principal, @Valid @RequestBody QuestionPostDto questionPostDto) {
-//
-//        Question question = mapper.questionPostDtoToQuestion(questionPostDto);
-//        List<String> tagNames = mapper.questionPostDtoToTags(questionPostDto);
-//
-//        questionService.createQuestion(principal.getName(), question, tagNames);
-//
-//        return new ResponseEntity(HttpStatus.CREATED);
-//    }
 
     @PostMapping
     public ResponseEntity postQuestion(@RequestHeader(name = "Authorization") String token, @Valid @RequestBody QuestionPostDto questionPostDto) {
@@ -55,7 +47,7 @@ public class QuestionController {
     }
 
     // 질문 수정
-    @PatchMapping("/{question-id}/edit")
+    @PatchMapping("/{question-id}")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);

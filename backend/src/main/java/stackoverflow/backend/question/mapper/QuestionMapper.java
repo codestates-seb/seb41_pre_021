@@ -84,16 +84,16 @@ public interface QuestionMapper {
 //    }
 
 
-
-    default QuestionDetailDto questionToQuestionDetailDto(Question question,Long viewerId) {
-        QuestionDetailDto.MemberPart memberPart = new QuestionDetailDto.MemberPart();
-        QuestionDetailDto.QuestionPart questionPart = new QuestionDetailDto.QuestionPart();
-
+    default QuestionDetailDto.MemberPart setMemberPart(Question question, QuestionDetailDto.MemberPart memberPart)  {
         Member member = question.getMember();
         memberPart.setMemberId(member.getMemberId());
         memberPart.setReputation(member.getReputation());
         memberPart.setUsername(member.getUsername());
 
+        return memberPart;
+    }
+
+    default QuestionDetailDto.QuestionPart setQuestionPart(Question question, QuestionDetailDto.QuestionPart questionPart, Long viewerId) {
         questionPart.setQuestionTitle(question.getQuestionTitle());
         questionPart.setContent(question.getContent());
         questionPart.setViews(question.getViews());
@@ -131,8 +131,11 @@ public interface QuestionMapper {
                         .mapToInt(Integer::intValue)
                         .sum()
         );
+        return questionPart;
+    }
 
-        List<QuestionDetailDto.AnswerPart> answerParts = question.getAnswers().stream()
+    default List<QuestionDetailDto.AnswerPart> setListAnswerPart(Question question, Long viewerId) {
+        return question.getAnswers().stream()
                 .map(answer -> {
                     QuestionDetailDto.AnswerPart answerPart = new QuestionDetailDto.AnswerPart();
                     answerPart.setAnswerId(answer.getAnswerId());
@@ -171,6 +174,15 @@ public interface QuestionMapper {
                     answerPart.setAnswerComments(answerCommentDtos);
                     return answerPart;
                 }).collect(Collectors.toList());
+    }
+
+    default QuestionDetailDto questionToQuestionDetailDto(Question question,Long viewerId) {
+        QuestionDetailDto.MemberPart memberPart = new QuestionDetailDto.MemberPart();
+        QuestionDetailDto.QuestionPart questionPart = new QuestionDetailDto.QuestionPart();
+
+        memberPart = setMemberPart(question,memberPart);
+        questionPart = setQuestionPart(question,questionPart,viewerId);
+        List<QuestionDetailDto.AnswerPart> answerParts = setListAnswerPart(question,viewerId);
 
         return new QuestionDetailDto(questionPart,memberPart,answerParts);
     }
@@ -271,7 +283,6 @@ public interface QuestionMapper {
         memberResponseDto.setMemberId( member.getMemberId() );
         memberResponseDto.setEmail( member.getEmail() );
         memberResponseDto.setUsername( member.getUsername() );
-        memberResponseDto.setPassword( member.getPassword() );
         memberResponseDto.setReputation( member.getReputation() );
 
         return memberResponseDto;

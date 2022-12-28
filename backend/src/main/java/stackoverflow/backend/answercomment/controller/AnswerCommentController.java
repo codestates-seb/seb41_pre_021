@@ -15,7 +15,7 @@ import stackoverflow.backend.answercomment.service.AnswerCommentService;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
-@RequestMapping("/answers/{answer-id}/answer-comments")
+@RequestMapping("/answer-comments")
 @RestController
 @RequiredArgsConstructor
 @Validated
@@ -25,16 +25,16 @@ public class AnswerCommentController {
     private final AnswerCommentMapper mapper;
 
     @PostMapping
-    public ResponseEntity postAnswerComment(@PathVariable("answer-id") @Positive long answerId,
+    public ResponseEntity postAnswerComment(/*@PathVariable("answer-id") @Positive long answerId,*/
                                               @RequestBody @Valid AnswerCommentPostDto answerCommentPostDto) {
-        answerCommentPostDto.setAnswerId(answerId);
+//        answerCommentPostDto.setAnswerId(answerId);
         AnswerComment answerComment = mapper.answerCommentPostDtoToAnswer(answerCommentPostDto);
         answerCommentService.createAnswerComment(answerComment);
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
     @GetMapping("/{comment-id}")
-    public ResponseEntity findAnswerComment(@PathVariable("answer-id") @Positive long answerId,
+    public ResponseEntity findAnswerComment(/*@PathVariable("answer-id") @Positive long answerId,*/
                                               @PathVariable("comment-id") @Positive long commentId) {
         AnswerComment findComment = answerCommentService.findVerifiedAnswerComment(commentId);
 
@@ -44,7 +44,7 @@ public class AnswerCommentController {
     }
 
     @PatchMapping("/{comment-id}")
-    public ResponseEntity patchanswerComment(@PathVariable("answer-id") @Positive long answerId,
+    public ResponseEntity patchAnswerComment(/*@PathVariable("answer-id") @Positive long answerId,*/
                                                @PathVariable("comment-id") @Positive long commentId,
                                                @RequestHeader(name = "Authorization") String token,
                                                @RequestBody @Valid AnswerCommentPatchDto answerCommentPatchDto) {
@@ -57,7 +57,7 @@ public class AnswerCommentController {
     }
 
     @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteAnswerComment(@PathVariable("answer-id") @Positive long answerId,
+    public ResponseEntity deleteAnswerComment(/*@PathVariable("answer-id") @Positive long answerId,*/
                                                 @PathVariable("comment-id") @Positive long commentId,
                                                 @RequestHeader(name = "Authorization") String token) {
         answerCommentService.deleteAnswerComment(commentId,token);

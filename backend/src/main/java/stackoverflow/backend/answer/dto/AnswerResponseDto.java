@@ -11,16 +11,17 @@ import java.time.LocalDateTime;
 public class AnswerResponseDto {
     private long answerId;
     private long memberId;
-    private MemberResponseDto member;
-    private String content;
-    private long questionId;
-    private boolean accepted;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
-    private String username;
+//    private MemberResponseDto member;
+//    private String username;
 
-    public void setMember(MemberResponseDto memberToMemberResponseDto) {
-        this.username = memberToMemberResponseDto.getUsername();
-        this.memberId = memberToMemberResponseDto.getMemberId();
-    }
+    private String content;
+//    private long questionId;
+//    private boolean accepted;
+//    private LocalDateTime createdAt;
+//    private LocalDateTime modifiedAt;
+//
+//    public void setMember(MemberResponseDto memberToMemberResponseDto) {
+//        this.username = memberToMemberResponseDto.getUsername();
+//        this.memberId = memberToMemberResponseDto.getMemberId();
+//    }
 }
