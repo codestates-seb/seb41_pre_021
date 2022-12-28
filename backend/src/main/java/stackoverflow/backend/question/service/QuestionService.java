@@ -121,4 +121,9 @@ public class QuestionService {
         questionRepository.delete(question);
     }
 
+    public List<Question> findHomeQuestions() {
+        List<Question> questions = questionRepository.findTop50ByOrderByQuestionIdDesc();
+        return questions;
+    }
+
 }
