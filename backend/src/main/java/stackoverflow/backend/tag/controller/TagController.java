@@ -33,4 +33,11 @@ public class TagController {
         List<TagDto> tags = pagedTags.getContent();
         return new ResponseEntity(new MultipleResponseDto<>(tags,pagedTags), HttpStatus.OK);
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity getFilteredTags(@RequestParam("name") String name) {
+        List<TagDto> withFilter = tagService.findWithFilter("%" + name + "%");
+
+        return new ResponseEntity(withFilter, HttpStatus.OK);
+    }
 }
