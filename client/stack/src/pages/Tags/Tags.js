@@ -1,15 +1,17 @@
 import styled from 'styled-components';
-import { Nav } from '../components/Nav.';
+import { Nav } from '../../components/Nav.';
 import { MdOutlineSearch } from 'react-icons/md';
-import { useState } from 'react';
-import { Tag } from './Tags/Tag';
+import { useState, useEffect } from 'react';
+import { Tag } from './Tag';
+import axios from 'axios';
 
-const baseUrl = 'https://localhost:8080/tags';
+const baseUrl = 'https://hyeon-dong.site/tags';
 
 const Tags = () => {
   const [currentTab, setCurrentTab] = useState(0);
   const [click, setClick] = useState(false);
   const [tags, setTags] = useState([]);
+  const [tagfilter, setFilter] = useState('');
 
   const selectMenuHandler = (index) => {
     console.log(index);
@@ -17,25 +19,41 @@ const Tags = () => {
     setClick(true);
   };
 
-  // const TagsFilterClick = async () => {
-  //   try {
-  //     const response = axios.get(baseUrl + '/' + filterUrl[currentTab]);
-  //     return response;
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+  useEffect(() => {
+    getTags();
+  }, []);
 
-  const getTags = () => {
-    return fetch(baseUrl + '?tab=' + filterUrl[currentTab])
-      .then((res) => res.json())
-      .then((data) => {
-        setTags(data);
-      });
-  };
-
+  function getTags() {
+    if (tagfilter.length === 0) {
+      axios
+        .get(baseUrl + '?tab=' + filterUrl[currentTab])
+        .then((res) => {
+          console.log('res.data', res.data);
+          setTags(res.data.tags);
+        })
+        .catch((err) => console.error(err));
+    }
+    if (tagfilter.length > 0) {
+      axios
+        .get(baseUrl + '/filter?name=' + tagfilter)
+        .then((res) => {
+          console.log('filter res.data', res.data);
+          setTags(res.data);
+        })
+        .catch((err) => console.error(err));
+    }
+  }
+  console.log('tags', tags);
+  console.log('tags.typeof', typeof tags.data);
   const filterUrl = ['popular', 'name', 'new'];
   const filter = ['Popular', 'Name', 'New'];
+
+  const searchTags = () => {
+    const text = document.getElementById('text').value;
+    setFilter(text);
+    console.log('tagfilter', tagfilter);
+    getTags();
+  };
 
   return (
     <Container>
@@ -52,7 +70,16 @@ const Tags = () => {
         <FilterTagdiv>
           <TagSearchdiv>
             <MdOutlineSearch size="25" className="searchIcon" />
-            <input placeholder="Filter by tag name"></input>
+            <input
+              type="text"
+              id="text"
+              placeholder="Filter by tag name"
+              onKeyUp={(e) => {
+                if (e.key === 'Enter') {
+                  searchTags(e);
+                }
+              }}
+            ></input>
           </TagSearchdiv>
           <TagFilterdiv>
             {filter.map((el, idx) => {
@@ -79,7 +106,7 @@ const Tags = () => {
         <TaglistContainer>
           <TagBox>
             {tags.map((tag, idx) => {
-              return <Tag tag={tag} key={idx} />;
+              return <Tag tag={tag} key={idx} getTags={getTags} />;
             })}
           </TagBox>
         </TaglistContainer>

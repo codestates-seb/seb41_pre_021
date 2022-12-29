@@ -1,16 +1,14 @@
 import styled from 'styled-components';
 
 export const Tag = ({ tag }) => {
-  const { tagName, description, count } = tag;
-
   return (
     <Tagslistdiv>
       <Tagdiv>
-        <a href="/java">{tagName}</a>
+        <a href="/java">{tag.tagName}</a>
       </Tagdiv>
-      <Taginfodiv>{description}</Taginfodiv>
+      <Taginfodiv>{tag.description}</Taginfodiv>
       <TagBottomdiv>
-        <TagQuestiondiv>{count} questions</TagQuestiondiv>
+        <TagQuestiondiv>{tag.count} questions</TagQuestiondiv>
         <div></div>
       </TagBottomdiv>
     </Tagslistdiv>

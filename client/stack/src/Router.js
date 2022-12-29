@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Questions from './pages/Questions';
-import Tags from './pages/Tags';
+import Tags from './pages/Tags/Tags';
 import Users from './pages/Users';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
