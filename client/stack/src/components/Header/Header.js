@@ -6,7 +6,6 @@ import { Logo, LogInButton, SignUpButton } from './style';
 const HOME_URL = '#';
 const Wrapper = styled.header`
   height: 100%;
-  position: fixed;
   display: flex;
   align-items: center;
   margin: 0 auto;
