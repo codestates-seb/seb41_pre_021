@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FaGlobeAmericas } from 'react-icons/fa';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Bar = styled.nav`
   width: 164px;
@@ -21,6 +22,11 @@ const Bar = styled.nav`
 
   .hide {
     border-bottom: none;
+  }
+
+  .menulink {
+    text-decoration: none;
+    color: var(--black-600);
   }
 `;
 
@@ -79,6 +85,7 @@ const Menu = styled.li`
 `;
 
 const menu = ['Questions', 'Tags', 'Users'];
+const urlmenu = ['questions', 'tags', 'users'];
 
 function Span({ space = 5 }) {
   return <span style={{ paddingRight: space }}></span>;
@@ -97,31 +104,35 @@ export const Nav = () => {
 
   return (
     <Bar>
-      <Home
-        key={5}
-        className={`${currentMenu === 5 ? 'focused' : ''} 
+      <Link className="menulink" to={`/`}>
+        <Home
+          key={5}
+          className={`${currentMenu === 5 ? 'focused' : ''} 
         ${click ? '' : 'hide'} `}
-        onClick={() => selectHandler(5)}
-      >
-        Home
-      </Home>
+          onClick={() => selectHandler(5)}
+        >
+          Home
+        </Home>
+      </Link>
       <Public>
         <ul>PUBLIC</ul>
         {menu.map((el, idx) => {
           return (
-            <Menu
-              key={idx}
-              className={`${currentMenu === idx ? 'focused' : ''} 
+            <Link className="menulink" key={idx} to={`/` + `${urlmenu[idx]}`}>
+              <Menu
+                key={idx}
+                className={`${currentMenu === idx ? 'focused' : ''} 
                 ${click ? '' : 'hide'} `}
-              onClick={() => selectHandler(idx)}
-            >
-              <FaGlobeAmericas
-                className={`${idx === 0 ? 'globe' : 'none'}`}
-                size="17"
-              />
-              <Span />
-              {el}
-            </Menu>
+                onClick={() => selectHandler(idx)}
+              >
+                <FaGlobeAmericas
+                  className={`${idx === 0 ? 'globe' : 'none'}`}
+                  size="17"
+                />
+                <Span />
+                {el}
+              </Menu>
+            </Link>
           );
         })}
       </Public>
