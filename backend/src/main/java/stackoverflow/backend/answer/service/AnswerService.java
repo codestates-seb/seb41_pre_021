@@ -37,6 +37,7 @@ public class AnswerService {
         }
         Question question = questionService.findVerifyQuestion(answer.getQuestion().getQuestionId());
         Member findMember = memberService.findVerifiedMember(memberId);
+        findMember.setReputation(findMember.getReputation() + 1);
         answer.setMember(findMember);
         answer.setQuestion(question);
 
