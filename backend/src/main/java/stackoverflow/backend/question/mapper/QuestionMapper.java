@@ -94,6 +94,7 @@ public interface QuestionMapper {
     }
 
     default QuestionDetailDto.QuestionPart setQuestionPart(Question question, QuestionDetailDto.QuestionPart questionPart, Long viewerId) {
+        questionPart.setQuestionId(question.getQuestionId());
         questionPart.setQuestionTitle(question.getQuestionTitle());
         questionPart.setContent(question.getContent());
         questionPart.setViews(question.getViews());
@@ -104,7 +105,7 @@ public interface QuestionMapper {
         questionPart.setTags(tags);
         questionPart.setAsked(question.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         questionPart.setModified(question.getModifiedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
+        questionPart.setAdopt(question.isAdopted());
         List<QuestionDetailDto.QuestionCommentDto> collect = question.getQuestionComments().stream()
                 .map(questionComment -> {
                     QuestionDetailDto.QuestionCommentDto questionCommentDto = new QuestionDetailDto.QuestionCommentDto();
@@ -148,7 +149,7 @@ public interface QuestionMapper {
                     answerPart.setUsername(answer.getMember().getUsername());
                     answerPart.setReputation(answer.getMember().getReputation());
                     answerPart.setMemberId(answer.getMember().getMemberId());
-
+                    answerPart.setAccepted(answer.isAccepted());
                     answerPart.setAnswerVoteCnt(answer.getVotes().stream()
                             .map(vote -> vote.getVoteStatus().getNum())
                             .mapToInt(Integer::intValue)

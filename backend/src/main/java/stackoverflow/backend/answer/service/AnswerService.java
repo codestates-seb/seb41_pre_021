@@ -37,6 +37,7 @@ public class AnswerService {
         }
         Question question = questionService.findVerifyQuestion(answer.getQuestion().getQuestionId());
         Member findMember = memberService.findVerifiedMember(memberId);
+        findMember.setReputation(findMember.getReputation() + 1);
         answer.setMember(findMember);
         answer.setQuestion(question);
 
@@ -75,6 +76,32 @@ public class AnswerService {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         Answer findAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
 
+        return findAnswer;
+    }
+
+    public Answer adoptAnswer(long answerId, long memberId,String token) {
+        long tokenMemberId = jwtTokenizer.getMemberId(token);
+        if(tokenMemberId != memberId) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
+        Answer findAnswer = findVerifiedAnswer(answerId);
+
+        Question question = findAnswer.getQuestion();
+
+        if(question.getMember().getMemberId() != memberId) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
+
+        List<Answer> answers = question.getAnswers();
+        for (Answer answer : answers) {
+            if(answer.isAccepted()) {
+                throw new BusinessLogicException(ExceptionCode.ANSWER_ALREADY_ADOPTED);
+            }
+        }
+
+        findAnswer.setAccepted(true);
+        question.setAdopted(true);
+        findAnswer.setQuestion(question);
         return findAnswer;
     }
 

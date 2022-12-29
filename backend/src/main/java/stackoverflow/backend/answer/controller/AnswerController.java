@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import stackoverflow.backend.answer.dto.AnswerAdoptDto;
 import stackoverflow.backend.answer.dto.AnswerPatchDto;
 import stackoverflow.backend.answer.dto.AnswerPostDto;
 import stackoverflow.backend.answer.entity.Answer;
@@ -62,5 +63,14 @@ public class AnswerController {
         answerService.deleteAnswer(token, answerId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/adoption")
+    public ResponseEntity adoptAnswer(@RequestBody AnswerAdoptDto answerAdoptDto,
+                                      @RequestHeader("Authorization") String token) {
+        answerService.adoptAnswer(answerAdoptDto.getAnswerId(),answerAdoptDto.getMemberId(),token);
+
+        return new ResponseEntity(HttpStatus.OK);
+
     }
 }

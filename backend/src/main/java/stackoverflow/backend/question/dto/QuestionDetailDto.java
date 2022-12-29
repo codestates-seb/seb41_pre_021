@@ -23,12 +23,14 @@ public class QuestionDetailDto {
     @Setter
     public static class QuestionPart {
         private String questionTitle;
+        private String modified;
+        private long questionId;
+        private boolean isAdopt;
         private String content;
         private int views;
         private List<String> tags;
         private int questionVoteCnt;
         private String asked;
-        private String modified;
         private Vote.VoteStatus viewerVoteStatus = Vote.VoteStatus.NONE;
         private List<QuestionCommentDto> questionComments;
     }
@@ -47,6 +49,7 @@ public class QuestionDetailDto {
     public static class AnswerPart {
         private String content;
         private long answerId;
+        private boolean isAccepted;
         private int answerVoteCnt;
         private long memberId;
         private String username;
