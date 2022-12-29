@@ -2,65 +2,150 @@ import styled from 'styled-components';
 import { Nav } from '../components/Nav.';
 import { MdOutlineSearch } from 'react-icons/md';
 import { useState } from 'react';
+import { Tag } from './Tags/Tag';
 
-const Tagslist = [
-  {
-    tag: 'javascript',
-    info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-    questions: 2460651,
-    today: 306,
-    week: 3533,
-  },
-  {
-    tag: 'python',
-    info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-    questions: 2460651,
-    today: 306,
-    week: 3533,
-  },
-  {
-    tag: 'java',
-    info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-    questions: 2460651,
-    today: 306,
-    week: 3533,
-  },
-  {
-    tag: 'c#',
-    info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-    questions: 2460651,
-    today: 306,
-    week: 3533,
-  },
-  {
-    tag: 'javascript',
-    info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-    questions: 2460651,
-    today: 306,
-    week: 3533,
-  },
-  {
-    tag: 'python',
-    info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-    questions: 2460651,
-    today: 306,
-    week: 3533,
-  },
-  {
-    tag: 'java',
-    info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-    questions: 2460651,
-    today: 306,
-    week: 3533,
-  },
-  {
-    tag: 'c#',
-    info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-    questions: 2460651,
-    today: 306,
-    week: 3533,
-  },
-];
+const baseUrl = 'https://localhost:8080/tags';
+
+const Tags = () => {
+  const [currentTab, setCurrentTab] = useState(0);
+  const [click, setClick] = useState(false);
+  const [tags, setTags] = useState([]);
+
+  const selectMenuHandler = (index) => {
+    console.log(index);
+    setCurrentTab(index);
+    setClick(true);
+  };
+
+  // const TagsFilterClick = async () => {
+  //   try {
+  //     const response = axios.get(baseUrl + '/' + filterUrl[currentTab]);
+  //     return response;
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  const getTags = () => {
+    return fetch(baseUrl + '?tab=' + filterUrl[currentTab])
+      .then((res) => res.json())
+      .then((data) => {
+        setTags(data);
+      });
+  };
+
+  const filterUrl = ['popular', 'name', 'new'];
+  const filter = ['Popular', 'Name', 'New'];
+
+  return (
+    <Container>
+      <Nav />
+      <Content>
+        <h1> Tags </h1>
+        <p>
+          A tag is a keyword or label that categorizes your question with other,
+          similar questions. Using
+          <br />
+          the right tags makes it easier for others to find and answer your
+          question.
+        </p>
+        <FilterTagdiv>
+          <TagSearchdiv>
+            <MdOutlineSearch size="25" className="searchIcon" />
+            <input placeholder="Filter by tag name"></input>
+          </TagSearchdiv>
+          <TagFilterdiv>
+            {filter.map((el, idx) => {
+              return (
+                <FilterTab
+                  key={idx}
+                  className={`${currentTab === idx ? 'focused' : ''} 
+                    ${click ? '' : 'hide'} ${idx !== 2 ? '' : 'bord'}
+                    ${idx === 0 ? 'radius-left' : ''} 
+                    ${idx === 2 ? 'radius-right' : ''}
+                    `}
+                  onClick={() => {
+                    selectMenuHandler(idx);
+                    getTags();
+                  }}
+                  id={idx}
+                >
+                  {el}
+                </FilterTab>
+              );
+            })}
+          </TagFilterdiv>
+        </FilterTagdiv>
+        <TaglistContainer>
+          <TagBox>
+            {tags.map((tag, idx) => {
+              return <Tag tag={tag} key={idx} />;
+            })}
+          </TagBox>
+        </TaglistContainer>
+      </Content>
+    </Container>
+  );
+};
+
+// const Tagslist = [
+//   {
+//     tag: 'javascript',
+//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
+//     questions: 2460651,
+//     today: 306,
+//     week: 3533,
+//   },
+//   {
+//     tag: 'python',
+//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
+//     questions: 2460651,
+//     today: 306,
+//     week: 3533,
+//   },
+//   {
+//     tag: 'java',
+//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
+//     questions: 2460651,
+//     today: 306,
+//     week: 3533,
+//   },
+//   {
+//     tag: 'c#',
+//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
+//     questions: 2460651,
+//     today: 306,
+//     week: 3533,
+//   },
+//   {
+//     tag: 'javascript',
+//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
+//     questions: 2460651,
+//     today: 306,
+//     week: 3533,
+//   },
+//   {
+//     tag: 'python',
+//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
+//     questions: 2460651,
+//     today: 306,
+//     week: 3533,
+//   },
+//   {
+//     tag: 'java',
+//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
+//     questions: 2460651,
+//     today: 306,
+//     week: 3533,
+//   },
+//   {
+//     tag: 'c#',
+//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
+//     questions: 2460651,
+//     today: 306,
+//     week: 3533,
+//   },
+// ];
 
 const Container = styled.div`
   display: flex;
@@ -148,114 +233,41 @@ const TagBox = styled.div`
   grid-gap: 12px;
 `;
 
-const Tagslistdiv = styled.div`
-  border: 1px solid var(--bc-medium);
-  border-radius: 3px;
-  padding: 12px;
-`;
+// const Tagslistdiv = styled.div`
+//   border: 1px solid var(--bc-medium);
+//   border-radius: 3px;
+//   padding: 12px;
+// `;
 
-const Tagdiv = styled.div`
-  margin: 0 0 12px;
+// const Tagdiv = styled.div`
+//   margin: 0 0 12px;
 
-  a {
-    text-decoration-line: none;
-    background-color: var(--powder-100);
-    color: var(--powder-700);
-    border-radius: 5px;
-    padding: 4.8px 6px;
-    font-size: 12px;
-    margin: 0 4px 0 0;
-  }
-`;
+//   a {
+//     text-decoration-line: none;
+//     background-color: var(--powder-100);
+//     color: var(--powder-700);
+//     border-radius: 5px;
+//     padding: 4.8px 6px;
+//     font-size: 12px;
+//     margin: 0 4px 0 0;
+//   }
+// `;
 
-const Taginfodiv = styled.div`
-  margin: 0 0 12px;
-  font-size: 13px;
-  color: var(--fc-medium);
-`;
+// const Taginfodiv = styled.div`
+//   margin: 0 0 12px;
+//   font-size: 13px;
+//   color: var(--fc-medium);
+// `;
 
-const TagBottomdiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: var(--black-400);
-  font-size: 12px;
-`;
+// const TagBottomdiv = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   color: var(--black-400);
+//   font-size: 12px;
+// `;
 
-const TagQuestiondiv = styled.div``;
+// const TagQuestiondiv = styled.div``;
 
-const TagDaydiv = styled.div``;
-
-const Tags = () => {
-  const [currentTab, setCurrentTab] = useState(0);
-  const [click, setClick] = useState(false);
-  const selectMenuHandler = (index) => {
-    console.log(typeof index);
-    setCurrentTab(index);
-    setClick(true);
-  };
-
-  const filter = ['Popular', 'Name', 'New'];
-
-  return (
-    <Container>
-      <Nav />
-      <Content>
-        <h1> Tags </h1>
-        <p>
-          A tag is a keyword or label that categorizes your question with other,
-          similar questions. Using
-          <br />
-          the right tags makes it easier for others to find and answer your
-          question.
-        </p>
-        <FilterTagdiv>
-          <TagSearchdiv>
-            <MdOutlineSearch size="25" className="searchIcon" />
-
-            <input placeholder="Filter by tag name"></input>
-          </TagSearchdiv>
-          <TagFilterdiv>
-            {filter.map((el, idx) => {
-              return (
-                <FilterTab
-                  key={idx}
-                  className={`${currentTab === idx ? 'focused' : ''} 
-                    ${click ? '' : 'hide'} ${idx !== 2 ? '' : 'bord'}
-                    ${idx === 0 ? 'radius-left' : ''} 
-                    ${idx === 2 ? 'radius-right' : ''}
-                    `}
-                  onClick={() => selectMenuHandler(idx)}
-                  id={idx}
-                >
-                  {el}
-                </FilterTab>
-              );
-            })}
-          </TagFilterdiv>
-        </FilterTagdiv>
-        <TaglistContainer>
-          <TagBox>
-            {Tagslist.map((tag, idx) => {
-              return (
-                <Tagslistdiv key={idx}>
-                  <Tagdiv>
-                    <a href="/java">{tag.tag}</a>
-                  </Tagdiv>
-                  <Taginfodiv>{tag.info}</Taginfodiv>
-                  <TagBottomdiv>
-                    <TagQuestiondiv>{tag.questions} questions</TagQuestiondiv>
-                    <TagDaydiv>
-                      {tag.today} asked today, {tag.week} this week
-                    </TagDaydiv>
-                  </TagBottomdiv>
-                </Tagslistdiv>
-              );
-            })}
-          </TagBox>
-        </TaglistContainer>
-      </Content>
-    </Container>
-  );
-};
+// const TagDaydiv = styled.div``;
 
 export default Tags;
