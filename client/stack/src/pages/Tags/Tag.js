@@ -19,6 +19,7 @@ const Tagslistdiv = styled.div`
   border: 1px solid var(--bc-medium);
   border-radius: 3px;
   padding: 12px;
+  width: 243px;
 `;
 
 const Tagdiv = styled.div`

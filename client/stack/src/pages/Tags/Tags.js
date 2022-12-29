@@ -260,41 +260,4 @@ const TagBox = styled.div`
   grid-gap: 12px;
 `;
 
-// const Tagslistdiv = styled.div`
-//   border: 1px solid var(--bc-medium);
-//   border-radius: 3px;
-//   padding: 12px;
-// `;
-
-// const Tagdiv = styled.div`
-//   margin: 0 0 12px;
-
-//   a {
-//     text-decoration-line: none;
-//     background-color: var(--powder-100);
-//     color: var(--powder-700);
-//     border-radius: 5px;
-//     padding: 4.8px 6px;
-//     font-size: 12px;
-//     margin: 0 4px 0 0;
-//   }
-// `;
-
-// const Taginfodiv = styled.div`
-//   margin: 0 0 12px;
-//   font-size: 13px;
-//   color: var(--fc-medium);
-// `;
-
-// const TagBottomdiv = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   color: var(--black-400);
-//   font-size: 12px;
-// `;
-
-// const TagQuestiondiv = styled.div``;
-
-// const TagDaydiv = styled.div``;
-
 export default Tags;
