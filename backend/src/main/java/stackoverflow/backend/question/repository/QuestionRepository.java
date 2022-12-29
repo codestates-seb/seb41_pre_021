@@ -16,4 +16,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("select q from Question q where q.isAdopted = false")
     Page<Question> findAllByUnAccepted(Pageable pageable);
 
+    List<Question> findTop50ByOrderByQuestionIdDesc();
+
+    Page<Question> findQuestionsByContentContaining(Pageable pageable, String keyword);
 }

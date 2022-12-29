@@ -13,16 +13,12 @@ import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.question.repository.QuestionRepository;
-import stackoverflow.backend.questioncomment.entity.QuestionComment;
-import stackoverflow.backend.questioncomment.repository.QuestionCommentRepository;
-import stackoverflow.backend.questioncomment.service.QuestionCommentService;
 import stackoverflow.backend.questiontag.service.QuestionTagService;
 import stackoverflow.backend.tag.entity.Tag;
 import stackoverflow.backend.tag.service.TagService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -58,7 +54,7 @@ public class QuestionService {
 
     public Question createQuestion(String token, Question question, List<String> tagNames) {
         long memberId = jwtTokenizer.getMemberId(token);
-        if(question.getMember().getMemberId() != memberId) {
+        if (question.getMember().getMemberId() != memberId) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
         }
         Member findMember = memberService.findVerifiedMember(memberId);
@@ -73,7 +69,7 @@ public class QuestionService {
     }
 
     //게시글 수정
-    public Question updateQuestion(Question question,List<String> tagNames) {
+    public Question updateQuestion(Question question, List<String> tagNames) {
 
         Question findQuestion = findVerifyQuestion(question.getQuestionId());
         findQuestion.getMember();
@@ -98,7 +94,7 @@ public class QuestionService {
     }
 
     public Page<Question> findQuestions(int page, int size, String tab) {
-        if(tab.equals("Newest")) {
+        if (tab.equals("Newest")) {
             return questionRepository.findAll(PageRequest.of(page, size, Sort.by("questionId").descending()));
         }
         return questionRepository.findAllByUnAccepted(PageRequest.of(page, size, Sort.by("questionId").descending()));
@@ -114,11 +110,22 @@ public class QuestionService {
     public void deleteQuestion(String token, Long questionId) {
         long userId = jwtTokenizer.getMemberId(token);
         Question question = findVerifyQuestion(questionId);
-        if(question.getMember().getMemberId() != userId) {
+        if (question.getMember().getMemberId() != userId) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
         }
         questionTagService.deleteAllQuestionTag(question.getQuestionId());
         questionRepository.delete(question);
+    }
+
+    public List<Question> findHomeQuestions() {
+        List<Question> questions = questionRepository.findTop50ByOrderByQuestionIdDesc();
+        return questions;
+    }
+
+    public Page<Question> findQuestionsWithKeyword(int page, int size, String keyword) {
+        Page<Question> questionsByContentContaining = questionRepository.findQuestionsByContentContaining(PageRequest.of(page, size), keyword);
+
+        return questionsByContentContaining;
     }
 
 }
