@@ -39,12 +39,18 @@ public class TagService {
     }
 
     public Page<TagDto> findTags(int page, int size, String tab) {
-        if(tab.equals("popular")) {
+        if (tab.equals("popular")) {
             return tagRepository.findTagsWithPopular(PageRequest.of(page, size));
-        }else if(tab.equals("name")) {
+        } else if (tab.equals("name")) {
             return tagRepository.findTagsWithName(PageRequest.of(page, size));
         }
 
-        return tagRepository.findTagsWithNew(PageRequest.of(page,size));
+        return tagRepository.findTagsWithNew(PageRequest.of(page, size));
+    }
+
+    public List<TagDto> findWithFilter(String name) {
+        Page<TagDto> tagsWithFilter = tagRepository.findTagsWithFilter(PageRequest.of(0, 36), name);
+
+        return tagsWithFilter.getContent();
     }
 }
