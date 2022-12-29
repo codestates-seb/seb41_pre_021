@@ -72,10 +72,14 @@ const Menu = styled.li`
   padding: 4px 4px 4px 8px;
   list-style: none;
   cursor: pointer;
-
+  display: flex;
   .icon {
     position: relative;
     justify-items: row;
+  }
+
+  .flex {
+    margin-top: 2.5px;
   }
 
   /* &:active {
@@ -125,10 +129,12 @@ export const Nav = () => {
                 ${click ? '' : 'hide'} `}
                 onClick={() => selectHandler(idx)}
               >
-                <FaGlobeAmericas
-                  className={`${idx === 0 ? 'globe' : 'none'}`}
-                  size="17"
-                />
+                <div className="flex">
+                  <FaGlobeAmericas
+                    className={`${idx === 0 ? 'globe' : 'none'}`}
+                    size="17"
+                  />
+                </div>
                 <Span />
                 {el}
               </Menu>
