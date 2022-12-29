@@ -17,4 +17,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     Page<Question> findAllByUnAccepted(Pageable pageable);
 
     List<Question> findTop50ByOrderByQuestionIdDesc();
+
+    Page<Question> findQuestionsByContentContaining(Pageable pageable, String keyword);
 }
