@@ -21,7 +21,7 @@ public interface TagRepository extends JpaRepository<Tag,Long> {
 
     @Query("select " +
             "new stackoverflow.backend.tag.dto.TagDto(t.tagId , t.tagName, t.tagDescription, count(t.tagName)) from" +
-            " Tag t left join QuestionTag qt on t.tagId = qt.tag.tagId group by t.tagName order by t.tagName")
+            " Tag t left join QuestionTag qt on t.tagId = qt.tag.tagId group by t.tagName order by length(t.tagName), t.tagName")
     Page<TagDto> findTagsWithName(Pageable pageable);
 
     @Query("select " +

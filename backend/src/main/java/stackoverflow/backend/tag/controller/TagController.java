@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.response.MultipleResponseDto;
 import stackoverflow.backend.tag.dto.TagDto;
+import stackoverflow.backend.tag.dto.TagsResponseDto;
 import stackoverflow.backend.tag.entity.Tag;
 import stackoverflow.backend.tag.service.TagService;
 
@@ -31,7 +32,7 @@ public class TagController {
         Page<TagDto> pagedTags = tagService.findTags(page-1,size,tab);
 
         List<TagDto> tags = pagedTags.getContent();
-        return new ResponseEntity(new MultipleResponseDto<>(tags,pagedTags), HttpStatus.OK);
+        return new ResponseEntity(new TagsResponseDto<>(tags,pagedTags), HttpStatus.OK);
     }
 
     @GetMapping("/filter")
