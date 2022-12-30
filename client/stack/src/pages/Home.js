@@ -450,7 +450,7 @@ const Home = () => {
 
             <div className="margin">
               <FaStackOverflow className="icon stack" />
-              <p>I'm standing down as a moderator</p>
+              <p>Im standing down as a moderator</p>
             </div>
           </YellowBar>
           <CustomFilter id="CustomFilter">
