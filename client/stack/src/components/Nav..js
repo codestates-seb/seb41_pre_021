@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import { FaGlobeAmericas } from 'react-icons/fa';
 import { useState } from 'react';
@@ -84,7 +85,7 @@ function Span({ space = 5 }) {
   return <span style={{ paddingRight: space }}></span>;
 }
 
-export const Nav = () => {
+export const Nav = ({ navurl }) => {
   const [currentMenu, setCurrentMenu] = useState(0);
   const [click, setClick] = useState(false);
 
@@ -112,7 +113,9 @@ export const Nav = () => {
             <Menu
               key={idx}
               className={`${currentMenu === idx ? 'focused' : ''} 
-                ${click ? '' : 'hide'} `}
+                ${click ? '' : 'hide'} ${
+                navurl === 'Questions' && idx === 0 ? 'focused' : ''
+              } `}
               onClick={() => selectHandler(idx)}
             >
               <FaGlobeAmericas

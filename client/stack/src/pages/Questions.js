@@ -35,11 +35,11 @@ const Questions = () => {
       .catch((err) => console.error(err));
   }
 
-  // const navurl = 'Questions';
+  const navurl = 'Questions';
 
   return (
     <Container id="container">
-      <Nav />
+      <Nav navurl={navurl} />
       <Content id="content">
         <Main id="main">
           <Top>
