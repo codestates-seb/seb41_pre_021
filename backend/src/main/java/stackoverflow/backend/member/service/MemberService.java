@@ -2,6 +2,7 @@ package stackoverflow.backend.member.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,6 +15,7 @@ import stackoverflow.backend.exception.BusinessLogicException;
 import stackoverflow.backend.exception.ExceptionCode;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.repository.MemberRepository;
+import stackoverflow.backend.profileimage.entity.ProfileImage;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +30,9 @@ public class MemberService {
     private final CustomAuthorityUtils authorityUtils;
     private final JwtTokenizer jwtTokenizer;
 
+    @Value("${file.dir}")
+    private String fileDir;
+
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
 
@@ -36,6 +41,12 @@ public class MemberService {
 
         List<String> roles = authorityUtils.createRoles();
         member.setRoles(roles);
+
+        ProfileImage profileImage = new ProfileImage();
+        profileImage.setUploadFileName("default.png");
+        profileImage.setStoreFileName(fileDir + "default.png");
+        profileImage.setMember(member);
+        member.setProfileImage(profileImage);
 
         return memberRepository.save(member);
     }

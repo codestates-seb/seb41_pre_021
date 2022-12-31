@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.common.BaseEntity;
+import stackoverflow.backend.profileimage.entity.ProfileImage;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.vote.entity.Vote;
 
@@ -17,7 +18,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Member extends BaseEntity {
 
     @Id
@@ -44,6 +44,9 @@ public class Member extends BaseEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @OneToOne(mappedBy = "member",cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private ProfileImage profileImage;
 
     public Member(String email, String password, String username) {
         this.email = email;
