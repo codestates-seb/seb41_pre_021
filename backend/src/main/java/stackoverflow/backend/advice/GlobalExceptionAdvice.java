@@ -1,6 +1,7 @@
 package stackoverflow.backend.advice;
 
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,5 +88,11 @@ public class GlobalExceptionAdvice {
         final ErrorResponse response = ErrorResponse.of(HttpStatus.UNAUTHORIZED, e.getMessage());
 
         return response;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse expiredJwtException(ExpiredJwtException ee) {
+        return ErrorResponse.of(HttpStatus.UNAUTHORIZED,ee.getMessage());
     }
 }

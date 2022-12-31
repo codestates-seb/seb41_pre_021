@@ -69,10 +69,15 @@ public class QuestionService {
     }
 
     //게시글 수정
-    public Question updateQuestion(Question question, List<String> tagNames) {
+    public Question updateQuestion(Question question, List<String> tagNames,String token) {
 
         Question findQuestion = findVerifyQuestion(question.getQuestionId());
-        findQuestion.getMember();
+//        findQuestion.getMember();
+
+        long memberId = jwtTokenizer.getMemberId(token);
+        if(findQuestion.getMember().getMemberId() != memberId) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
 
         List<Tag> tagLists = tagService.createTags(tagNames);
         questionTagService.deleteAllQuestionTag(findQuestion.getQuestionId());
