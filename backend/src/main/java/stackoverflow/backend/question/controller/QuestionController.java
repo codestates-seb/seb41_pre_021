@@ -49,11 +49,12 @@ public class QuestionController {
     // 질문 수정
     @PatchMapping("/{question-id}")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive long questionId,
-                                        @Valid @RequestBody QuestionPatchDto questionPatchDto) {
+                                        @Valid @RequestBody QuestionPatchDto questionPatchDto,
+                                        @RequestHeader(name = "Authorization") String token) {
         questionPatchDto.setQuestionId(questionId);
         List<String> tagNames = mapper.questionPatchDtoToTags(questionPatchDto);
 
-        Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto), tagNames);
+        Question question = questionService.updateQuestion(mapper.questionPatchDtoToQuestion(questionPatchDto), tagNames,token);
 
         return new ResponseEntity<>(/*new SingleResponseDto<>(mapper.questionToQuestionDetailDto(question)),*/ HttpStatus.OK);
     }
