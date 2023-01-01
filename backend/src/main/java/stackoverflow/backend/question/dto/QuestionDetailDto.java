@@ -40,7 +40,7 @@ public class QuestionDetailDto {
     public static class MemberPart {
         private long memberId;
         private String username;
-        //profileImg
+        private String image;
         private int reputation;
     }
 
@@ -54,6 +54,7 @@ public class QuestionDetailDto {
         private long memberId;
         private String username;
         private int reputation;
+        private String image;
         private Vote.VoteStatus viewerVoteStatus = Vote.VoteStatus.NONE;
         private String createdAt;
         private String modifiedAt;
