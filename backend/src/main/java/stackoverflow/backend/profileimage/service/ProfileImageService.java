@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import stackoverflow.backend.auth.jwt.JwtTokenizer;
+import stackoverflow.backend.exception.BusinessLogicException;
+import stackoverflow.backend.exception.ExceptionCode;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.profileimage.entity.ProfileImage;
@@ -23,6 +26,7 @@ public class ProfileImageService {
     private final ProfileImageRepository profileImageRepository;
     private final MemberService memberService;
 
+    private final JwtTokenizer jwtTokenizer;
     @Value("${file.dir}")
     private String fileDir;
 
@@ -30,7 +34,11 @@ public class ProfileImageService {
         return fileDir + filename;
     }
 
-    public ProfileImage createImage(MultipartFile file, long memberId) throws IOException {
+    public ProfileImage createImage(MultipartFile file, long memberId, String token) throws IOException {
+
+        if(memberId != jwtTokenizer.getMemberId(token)){
+            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
+        }
 
         ProfileImage profileImage = findVerifiedProfileImageByMemberId(memberId);
 
