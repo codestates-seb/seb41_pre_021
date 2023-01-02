@@ -6,6 +6,7 @@ import Users from './pages/Users';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
+import QuestionUpload from './pages/QuestionUpload';
 
 const Router = () => {
   // 로그인 기능 구현 후, isLoggedIn 상태로 조건부 라우팅 해야 함.
@@ -18,6 +19,7 @@ const Router = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
+      <Route path="/questions/ask" element={<QuestionUpload />} />
     </Routes>
   );
 };
