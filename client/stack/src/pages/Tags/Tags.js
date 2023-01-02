@@ -126,11 +126,11 @@ const Content = styled.div`
   width: 1051px;
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  padding: 0 24px 24px 24px;
 
   h1 {
     font-size: 27px;
-    margin: 0 0 16px;
+    margin: 24px 0 16px;
   }
 
   p {
