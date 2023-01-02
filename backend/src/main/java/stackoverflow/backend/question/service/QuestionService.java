@@ -30,27 +30,7 @@ public class QuestionService {
     private final TagService tagService;
     private final QuestionTagService questionTagService;
     private final JwtTokenizer jwtTokenizer;
-//    private final QuestionCommentRepository questionCommentRepository;
 
-
-    //게시글 생성
-//    public Question createQuestion(String email, Question question, List<String> tagNames) {
-//        Member findMember = memberService.findVerifiedMember(email);
-//        if (!findMember.getEmail().equals(email)) {
-//            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
-//        }
-//
-//        if (question.getMember().getMemberId() != findMember.getMemberId()) {
-//            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
-//        }
-//        question.setMember(findMember);
-//
-//        List<Tag> tagLists = tagService.createTags(tagNames);
-//        Question result = questionRepository.save(question);
-//        questionTagService.createQuestionTagWithQuestion(tagLists, question);
-//
-//        return result;
-//    }
 
     public Question createQuestion(String token, Question question, List<String> tagNames) {
         long memberId = jwtTokenizer.getMemberId(token);
@@ -72,7 +52,7 @@ public class QuestionService {
     public Question updateQuestion(Question question, List<String> tagNames,String token) {
 
         Question findQuestion = findVerifyQuestion(question.getQuestionId());
-//        findQuestion.getMember();
+
 
         long memberId = jwtTokenizer.getMemberId(token);
         if(findQuestion.getMember().getMemberId() != memberId) {

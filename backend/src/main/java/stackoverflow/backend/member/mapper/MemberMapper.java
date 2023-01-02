@@ -1,7 +1,6 @@
 package stackoverflow.backend.member.mapper;
 
 import org.mapstruct.Mapper;
-import org.springframework.beans.factory.annotation.Value;
 import stackoverflow.backend.member.dto.MemberPatchDto;
 import stackoverflow.backend.member.dto.MemberPostDto;
 import stackoverflow.backend.member.dto.MemberResponseDto;
@@ -27,7 +26,7 @@ public interface MemberMapper {
     MemberResponseDto memberToMemberResponseDto(Member member);
 
     Member memberPatchDtoToMember(MemberPatchDto memberPatchDto);
-//    List<MembersResponseDto> membersToMembersResponseDto(List<Member> members);
+
 
     default List<MembersResponseDto> membersToMembersResponseDto(List<Member> members) {
         List<MembersResponseDto> responseDto = members.stream()

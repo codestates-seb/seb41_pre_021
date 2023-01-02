@@ -2,9 +2,6 @@ package stackoverflow.backend.question.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import stackoverflow.backend.member.entity.Member;
-
-
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;

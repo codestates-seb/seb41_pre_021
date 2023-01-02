@@ -1,19 +1,19 @@
 package stackoverflow.backend.auth.userdetails;
 
-        import lombok.RequiredArgsConstructor;
-        import org.springframework.security.core.GrantedAuthority;
-        import org.springframework.security.core.userdetails.UserDetails;
-        import org.springframework.security.core.userdetails.UserDetailsService;
-        import org.springframework.security.core.userdetails.UsernameNotFoundException;
-        import org.springframework.stereotype.Component;
-        import stackoverflow.backend.auth.utils.CustomAuthorityUtils;
-        import stackoverflow.backend.exception.BusinessLogicException;
-        import stackoverflow.backend.exception.ExceptionCode;
-        import stackoverflow.backend.member.entity.Member;
-        import stackoverflow.backend.member.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+import stackoverflow.backend.auth.utils.CustomAuthorityUtils;
+import stackoverflow.backend.exception.BusinessLogicException;
+import stackoverflow.backend.exception.ExceptionCode;
+import stackoverflow.backend.member.entity.Member;
+import stackoverflow.backend.member.repository.MemberRepository;
 
-        import java.util.Collection;
-        import java.util.Optional;
+import java.util.Collection;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor

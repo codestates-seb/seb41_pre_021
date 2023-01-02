@@ -3,7 +3,6 @@ package stackoverflow.backend.question.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import stackoverflow.backend.tag.entity.Tag;
 
 import java.util.List;
 

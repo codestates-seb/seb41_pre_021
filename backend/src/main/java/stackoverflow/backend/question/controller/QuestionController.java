@@ -4,24 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import stackoverflow.backend.auth.jwt.JwtTokenizer;
-import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.question.dto.QuestionPatchDto;
 import stackoverflow.backend.question.dto.QuestionPostDto;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.question.mapper.QuestionMapper;
 import stackoverflow.backend.question.service.QuestionService;
 import stackoverflow.backend.response.MultipleResponseDto;
-import stackoverflow.backend.response.SingleResponseDto;
-import stackoverflow.backend.vote.entity.Vote;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.security.Principal;
 import java.util.List;
 
 

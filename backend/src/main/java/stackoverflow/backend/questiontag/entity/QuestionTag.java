@@ -9,7 +9,6 @@ import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.tag.entity.Tag;
 
 import javax.persistence.*;
-import javax.swing.text.html.HTML;
 
 @Entity
 @Getter

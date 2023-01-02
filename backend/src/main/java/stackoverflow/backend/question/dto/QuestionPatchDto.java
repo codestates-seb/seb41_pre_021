@@ -18,9 +18,6 @@ public class QuestionPatchDto {
     @JsonProperty("tags")
     List<QuestionPatchTagDto> questionPatchTagDtos;
 
-//    public void setQuestionId(long questionId) {
-//
-//        this.questionId = questionId;
-//    }
+
 }
 

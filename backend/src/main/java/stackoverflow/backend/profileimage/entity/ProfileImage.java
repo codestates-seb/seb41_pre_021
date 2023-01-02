@@ -3,7 +3,6 @@ package stackoverflow.backend.profileimage.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.member.entity.Member;
 

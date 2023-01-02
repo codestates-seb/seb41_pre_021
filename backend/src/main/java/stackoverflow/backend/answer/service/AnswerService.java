@@ -1,7 +1,6 @@
 package stackoverflow.backend.answer.service;
 
 
-import antlr.Token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +10,8 @@ import stackoverflow.backend.auth.jwt.JwtTokenizer;
 import stackoverflow.backend.exception.BusinessLogicException;
 import stackoverflow.backend.exception.ExceptionCode;
 import stackoverflow.backend.member.entity.Member;
-import stackoverflow.backend.member.repository.MemberRepository;
 import stackoverflow.backend.member.service.MemberService;
 import stackoverflow.backend.question.entity.Question;
-import stackoverflow.backend.question.repository.QuestionRepository;
 import stackoverflow.backend.question.service.QuestionService;
 
 import java.util.List;
@@ -68,10 +65,7 @@ public class AnswerService {
         answerRepository.delete(answer);
     }
 
-//    public List<Answer> findAnswers(Long questionId) {
-//        Question question = questionRepository.findByQuestionId(questionId);
-//        return answerRepository.findAllByQuestion(question);
-//    }
+
     public Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         Answer findAnswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));

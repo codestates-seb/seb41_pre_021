@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import stackoverflow.backend.question.entity.Question;
-import stackoverflow.backend.response.MultipleResponseDto;
 import stackoverflow.backend.tag.dto.TagDto;
 import stackoverflow.backend.tag.dto.TagsResponseDto;
-import stackoverflow.backend.tag.entity.Tag;
 import stackoverflow.backend.tag.service.TagService;
 
 import javax.validation.constraints.Positive;

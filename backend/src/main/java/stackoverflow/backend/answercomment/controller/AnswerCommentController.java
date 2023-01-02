@@ -25,17 +25,15 @@ public class AnswerCommentController {
     private final AnswerCommentMapper mapper;
 
     @PostMapping
-    public ResponseEntity postAnswerComment(/*@PathVariable("answer-id") @Positive long answerId,*/
-                                              @RequestBody @Valid AnswerCommentPostDto answerCommentPostDto) {
-//        answerCommentPostDto.setAnswerId(answerId);
+    public ResponseEntity postAnswerComment(@RequestBody @Valid AnswerCommentPostDto answerCommentPostDto) {
+
         AnswerComment answerComment = mapper.answerCommentPostDtoToAnswer(answerCommentPostDto);
         answerCommentService.createAnswerComment(answerComment);
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
     @GetMapping("/{comment-id}")
-    public ResponseEntity findAnswerComment(/*@PathVariable("answer-id") @Positive long answerId,*/
-                                              @PathVariable("comment-id") @Positive long commentId) {
+    public ResponseEntity findAnswerComment(@PathVariable("comment-id") @Positive long commentId) {
         AnswerComment findComment = answerCommentService.findVerifiedAnswerComment(commentId);
 
         AnswerCommentResponseDto answerCommentResponseDto = mapper.answerToAnswerCommentResponseDto(findComment);
@@ -44,8 +42,7 @@ public class AnswerCommentController {
     }
 
     @PatchMapping("/{comment-id}")
-    public ResponseEntity patchAnswerComment(/*@PathVariable("answer-id") @Positive long answerId,*/
-                                               @PathVariable("comment-id") @Positive long commentId,
+    public ResponseEntity patchAnswerComment(@PathVariable("comment-id") @Positive long commentId,
                                                @RequestHeader(name = "Authorization") String token,
                                                @RequestBody @Valid AnswerCommentPatchDto answerCommentPatchDto) {
 
@@ -57,8 +54,7 @@ public class AnswerCommentController {
     }
 
     @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteAnswerComment(/*@PathVariable("answer-id") @Positive long answerId,*/
-                                                @PathVariable("comment-id") @Positive long commentId,
+    public ResponseEntity deleteAnswerComment(@PathVariable("comment-id") @Positive long commentId,
                                                 @RequestHeader(name = "Authorization") String token) {
         answerCommentService.deleteAnswerComment(commentId,token);
 

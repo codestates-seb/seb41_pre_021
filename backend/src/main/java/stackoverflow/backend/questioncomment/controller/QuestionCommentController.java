@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import stackoverflow.backend.question.service.QuestionService;
 import stackoverflow.backend.questioncomment.dto.QuestionCommentPatchDto;
 import stackoverflow.backend.questioncomment.dto.QuestionCommentPostDto;
 import stackoverflow.backend.questioncomment.dto.QuestionCommentResponseDto;
@@ -26,10 +25,9 @@ public class QuestionCommentController {
     private final QuestionCommentMapper mapper;
 
     @PostMapping
-    public ResponseEntity postQuestionComment(/*@PathVariable("question-id") @Positive long questionId,*/
-                                              @RequestBody @Valid QuestionCommentPostDto questionCommentPostDto,
+    public ResponseEntity postQuestionComment(@RequestBody @Valid QuestionCommentPostDto questionCommentPostDto,
                                               @RequestHeader("Authorization") String token) {
-//        questionCommentPostDto.setQuestionId(questionId);
+
         QuestionComment questionComment = mapper.questionCommentPostDtoToQuestion(questionCommentPostDto);
         questionCommentService.createQuestionComment(questionComment,token);
 
@@ -37,8 +35,7 @@ public class QuestionCommentController {
     }
 
     @GetMapping("/{comment-id}")
-    public ResponseEntity findQuestionComment(/*@PathVariable("question-id") @Positive long questionId,*/
-                                              @PathVariable("comment-id") @Positive long commentId) {
+    public ResponseEntity findQuestionComment(@PathVariable("comment-id") @Positive long commentId) {
         QuestionComment findComment = questionCommentService.findVerifiedQuestionComment(commentId);
 
         QuestionCommentResponseDto questionCommentResponseDto = mapper.questionToQuestionCommentResponseDto(findComment);
@@ -47,8 +44,7 @@ public class QuestionCommentController {
     }
 
     @PatchMapping("/{comment-id}")
-    public ResponseEntity patchQuestionComment(/*@PathVariable("question-id") @Positive long questionId,*/
-                                               @PathVariable("comment-id") @Positive long commentId,
+    public ResponseEntity patchQuestionComment(@PathVariable("comment-id") @Positive long commentId,
                                                @RequestHeader(name = "Authorization") String token,
                                                @RequestBody @Valid QuestionCommentPatchDto questionCommentPatchDto) {
 
@@ -61,8 +57,7 @@ public class QuestionCommentController {
     }
 
     @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteQuestionComment(/*@PathVariable("question-id") @Positive long questionId,*/
-                                                @PathVariable("comment-id") @Positive long commentId,
+    public ResponseEntity deleteQuestionComment(@PathVariable("comment-id") @Positive long commentId,
                                                 @RequestHeader(name = "Authorization") String token) {
         questionCommentService.deleteQuestionComment(commentId,token);
 

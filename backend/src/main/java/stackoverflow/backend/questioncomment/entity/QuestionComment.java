@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.util.Lazy;
 import stackoverflow.backend.common.BaseEntity;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.question.entity.Question;

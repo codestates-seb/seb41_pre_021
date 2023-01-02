@@ -3,11 +3,8 @@ package stackoverflow.backend.question.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import stackoverflow.backend.questioncomment.dto.QuestionCommentResponseDto;
-import stackoverflow.backend.questioncomment.entity.QuestionComment;
 import stackoverflow.backend.vote.entity.Vote;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

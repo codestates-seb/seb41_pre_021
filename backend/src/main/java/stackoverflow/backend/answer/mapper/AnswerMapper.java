@@ -9,12 +9,9 @@ import stackoverflow.backend.answer.entity.Answer;
 import stackoverflow.backend.member.entity.Member;
 import stackoverflow.backend.question.entity.Question;
 
-
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
-//    List<AnswerResponseDto> answersToAnswersResponseDto(List<Answer> answers);
+
 
     default Answer answerPostDtoToAnswer(AnswerPostDto requestBody) {
         Answer answer = new Answer();

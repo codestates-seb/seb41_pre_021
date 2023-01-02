@@ -1,6 +1,5 @@
 package stackoverflow.backend.answer.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
