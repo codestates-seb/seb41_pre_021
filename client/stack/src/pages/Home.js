@@ -224,8 +224,7 @@ const Tab = styled.div`
   flex-direction: flex-end;
   width: 351.96px
   height: 38.7px;
-  border-radius: 5px;
-  margin: 0 0 16px;
+  border-radius: 3px;
   margin-right: 20px;
 
   .focused {
@@ -235,10 +234,10 @@ const Tab = styled.div`
     border-right: 1px solid var(--black-400);
   }
   .radius-left {
-    border-radius: 5px 0 0 5px;
+    border-radius: 3px 0 0 3px;
   }
   .radius-right {
-    border-radius: 0px 5px 5px 0px;
+    border-radius: 0px 3px 3px 0px;
   }
 `;
 
@@ -262,6 +261,7 @@ const Question = styled.div`
   width: 751px;
   height: 90px;
   font-size: 13px;
+  margin-top: 25px;
 `;
 
 const PostStates = styled.div`
@@ -464,14 +464,16 @@ const WatchedTag = styled.div`
   }
 
   button {
+    width: 90px;
     background-color: var(--powder-100);
     border: 1px solid var(--powder-500);
     border-radius: 5px;
     color: var(--powder-800);
     font-size: 12px;
     height: 35.04px;
-    line-height: 30px;
     display: flex;
+    align-items: center;
+    justify-content: center;
     margin: auto;
   }
 `;
@@ -493,13 +495,15 @@ const IgnoredTag = styled.div`
   }
 
   button {
+    width: 124px;
     background-color: var(--powder-100);
     border: 1px solid var(--powder-500);
     border-radius: 5px;
     color: var(--powder-800);
     font-size: 12px;
     height: 35.04px;
-    line-height: 30px;
+    align-items: center;
+    justify-content: center;
     display: flex;
     margin: auto;
   }
