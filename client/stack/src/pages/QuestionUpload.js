@@ -9,6 +9,7 @@ const QuestionUpload = () => {
   const prbeditorRef = useRef();
   const expeditorRef = useRef();
   const [content, setContent] = useState('');
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {}, [content]);
 
@@ -16,6 +17,24 @@ const QuestionUpload = () => {
     setContent(prbeditorRef.current.content);
   };
   const clickHandler = () => {};
+
+  const removeTags = (indexToRemove) => {
+    tags.splice(indexToRemove, 1);
+    setTags([...tags]);
+  };
+
+  const addTags = () => {
+    const text = document.getElementById('text').value;
+    console.log(text);
+    if (tags.indexOf(text) > 0) {
+      console.log('중복');
+    } // 추가X
+    else if (text === '') console.log('빈 내용'); // 실행X
+    else {
+      document.getElementById('text').value = '';
+      setTags([...tags, text]);
+    }
+  };
 
   return (
     <PageContainer>
@@ -198,7 +217,32 @@ const QuestionUpload = () => {
                   </div>
                 </TagsTopdiv>
                 <TitleBottomdiv>
-                  <input placeholder="e.g. (string databse spring)"></input>
+                  <div className="tags">
+                    <ul id="tags">
+                      {tags.map((tag, index) => (
+                        <li key={index} className="tag">
+                          <span className="tag-title">{tag}</span>
+                          <button
+                            className="tag-close-icon"
+                            onClick={() => removeTags(index)}
+                          >
+                            X
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                    <input
+                      className="tag-input"
+                      type="text"
+                      id="text"
+                      onKeyUp={(e) => {
+                        if (e.key === 'Enter') {
+                          addTags(e);
+                        }
+                      }}
+                      placeholder="e.g. (string databse spring)"
+                    ></input>
+                  </div>
                 </TitleBottomdiv>
                 <button className="blue">Next</button>
               </Detaildiv>
@@ -489,6 +533,56 @@ const Tagsdiv = styled.div`
   .bluet {
     color: var(--blue-600);
     cursor: pointer;
+  }
+  .tags {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    > ul {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      margin: 8px 0 0 0;
+
+      > .tag {
+        width: auto;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--powder-700);
+        padding: 0 4px 0px 8px;
+        font-size: 12px;
+        list-style: none;
+        border-radius: 6px;
+        margin: 0 8px 8px 0;
+        background-color: var(--powder-100);
+        > .tag-close-icon {
+          width: 16px;
+          height: 16px;
+          line-height: 16px;
+          font-weight: 700;
+          text-align: center;
+          font-size: 14px;
+          margin-left: 4px;
+          color: var(--powder-700);
+          border-radius: 50%;
+          background-color: transparent;
+          cursor: pointer;
+        }
+      }
+      > input {
+        flex: 1;
+        border: none;
+        height: 46px;
+        font-size: 14px;
+        padding: 4px 0 0 0;
+        :focus {
+          outline: transparent;
+        }
+      }
+    }
   }
 `;
 
