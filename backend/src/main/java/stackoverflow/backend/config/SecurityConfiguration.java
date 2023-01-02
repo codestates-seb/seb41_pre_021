@@ -49,18 +49,19 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                                .antMatchers(HttpMethod.PATCH,"/members/**").hasRole("USER")
-                                .antMatchers("/members/**").permitAll()
-                                .antMatchers(HttpMethod.POST,"/questions/votes/**").hasRole("USER")
-                                .antMatchers(HttpMethod.POST,"/answers/votes/**").hasRole("USER")
-                                .antMatchers(HttpMethod.POST,"/questions/").hasRole("USER")
-                                .antMatchers(HttpMethod.PATCH,"/questions/**").hasRole("USER")
-                                .antMatchers(HttpMethod.DELETE,"/questions/**").hasRole("USER")
-                                .antMatchers("/questions/**").permitAll()
-                                .antMatchers("/question-comments/**").hasRole("USER")
-                                .antMatchers("/answers/**").hasRole("USER")
-                                .antMatchers("/answer-comments/**").hasRole("USER")
-                                .anyRequest().permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
+                        .antMatchers("/members/**").permitAll()
+                        .antMatchers(HttpMethod.POST, "/questions/votes/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/answers/votes/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/questions/").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/questions/**").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE, "/questions/**").hasRole("USER")
+                        .antMatchers("/questions/**").permitAll()
+                        .antMatchers("/question-comments/**").hasRole("USER")
+                        .antMatchers("/answers/**").hasRole("USER")
+                        .antMatchers("/answer-comments/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/profiles").hasRole("USER")
+                        .anyRequest().permitAll()
                 );
         return http.build();
     }
@@ -79,24 +80,24 @@ public class SecurityConfiguration {
         configuration.setExposedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
-    public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer,HttpSecurity> {
+    public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager,jwtTokenizer);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
             jwtAuthenticationFilter.setFilterProcessesUrl("/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer,authorityUtils);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
 
             builder.addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter,JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
         }
     }
 

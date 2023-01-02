@@ -33,7 +33,7 @@ public class QuestionsResponseDto {
     @Setter
     public static class MemberPart {
         private String username;
-        //profileImg
+        private String image;
         private int reputation;
     }
 

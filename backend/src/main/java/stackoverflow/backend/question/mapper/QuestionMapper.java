@@ -3,13 +3,20 @@ package stackoverflow.backend.question.mapper;
 import org.mapstruct.Mapper;
 import stackoverflow.backend.member.dto.MemberResponseDto;
 import stackoverflow.backend.member.entity.Member;
+import stackoverflow.backend.profileimage.entity.ProfileImage;
 import stackoverflow.backend.question.dto.*;
 import stackoverflow.backend.question.entity.Question;
 import stackoverflow.backend.tag.entity.Tag;
 import stackoverflow.backend.vote.entity.Vote;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -90,6 +97,22 @@ public interface QuestionMapper {
         memberPart.setReputation(member.getReputation());
         memberPart.setUsername(member.getUsername());
 
+
+        ProfileImage profileImage = member.getProfileImage();
+        String storeFileName = profileImage.getStoreFileName();
+        int pos = storeFileName.lastIndexOf(".");
+        String ext = storeFileName.substring(pos + 1);
+        try {
+            BufferedImage bImage = ImageIO.read(new File(storeFileName));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+            ImageIO.write(bImage, ext, bos);
+            byte[] data = bos.toByteArray();
+            memberPart.setImage(Base64.getEncoder().encodeToString(data));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return memberPart;
     }
 
@@ -140,6 +163,21 @@ public interface QuestionMapper {
         return question.getAnswers().stream()
                 .map(answer -> {
                     QuestionDetailDto.AnswerPart answerPart = new QuestionDetailDto.AnswerPart();
+                    ProfileImage profileImage = answer.getMember().getProfileImage();
+                    String storeFileName = profileImage.getStoreFileName();
+                    int pos = storeFileName.lastIndexOf(".");
+                    String ext = storeFileName.substring(pos + 1);
+                    try {
+                        BufferedImage bImage = ImageIO.read(new File(storeFileName));
+                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                        ImageIO.write(bImage, ext, bos);
+                        byte[] data = bos.toByteArray();
+                        answerPart.setImage(Base64.getEncoder().encodeToString(data));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
                     answerPart.setAnswerId(answer.getAnswerId());
                     answerPart.setContent(answer.getContent());
                     answerPart.setCreatedAt(answer.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + " at " +
@@ -196,8 +234,25 @@ public interface QuestionMapper {
             QuestionsResponseDto.MemberPart memberPart = new QuestionsResponseDto.MemberPart();
             QuestionsResponseDto.QuestionPart questionPart = new QuestionsResponseDto.QuestionPart();
 
-            memberPart.setUsername(question.getMember().getUsername());
-            memberPart.setReputation(question.getMember().getReputation());
+            Member member = question.getMember();
+
+            ProfileImage profileImage = member.getProfileImage();
+            String storeFileName = profileImage.getStoreFileName();
+            int pos = storeFileName.lastIndexOf(".");
+            String ext = storeFileName.substring(pos + 1);
+            try {
+                BufferedImage bImage = ImageIO.read(new File(storeFileName));
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                ImageIO.write(bImage, ext, bos);
+                byte[] data = bos.toByteArray();
+                memberPart.setImage(Base64.getEncoder().encodeToString(data));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            memberPart.setUsername(member.getUsername());
+            memberPart.setReputation(member.getReputation());
             questionPart.setQuestionId(question.getQuestionId());
             questionPart.setQuestionTitle(question.getQuestionTitle());
             questionPart.setContent(question.getContent());
