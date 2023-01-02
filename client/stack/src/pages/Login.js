@@ -2,11 +2,11 @@ import LoginForm from '../components/LoginForm';
 
 import styled from 'styled-components';
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
   return (
     <LoginContainer>
       <Section>
-        <LoginForm />
+        <LoginForm setIsLoggedIn={setIsLoggedIn} />
         <p>
           Don’t have an account? <a href="/signup">Sign up</a>
         </p>

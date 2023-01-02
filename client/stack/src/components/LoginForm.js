@@ -5,7 +5,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { setCookie } from '../utils/cookie';
 
-const LoginForm = () => {
+const LoginForm = ({ setIsLoggedIn }) => {
   const [textInput, setTextInput] = useState({
     email: '',
     password: '',
@@ -37,6 +37,7 @@ const LoginForm = () => {
         localStorage.setItem('memberId', JSON.stringify(decodedJwt.memberId));
         localStorage.setItem('username', JSON.stringify(decodedJwt.username));
         alert('Logged In!');
+        setIsLoggedIn(true);
         navigate('/');
         return response;
       } catch (err) {
@@ -149,11 +150,13 @@ const SignUpFormLabel = styled.label`
 `;
 
 const SignUpFormInput = styled.input`
-  width: 268px;
+  width: 275px;
   height: 32px;
   margin: 2px 0;
   font-size: 13px;
   line-height: 17px;
+  border: solid 1px var(--black-100);
+  border-radius: 5px;
 `;
 
 const SignUpFormNotice = styled.p`

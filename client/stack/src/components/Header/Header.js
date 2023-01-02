@@ -3,7 +3,7 @@ import SearchBar from './SearchBar';
 import HeaderNav from './HeaderNav';
 import { Logo, LogInButton, SignUpButton } from './style';
 
-const HOME_URL = '#';
+const HOME_URL = '/';
 const Wrapper = styled.header`
   height: 100%;
   display: flex;
@@ -39,15 +39,14 @@ const Wrapper = styled.header`
   }
 `;
 
-export default function Header() {
-  const IsLogin = true; //userinfo 상태 받아오면 수정
+export default function Header({ isLoggedIn }) {
   return (
     <Wrapper>
       <div className="wrapper">
         <Logo href={HOME_URL}>
           <span>Stack Overflow</span>
         </Logo>
-        {IsLogin ? (
+        {isLoggedIn ? (
           <a className="products" href="#!">
             Products
           </a>
@@ -66,12 +65,12 @@ export default function Header() {
         )}
 
         <SearchBar />
-        {IsLogin ? (
+        {isLoggedIn ? (
           <HeaderNav />
         ) : (
           <>
-            <LogInButton>Log in</LogInButton>
-            <SignUpButton>Sign up</SignUpButton>
+            <LogInButton href="/login">Log in</LogInButton>
+            <SignUpButton href="/signup">Sign up</SignUpButton>
           </>
         )}
       </div>
