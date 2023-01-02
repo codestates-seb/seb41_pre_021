@@ -131,7 +131,8 @@ export const Nav = ({ navurl }) => {
                 className={`${currentMenu === idx ? 'focused' : ''} 
                 ${click ? '' : 'hide'} ${
                   navurl === 'Questions' && idx === 0 ? 'focused' : ''
-                } `}
+                } ${navurl === 'Tags' && idx === 1 ? 'focused' : ''}
+                 `}
                 onClick={() => selectHandler(idx)}
               >
                 <div className="flex">

@@ -55,9 +55,11 @@ const Tags = () => {
     getTags();
   };
 
+  const navurl = 'Tags';
+
   return (
     <Container>
-      <Nav />
+      <Nav navurl={navurl} />
       <Content>
         <h1> Tags </h1>
         <p>
@@ -115,69 +117,9 @@ const Tags = () => {
   );
 };
 
-// const Tagslist = [
-//   {
-//     tag: 'javascript',
-//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-//     questions: 2460651,
-//     today: 306,
-//     week: 3533,
-//   },
-//   {
-//     tag: 'python',
-//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-//     questions: 2460651,
-//     today: 306,
-//     week: 3533,
-//   },
-//   {
-//     tag: 'java',
-//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-//     questions: 2460651,
-//     today: 306,
-//     week: 3533,
-//   },
-//   {
-//     tag: 'c#',
-//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-//     questions: 2460651,
-//     today: 306,
-//     week: 3533,
-//   },
-//   {
-//     tag: 'javascript',
-//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-//     questions: 2460651,
-//     today: 306,
-//     week: 3533,
-//   },
-//   {
-//     tag: 'python',
-//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-//     questions: 2460651,
-//     today: 306,
-//     week: 3533,
-//   },
-//   {
-//     tag: 'java',
-//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-//     questions: 2460651,
-//     today: 306,
-//     week: 3533,
-//   },
-//   {
-//     tag: 'c#',
-//     info: 'For questions about programming in ECMAScript (JavaScript/JS) and its different dialects/implementations (except for ActionScript). Keep in mind',
-//     questions: 2460651,
-//     today: 306,
-//     week: 3533,
-//   },
-// ];
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  padding: 24px;
 `;
 
 const Content = styled.div`
