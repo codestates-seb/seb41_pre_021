@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Nav } from '../../components/Nav.';
+import { Nav } from '../../components/Nav';
 import { MdOutlineSearch } from 'react-icons/md';
 import { useState, useEffect } from 'react';
 import { Tag } from './Tag';

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Nav } from '../components/Nav.';
+import { Nav } from '../components/Nav';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { HiPencil } from 'react-icons/hi';
