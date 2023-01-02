@@ -36,7 +36,8 @@ const Home = styled.ul`
   line-height: 34px;
   height: 34px;
   padding: 4px 4px 4px 8px;
-
+  display: flex;
+  align-items: center;
   .focused {
     background-color: var(--black-050);
     font-weight: bold;
@@ -74,13 +75,15 @@ const Menu = styled.li`
   list-style: none;
   cursor: pointer;
   display: flex;
+  align-items: center;
   .icon {
     position: relative;
     justify-items: row;
   }
 
   .flex {
-    margin-top: 2.5px;
+    display: flex;
+    align-items: center;
   }
 
   /* &:active {
