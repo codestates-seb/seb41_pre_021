@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import { FaGlobeAmericas } from 'react-icons/fa';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Bar = styled.nav`
   width: 164px;
@@ -21,6 +23,11 @@ const Bar = styled.nav`
 
   .hide {
     border-bottom: none;
+  }
+
+  .menulink {
+    text-decoration: none;
+    color: var(--black-600);
   }
 `;
 
@@ -66,10 +73,14 @@ const Menu = styled.li`
   padding: 4px 4px 4px 8px;
   list-style: none;
   cursor: pointer;
-
+  display: flex;
   .icon {
     position: relative;
     justify-items: row;
+  }
+
+  .flex {
+    margin-top: 2.5px;
   }
 
   /* &:active {
@@ -79,13 +90,14 @@ const Menu = styled.li`
 `;
 
 const menu = ['Questions', 'Tags', 'Users'];
+const urlmenu = ['questions', 'tags', 'users'];
 
 function Span({ space = 5 }) {
   return <span style={{ paddingRight: space }}></span>;
 }
 
-export const Nav = () => {
-  const [currentMenu, setCurrentMenu] = useState(0);
+export const Nav = ({ navurl }) => {
+  const [currentMenu, setCurrentMenu] = useState(-1);
   const [click, setClick] = useState(false);
 
   const selectHandler = (idx) => {
@@ -97,31 +109,41 @@ export const Nav = () => {
 
   return (
     <Bar>
-      <Home
-        key={5}
-        className={`${currentMenu === 5 ? 'focused' : ''} 
-        ${click ? '' : 'hide'} `}
-        onClick={() => selectHandler(5)}
-      >
-        Home
-      </Home>
+      <Link className="menulink" to={`/`}>
+        <Home
+          key={5}
+          className={`${currentMenu === 5 ? 'focused' : ''} 
+          ${click ? '' : 'hide'} ${
+            navurl === 'Home' && currentMenu === -1 ? 'focused' : ''
+          }`}
+          onClick={() => selectHandler(5)}
+        >
+          Home
+        </Home>
+      </Link>
       <Public>
         <ul>PUBLIC</ul>
         {menu.map((el, idx) => {
           return (
-            <Menu
-              key={idx}
-              className={`${currentMenu === idx ? 'focused' : ''} 
-                ${click ? '' : 'hide'} `}
-              onClick={() => selectHandler(idx)}
-            >
-              <FaGlobeAmericas
-                className={`${idx === 0 ? 'globe' : 'none'}`}
-                size="17"
-              />
-              <Span />
-              {el}
-            </Menu>
+            <Link className="menulink" key={idx} to={`/` + `${urlmenu[idx]}`}>
+              <Menu
+                key={idx}
+                className={`${currentMenu === idx ? 'focused' : ''} 
+                ${click ? '' : 'hide'} ${
+                  navurl === 'Questions' && idx === 0 ? 'focused' : ''
+                } `}
+                onClick={() => selectHandler(idx)}
+              >
+                <div className="flex">
+                  <FaGlobeAmericas
+                    className={`${idx === 0 ? 'globe' : 'none'}`}
+                    size="17"
+                  />
+                </div>
+                <Span />
+                {el}
+              </Menu>
+            </Link>
           );
         })}
       </Public>

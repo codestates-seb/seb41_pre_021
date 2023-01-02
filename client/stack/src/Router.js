@@ -1,9 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Questions from './pages/Questions';
-import Tags from './pages/Tags';
+import Tags from './pages/Tags/Tags';
 import Users from './pages/Users';
 import SignUp from './pages/SignUp';
+import Login from './pages/Login';
+import Logout from './pages/Logout';
 import QuestionUpload from './pages/QuestionUpload';
 
 const Router = () => {
@@ -15,6 +17,8 @@ const Router = () => {
       <Route path="/tags" element={<Tags />} />
       <Route path="/users" element={<Users />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Logout />} />
       <Route path="/questions/ask" element={<QuestionUpload />} />
     </Routes>
   );
