@@ -111,7 +111,7 @@ const Home = () => {
                       <Writer id="writer">
                         <img
                           alt="profile"
-                          src={`${process.env.PUBLIC_URL}/profile.png`}
+                          src={`data:image/png;base64,${el.memberPart.image}`}
                           id="profile"
                         ></img>
                         <Span />
