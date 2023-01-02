@@ -167,6 +167,7 @@ const TagFilterdiv = styled.div`
 
   .focused {
     background-color: var(--black-075);
+    color: black;
   }
   .bord {
     border-right: 1px solid var(--black-400);
@@ -183,11 +184,14 @@ const FilterTab = styled.a`
   font-size: 13px;
   padding: 10.4px;
   cursor: pointer;
+  color: var(--black-500);
+
   border-top: 1px solid var(--black-400);
   border-left: 1px solid var(--black-400);
   border-bottom: 1px solid var(--black-400);
   &:hover {
     background-color: var(--black-025);
+    color: var(--black-700);
   }
 `;
 

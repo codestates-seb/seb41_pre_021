@@ -381,6 +381,8 @@ const Perioda = styled.a`
   margin: 0 0 0 2px;
   font-size: 12px;
   line-height: 20px;
+  color: var(--black-500);
+
   &:hover {
     color: var(--black-700);
     border-bottom: 1px solid var(--orange);

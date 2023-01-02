@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { HiPencil } from 'react-icons/hi';
 import { FaStackOverflow } from 'react-icons/fa';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const baseUrl = 'https://hyeon-dong.site/';
 
@@ -47,7 +48,9 @@ const Questions = () => {
               <h2>All Questions</h2>
             </Titlediv>
             <Askdiv>
-              <AskQuestion>Ask Question</AskQuestion>
+              <Link className="menulink" to={`/questions/ask`}>
+                <AskQuestion>Ask Question</AskQuestion>
+              </Link>
             </Askdiv>
           </Top>
           <Middlediv>
@@ -248,7 +251,6 @@ const Tab = styled.div`
   height: 38.7px;
   border-radius: 3px;
   margin-left: auto;
-  color: var(--black-500);
 
   .focused {
     background-color: var(--black-075);
@@ -271,6 +273,8 @@ const FilterTab = styled.a`
   border-top: 1px solid var(--black-400);
   border-left: 1px solid var(--black-400);
   border-bottom: 1px solid var(--black-400);
+  color: var(--black-500);
+
   &:hover {
     background-color: var(--black-025);
     color: var(--black-600);
