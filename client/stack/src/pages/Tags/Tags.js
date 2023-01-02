@@ -21,7 +21,7 @@ const Tags = () => {
 
   useEffect(() => {
     getTags();
-  }, []);
+  }, [tags]);
 
   function getTags() {
     if (tagfilter.length === 0) {
