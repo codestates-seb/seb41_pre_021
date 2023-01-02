@@ -22,7 +22,7 @@ export default function MenuDialog() {
           <div className="links">
             <a href="#!">help</a>
             <a href="#!">chat</a>
-            <a href="#!">log out</a>
+            <a href="/logout">log out</a>
           </div>
         </li>
         <li className="meta-link">
