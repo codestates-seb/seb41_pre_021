@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { removeCookie } from '../utils/cookie';
 
-const Logout = () => {
+const Logout = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     removeCookie();
     localStorage.removeItem('memberId');
     localStorage.removeItem('username');
+    setIsLoggedIn(false);
     navigate('/');
   };
 

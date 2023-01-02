@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import QuestionUpload from './pages/QuestionUpload';
 
-const Router = () => {
+const Router = ({ setIsLoggedIn }) => {
   // 로그인 기능 구현 후, isLoggedIn 상태로 조건부 라우팅 해야 함.
   return (
     <Routes>
@@ -17,8 +17,11 @@ const Router = () => {
       <Route path="/tags" element={<Tags />} />
       <Route path="/users" element={<Users />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/logout" element={<Logout />} />
+      <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+      <Route
+        path="/logout"
+        element={<Logout setIsLoggedIn={setIsLoggedIn} />}
+      />
       <Route path="/questions/ask" element={<QuestionUpload />} />
     </Routes>
   );
