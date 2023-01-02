@@ -224,8 +224,7 @@ const Tab = styled.div`
   flex-direction: flex-end;
   width: 351.96px
   height: 38.7px;
-  border-radius: 5px;
-  margin: 0 0 16px;
+  border-radius: 3px;
   margin-right: 20px;
 
   .focused {
@@ -235,10 +234,10 @@ const Tab = styled.div`
     border-right: 1px solid var(--black-400);
   }
   .radius-left {
-    border-radius: 5px 0 0 5px;
+    border-radius: 3px 0 0 3px;
   }
   .radius-right {
-    border-radius: 0px 5px 5px 0px;
+    border-radius: 0px 3px 3px 0px;
   }
 `;
 
@@ -262,6 +261,7 @@ const Question = styled.div`
   width: 751px;
   height: 90px;
   font-size: 13px;
+  margin-top: 25px;
 `;
 
 const PostStates = styled.div`
@@ -464,14 +464,16 @@ const WatchedTag = styled.div`
   }
 
   button {
+    width: 90px;
     background-color: var(--powder-100);
     border: 1px solid var(--powder-500);
     border-radius: 5px;
     color: var(--powder-800);
     font-size: 12px;
     height: 35.04px;
-    line-height: 30px;
     display: flex;
+    align-items: center;
+    justify-content: center;
     margin: auto;
   }
 `;
@@ -493,13 +495,15 @@ const IgnoredTag = styled.div`
   }
 
   button {
+    width: 124px;
     background-color: var(--powder-100);
     border: 1px solid var(--powder-500);
     border-radius: 5px;
     color: var(--powder-800);
     font-size: 12px;
     height: 35.04px;
-    line-height: 30px;
+    align-items: center;
+    justify-content: center;
     display: flex;
     margin: auto;
   }
@@ -508,145 +512,5 @@ const IgnoredTag = styled.div`
 function Span({ space = 5 }) {
   return <span style={{ paddingRight: space }}></span>;
 }
-
-const Home = () => {
-  const [currentTab, setCurrentTab] = useState(0);
-  const [click, setClick] = useState(false);
-
-  const selectMenuHandler = (index) => {
-    console.log(typeof index);
-    setCurrentTab(index);
-    setClick(true);
-  };
-
-  return (
-    <Container id="container">
-      <Nav />
-      <Content id="content">
-        <Main id="main">
-          <Top>
-            <h2>Top Questions</h2>
-            <AskQuestion>Ask Question</AskQuestion>
-          </Top>
-          <Tab>
-            {filter.map((el, idx) => {
-              return (
-                <FilterTab
-                  key={idx}
-                  className={`${currentTab === idx ? 'focused' : ''} 
-                  ${click ? '' : 'hide'} ${idx !== 4 ? '' : 'bord'}
-                  ${idx === 0 ? 'radius-left' : ''} 
-                  ${idx === 4 ? 'radius-right' : ''}
-                  `}
-                  onClick={() => selectMenuHandler(idx)}
-                  id={idx}
-                >
-                  {el}
-                </FilterTab>
-              );
-            })}
-          </Tab>
-          <Lists id="lists">
-            {dummyData.map((el, idx) => {
-              return (
-                <Question key={idx} id="question">
-                  <PostStates id="post-states">
-                    <Vote id="vote">
-                      <Number id="vote-number">{el}</Number>
-                      <Span />
-                      <span>votes</span>
-                    </Vote>
-                    <Answers id="answers">
-                      <Number id="answers-number">{idx}</Number>
-                      <Span />
-                      <span>answers</span>
-                    </Answers>
-                    <Views id="views">
-                      <Number id="views-number">0</Number>
-                      <Span />
-                      <span>views</span>
-                    </Views>
-                  </PostStates>
-
-                  <Post>
-                    <Title id="title">
-                      <h3>How to call api in ?</h3>
-                    </Title>
-                    <Bottom id="bottom">
-                      <Tags id="tags">
-                        <List id="list">
-                          <li id="tag">javascript</li>
-                          <li id="tag">react</li>
-                        </List>
-                      </Tags>
-                      <Writer id="writer">
-                        <img
-                          alt="profile"
-                          src={`${process.env.PUBLIC_URL}/profile.png`}
-                          id="profile"
-                        ></img>
-                        <Span />
-                        <WriterName id="name">kimid</WriterName>
-                        <Span />
-                        <WriteTime id="time">asked {48} secs ago</WriteTime>
-                      </Writer>
-                    </Bottom>
-                  </Post>
-                </Question>
-              );
-            })}
-          </Lists>
-        </Main>
-        <Sidebar id="sidebar">
-          <YellowBar id="yellowbar">
-            <Overflow>The Overflow Blog</Overflow>
-            <div className="margin">
-              <HiPencil className="icon" />
-              <p>I spent two years trying to do </p>
-            </div>
-            <div className="margin">
-              <HiPencil className="icon" />
-              <p>The complete guide to protecting APIs</p>
-            </div>
-            <Meta>Featured on Meta</Meta>
-            <div className="margin">
-              <FaStackOverflow className="icon stack" />
-              <p>2022 Community Moderator Election</p>
-              <br />
-            </div>
-
-            <div className="margin">
-              <FaStackOverflow className="icon stack" />
-              <p>Temporary policy: ChatGPT is banned</p>
-              <br />
-            </div>
-
-            <div className="margin">
-              <FaStackOverflow className="icon stack" />
-              <p>Im standing down as a moderator</p>
-            </div>
-          </YellowBar>
-          <CustomFilter id="CustomFilter">
-            <ul>Custom Filters</ul>
-            <li>Create a custom filter</li>
-          </CustomFilter>
-          <WatchedTag id="WatchedTag">
-            <ul>Watched Tags</ul>
-            <li>Watch tags to curate your list of questions.</li>
-            <div className="watchbtn">
-              <button>Watch a tag</button>
-            </div>
-          </WatchedTag>
-          <IgnoredTag id="IgnoredTag">
-            <ul>Ignored Tags</ul>
-            <div className="tagbtn">
-              <button>Add an ignored tag</button>
-            </div>
-          </IgnoredTag>
-        </Sidebar>
-      </Content>
-    </Container>
-  );
-};
 
 export default Home;

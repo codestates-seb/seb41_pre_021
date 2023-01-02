@@ -72,7 +72,6 @@ const Tab = styled.div`
   height: 38.7px;
   border-radius: 3px;
   margin-left: auto;
-  margin-bottom: 16px;
   color: var(--black-500);
 
   .focused {
@@ -111,6 +110,7 @@ const Question = styled.div`
   width: 751px;
   height: 90px;
   font-size: 13px;
+  margin-top: 25px;
 `;
 
 const PostStates = styled.div`
@@ -313,13 +313,15 @@ const WatchedTag = styled.div`
   }
 
   button {
+    width: 90px;
     background-color: var(--powder-100);
     border: 1px solid var(--powder-500);
     border-radius: 3px;
     color: var(--powder-800);
     font-size: 12px;
     height: 35.04px;
-    line-height: 30px;
+    align-items: center;
+    justify-content: center;
     display: flex;
     margin: auto;
   }
@@ -342,13 +344,15 @@ const IgnoredTag = styled.div`
   }
 
   button {
+    width: 124px;
     background-color: var(--powder-100);
     border: 1px solid var(--powder-500);
     border-radius: 3px;
     color: var(--powder-800);
     font-size: 12px;
     height: 35.04px;
-    line-height: 30px;
+    align-items: center;
+    justify-content: center;
     display: flex;
     margin: auto;
   }
