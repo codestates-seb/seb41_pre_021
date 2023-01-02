@@ -7,7 +7,9 @@ import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import QuestionUpload from './pages/QuestionUpload';
+
 import QuestionsInfo from './pages/QuestionInfo';
+
 const Router = ({ setIsLoggedIn }) => {
   // 로그인 기능 구현 후, isLoggedIn 상태로 조건부 라우팅 해야 함.
   return (
