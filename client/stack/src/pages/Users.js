@@ -3,6 +3,111 @@ import { Nav } from '../components/Nav.';
 import { MdOutlineSearch } from 'react-icons/md';
 import { useState } from 'react';
 
+const Users = () => {
+  const [currentTab, setCurrentTab] = useState(0);
+  const [click, setClick] = useState(false);
+  const selectMenuHandler = (index) => {
+    setCurrentTab(index);
+    setClick(true);
+  };
+
+  const filter = ['Reputation', 'New users', 'Voters', 'Editors', 'Moderators'];
+
+  const [currentPeriod, setCurrentPeriod] = useState(0);
+  const [perclick, setPerClick] = useState(false);
+  const selectPeriod = (idx) => {
+    setCurrentPeriod(idx);
+    setPerClick(true);
+  };
+
+  const period = ['week', 'month', 'quarter', 'year', 'all'];
+
+  const navurl = 'Users';
+
+  return (
+    <Container>
+      <Nav navurl={navurl} />
+      <Content>
+        <h1> Users </h1>
+        <FilterUserdiv>
+          <UserSearchdiv>
+            <MdOutlineSearch size="25" className="searchIcon" />
+            <input placeholder="Filter by user"></input>
+          </UserSearchdiv>
+          <UserFilterdiv>
+            {filter.map((el, idx) => {
+              return (
+                <FilterTab
+                  key={idx}
+                  className={`${currentTab === idx ? 'focused' : ''} 
+                    ${click ? '' : 'hide'} ${idx !== 4 ? '' : 'bord'}
+                    ${idx === 0 ? 'radius-left' : ''} 
+                    ${idx === 4 ? 'radius-right' : ''}
+                    `}
+                  onClick={() => selectMenuHandler(idx)}
+                  id={idx}
+                >
+                  {el}
+                </FilterTab>
+              );
+            })}
+          </UserFilterdiv>
+        </FilterUserdiv>
+        <Periodfilterdiv>
+          {period.map((per, idx) => {
+            return (
+              <Perioda
+                key={idx}
+                className={`${currentPeriod === idx ? 'focused' : ''} 
+              ${perclick ? '' : 'hide'}
+              `}
+                onClick={() => selectPeriod(idx)}
+                id={idx}
+              >
+                {per}
+              </Perioda>
+            );
+          })}
+        </Periodfilterdiv>
+        <UserBrowserdiv>
+          <Griddiv>
+            {Userslist.map((user, idx) => {
+              return (
+                <UserItemBoxdiv key={idx}>
+                  <div className="flex">
+                    <UserImgdiv>
+                      <img alt={user.username} src={user.img}></img>
+                    </UserImgdiv>
+                    <UserDetailsdiv>
+                      <a href={user.username}>{user.username}</a>
+                      <span>{user.country}</span>
+                      <span className="reputation">{user.reputation}</span>
+                    </UserDetailsdiv>
+                  </div>
+                  <UserTagsdiv>
+                    {user.lang.map((tag, idx) => {
+                      return (
+                        <a href="tag" key={idx}>
+                          {tag}
+                          {user.lang.length - 1 !== idx ? (
+                            <a href="idx">, </a>
+                          ) : (
+                            ''
+                          )}
+                        </a>
+                      );
+                    })}
+                  </UserTagsdiv>
+                </UserItemBoxdiv>
+              );
+            })}
+          </Griddiv>
+        </UserBrowserdiv>
+      </Content>
+    </Container>
+  );
+};
+
 const Userslist = [
   {
     img: `${process.env.PUBLIC_URL}/profile.png`,
@@ -176,18 +281,17 @@ const Userslist = [
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  padding: 24px;
 `;
 
 const Content = styled.div`
   width: 1051px;
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  padding: 0 24px 24px 24px;
 
   h1 {
     font-size: 27px;
-    margin: 0 0 24px;
+    margin: 24px 0 24px;
   }
 
   p {
@@ -277,6 +381,8 @@ const Perioda = styled.a`
   margin: 0 0 0 2px;
   font-size: 12px;
   line-height: 20px;
+  color: var(--black-500);
+
   &:hover {
     color: var(--black-700);
     border-bottom: 1px solid var(--orange);
@@ -344,107 +450,5 @@ const UserTagsdiv = styled.div`
     font-size: 12px;
   }
 `;
-
-const Users = () => {
-  const [currentTab, setCurrentTab] = useState(0);
-  const [click, setClick] = useState(false);
-  const selectMenuHandler = (index) => {
-    setCurrentTab(index);
-    setClick(true);
-  };
-
-  const filter = ['Reputation', 'New users', 'Voters', 'Editors', 'Moderators'];
-
-  const [currentPeriod, setCurrentPeriod] = useState(0);
-  const [perclick, setPerClick] = useState(false);
-  const selectPeriod = (idx) => {
-    setCurrentPeriod(idx);
-    setPerClick(true);
-  };
-
-  const period = ['week', 'month', 'quarter', 'year', 'all'];
-  return (
-    <Container>
-      <Nav />
-      <Content>
-        <h1> Users </h1>
-        <FilterUserdiv>
-          <UserSearchdiv>
-            <MdOutlineSearch size="25" className="searchIcon" />
-            <input placeholder="Filter by user"></input>
-          </UserSearchdiv>
-          <UserFilterdiv>
-            {filter.map((el, idx) => {
-              return (
-                <FilterTab
-                  key={idx}
-                  className={`${currentTab === idx ? 'focused' : ''} 
-                    ${click ? '' : 'hide'} ${idx !== 4 ? '' : 'bord'}
-                    ${idx === 0 ? 'radius-left' : ''} 
-                    ${idx === 4 ? 'radius-right' : ''}
-                    `}
-                  onClick={() => selectMenuHandler(idx)}
-                  id={idx}
-                >
-                  {el}
-                </FilterTab>
-              );
-            })}
-          </UserFilterdiv>
-        </FilterUserdiv>
-        <Periodfilterdiv>
-          {period.map((per, idx) => {
-            return (
-              <Perioda
-                key={idx}
-                className={`${currentPeriod === idx ? 'focused' : ''} 
-              ${perclick ? '' : 'hide'}
-              `}
-                onClick={() => selectPeriod(idx)}
-                id={idx}
-              >
-                {per}
-              </Perioda>
-            );
-          })}
-        </Periodfilterdiv>
-        <UserBrowserdiv>
-          <Griddiv>
-            {Userslist.map((user, idx) => {
-              return (
-                <UserItemBoxdiv key={idx}>
-                  <div className="flex">
-                    <UserImgdiv>
-                      <img alt={user.username} src={user.img}></img>
-                    </UserImgdiv>
-                    <UserDetailsdiv>
-                      <a href={user.username}>{user.username}</a>
-                      <span>{user.country}</span>
-                      <span className="reputation">{user.reputation}</span>
-                    </UserDetailsdiv>
-                  </div>
-                  <UserTagsdiv>
-                    {user.lang.map((tag, idx) => {
-                      return (
-                        <a href="tag" key={idx}>
-                          {tag}
-                          {user.lang.length - 1 !== idx ? (
-                            <a href="idx">, </a>
-                          ) : (
-                            ''
-                          )}
-                        </a>
-                      );
-                    })}
-                  </UserTagsdiv>
-                </UserItemBoxdiv>
-              );
-            })}
-          </Griddiv>
-        </UserBrowserdiv>
-      </Content>
-    </Container>
-  );
-};
 
 export default Users;

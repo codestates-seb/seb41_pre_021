@@ -225,11 +225,13 @@ const SignUpFormLabel = styled.label`
 `;
 
 const SignUpFormInput = styled.input`
-  width: 268px;
+  width: 275px;
   height: 32px;
   margin: 2px 0;
   font-size: 13px;
   line-height: 17px;
+  border: solid 1px var(--black-100);
+  border-radius: 5px;
 `;
 
 const SignUpFormNotice = styled.p`
