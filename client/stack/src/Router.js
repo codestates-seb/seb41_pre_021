@@ -8,12 +8,15 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import QuestionUpload from './pages/QuestionUpload';
 
+import QuestionsInfo from './pages/QuestionInfo';
+
 const Router = ({ setIsLoggedIn }) => {
   // 로그인 기능 구현 후, isLoggedIn 상태로 조건부 라우팅 해야 함.
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/questions" element={<Questions />} />
+      <Route path="/questions/:id" element={<QuestionsInfo />} />
       <Route path="/tags" element={<Tags />} />
       <Route path="/users" element={<Users />} />
       <Route path="/signup" element={<SignUp />} />

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Header from '../src/components/Header/Header';
 import Router from './Router';
+import Footer from '../src/components/Footer/Footer';
 import { getMemberId } from './utils/getMemberId';
 import axios from 'axios';
 
@@ -34,6 +35,7 @@ const App = () => {
     <BrowserRouter>
       <Header isLoggedIn={isLoggedIn} userInfo={userInfo} />
       <Router setIsLoggedIn={setIsLoggedIn} />
+      <Footer />
     </BrowserRouter>
   );
 };

@@ -1,4 +1,4 @@
-import { Nav } from '../components/Nav.';
+import { Nav } from '../components/Nav';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { HiPencil } from 'react-icons/hi';
@@ -101,7 +101,12 @@ const Questions = () => {
 
                   <Post>
                     <Title id="title">
-                      <h3>{el.questionPart.questionTitle}</h3>
+                      <Link
+                        className="questionPage"
+                        to={`/questions/${el.questionPart.questionId}`}
+                      >
+                        <h3>{el.questionPart.questionTitle}</h3>
+                      </Link>
                     </Title>
                     <Bottom id="bottom">
                       <Tags id="tags">
@@ -247,7 +252,7 @@ const Tab = styled.div`
   display: flex;
   justify-content: flex-end;
   flex-direction: flex-end;
-  width: 351.96px
+  width: 351.96px;
   height: 38.7px;
   border-radius: 3px;
   margin-left: auto;
